@@ -1,0 +1,261 @@
+name: "godot-ci export"
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+env:
+  GODOT_VERSION: 4.3
+  EXPORT_NAME: ldjam-template
+  ITCHIO_USERNAME: chybby
+  ITCHIO_GAME: ldjam-template
+
+jobs:
+  build-windows:
+    name: Build Windows
+    runs-on: ubuntu-20.04
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+      - name: Windows Build
+        run: |
+          mkdir -v -p export/windows
+          godot -v --headless --quit --export-release "Windows Desktop" export/windows/$EXPORT_NAME.exe
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: export/windows
+
+  build-linux:
+    name: Build Linux
+    runs-on: ubuntu-20.04
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+      - name: Linux Build
+        run: |
+          mkdir -v -p export/linux
+          godot -v --headless --quit --export-release "Linux/X11" export/linux/$EXPORT_NAME.x86_64
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: export/linux
+
+  build-web:
+    name: Build Web
+    runs-on: ubuntu-20.04
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+      - name: Web Build
+        run: |
+          mkdir -v -p export/web
+          godot -v --headless --quit --export-release "Web" export/web/index.html
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web
+          path: export/web
+
+  build-mac:
+    name: Build Mac
+    runs-on: ubuntu-20.04
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+      - name: Mac Build
+        run: |
+          mkdir -v -p export/mac
+          godot -v --headless --quit --export-release "macOS" export/mac/$EXPORT_NAME.zip
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mac
+          path: export/mac
+
+  upload-web-to-github-pages:
+    name: Upload Web to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build-web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: web
+          path: web
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@releases/v4
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: web # The folder the action should deploy.
+
+  upload-windows-to-itch:
+    name: Upload Windows to itch.io
+    runs-on: ubuntu-latest
+    needs: build-windows
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: windows
+          path: windows
+      - name: Upload to itch.io
+        uses: manleydev/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
+          CHANNEL: windows
+          ITCH_GAME: ${{ env.ITCHIO_GAME }}
+          ITCH_USER: ${{ env.ITCHIO_USERNAME }}
+          PACKAGE: windows
+
+  upload-linux-to-itch:
+    name: Upload Linux to itch.io
+    runs-on: ubuntu-latest
+    needs: build-linux
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: linux
+          path: linux
+      - name: Upload to itch.io
+        uses: manleydev/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
+          CHANNEL: linux
+          ITCH_GAME: ${{ env.ITCHIO_GAME }}
+          ITCH_USER: ${{ env.ITCHIO_USERNAME }}
+          PACKAGE: linux
+
+  upload-web-to-itch:
+    name: Upload Web to itch.io
+    runs-on: ubuntu-latest
+    needs: build-web
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: web
+          path: web
+      - name: Upload to itch.io
+        uses: manleydev/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
+          CHANNEL: web
+          ITCH_GAME: ${{ env.ITCHIO_GAME }}
+          ITCH_USER: ${{ env.ITCHIO_USERNAME }}
+          PACKAGE: web
+
+  upload-mac-to-itch:
+    name: Upload Mac to itch.io
+    runs-on: ubuntu-latest
+    needs: build-mac
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: mac
+          path: mac
+      - name: Upload to itch.io
+        uses: manleydev/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
+          CHANNEL: mac
+          ITCH_GAME: ${{ env.ITCHIO_GAME }}
+          ITCH_USER: ${{ env.ITCHIO_USERNAME }}
+          PACKAGE: mac
+
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: [build-windows, build-linux, build-web, build-mac]
+    steps:
+      - name: Download Artifacts
+        # Downloads all artifacts by default.
+        uses: actions/download-artifact@v4
+      - name: Zip Windows Build
+        run: |
+          cd windows/
+          zip -r $EXPORT_NAME-windows.zip *
+          mv $EXPORT_NAME-windows.zip ../
+          cd ..
+      - name: Zip Linux Build
+        run: |
+          cd linux/
+          zip -r $EXPORT_NAME-linux.zip *
+          mv $EXPORT_NAME-linux.zip ../
+          cd ..
+      - name: Zip Web Build
+        run: |
+          cd web/
+          zip -r $EXPORT_NAME-web.zip *
+          mv $EXPORT_NAME-web.zip ../
+          cd ..
+      - name: Zip Mac Build
+        run: |
+          cp mac/*.zip $EXPORT_NAME-mac.zip
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          prerelease: true
+          generate_release_notes: true
+          append_body: true
+          files: |
+            *.zip
+
+  delete-artifacts:
+    name: Delete Artifacts
+    runs-on: ubuntu-latest
+    # Always run even if previous steps fail.
+    if: ${{ always() }}
+    needs: [create-release, upload-web-to-github-pages, upload-windows-to-itch, upload-linux-to-itch, upload-web-to-itch, upload-mac-to-itch]
+    steps:
+      - name: Delete Artifact
+        uses: GeekyEggo/delete-artifact@v5
+        with:
+          # The name of the artifact to delete; multiple names can be supplied on new lines.
+          name: |
+            windows
+            linux
+            web
+            mac
+          # Indicates whether the action should fail upon encountering an error.
+          failOnError: true

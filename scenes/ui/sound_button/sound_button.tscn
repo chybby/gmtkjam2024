@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bw4dqwda1g0gh"]
+
+[ext_resource type="Script" path="res://scenes/ui/sound_button/sound_button.gd" id="1_2ltns"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_n0l6x"]
+
+[node name="SoundButton" type="Button"]
+offset_right = 8.0
+offset_bottom = 8.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("1_2ltns")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_n0l6x")
+bus = &"SFX"

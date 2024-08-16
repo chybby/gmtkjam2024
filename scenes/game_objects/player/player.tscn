@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://cwav8ma78d78y"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/player/player.gd" id="1_k7pqn"]
+[ext_resource type="PackedScene" uid="uid://bosg1708wuxeb" path="res://scenes/components/hurtbox/hurtbox.tscn" id="2_7rusm"]
+[ext_resource type="Script" path="res://scenes/components/health/health.gd" id="2_vxojf"]
+[ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="3_4tsk4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vp1ni"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x1ybv"]
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 5
+motion_mode = 1
+script = ExtResource("1_k7pqn")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("2_vxojf")
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visuals"]
+y_sort_enabled = true
+position = Vector2(0, 7)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("3_4tsk4")
+offset = Vector2(0, -44)
+
+[node name="Hurtbox" parent="." node_paths=PackedStringArray("health") instance=ExtResource("2_7rusm")]
+collision_mask = 4
+health = NodePath("../Health")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_vp1ni")
+debug_color = Color(0, 1, 0, 0.419608)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_x1ybv")

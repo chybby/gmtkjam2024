@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://diwsec3wxj6y8"]
+
+[ext_resource type="Script" path="res://scenes/ui/main_menu/main_menu.gd" id="1_bb83b"]
+[ext_resource type="PackedScene" uid="uid://bw4dqwda1g0gh" path="res://scenes/ui/sound_button/sound_button.tscn" id="2_3dq3e"]
+
+[node name="MainMenuScreen" type="CanvasLayer"]
+script = ExtResource("1_bb83b")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.427451, 0.427451, 0.427451, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Button" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_3dq3e")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
+text = "Press Me!"
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Hello, World!"
+horizontal_alignment = 1
+vertical_alignment = 1
