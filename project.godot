@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Ldjam Template"
-config/tags=PackedStringArray("ldjam")
+config/name="GMTK Jam 2024"
+config/tags=PackedStringArray("gmtkjam")
 run/main_scene="res://scenes/ui/main_menu/main_menu.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://assets/icon.svg"

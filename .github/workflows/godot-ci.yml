@@ -7,9 +7,9 @@ on:
 
 env:
   GODOT_VERSION: 4.3
-  EXPORT_NAME: ldjam-template
+  EXPORT_NAME: gmtk-jam-2024
   ITCHIO_USERNAME: chybby
-  ITCHIO_GAME: ldjam-template
+  ITCHIO_GAME: gmtk-jam-2024
 
 jobs:
   build-windows:
