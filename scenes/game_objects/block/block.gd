@@ -19,7 +19,7 @@ var falling := true
 
 func world_height() -> float:
     var shape = collision_shape_3d.shape as BoxShape3D
-    #TODO: needs to change based on block rotation
+    #TODO: needs to change based on block rotation.
     return global_position.y + shape.size[1]
 
 func _input(event: InputEvent) -> void:
@@ -41,7 +41,7 @@ func _input(event: InputEvent) -> void:
 
 func _ready() -> void:
     linear_velocity.y = -falling_speed
-    var material = mesh.material_override as StandardMaterial3D
+    #var material = mesh.material_override as StandardMaterial3D
     #material.albedo_color = COLOURS.pick_random()
 
 func _physics_process(delta: float) -> void:
