@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://ckske5m3erg3n"]
+[gd_scene load_steps=6 format=3 uid="uid://d0mda831q1sey"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/block/block.gd" id="1_rs8bq"]
 

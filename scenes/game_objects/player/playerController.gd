@@ -3,7 +3,7 @@ class_name Player
 
 signal died
 
-@export var look_sensitivity : float = 0.003
+@export var look_sensitivity: float = 0.5
 @export var auto_bhop := true
 @export var jump_number := 1
 
@@ -39,15 +39,10 @@ func _ready() -> void:
     hurtbox.area_entered.connect(_on_lava_entered)
 
 func _unhandled_input(event: InputEvent) -> void:
-    if event is InputEventMouseButton:
-        Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-    elif event.is_action_pressed("ui_cancel"):
-        Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
     if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
         if event is InputEventMouseMotion:
-            rotate_y(-event.relative.x * look_sensitivity)
-            %FPCamera.rotate_x(-event.relative.y * look_sensitivity)
+            rotate_y(-event.relative.x * look_sensitivity / 100)
+            %FPCamera.rotate_x(-event.relative.y * look_sensitivity / 100)
             %FPCamera.rotation.x = clamp(%FPCamera.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 func get_move_speed() -> float:
@@ -55,7 +50,7 @@ func get_move_speed() -> float:
 
 func _physics_process(delta: float) -> void:
     var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-    wish_dir = self.global_transform.basis * Vector3(input_dir.x, 0., input_dir.y)
+    wish_dir = self.global_transform.basis * Vector3(input_dir.x, 0.,input_dir.y)
 
     if is_on_floor():
         if jump_number > 0:
@@ -74,12 +69,12 @@ func _physics_process(delta: float) -> void:
 
 func _handle_air_physics(delta) -> void:
     self.velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * delta * gravity_mult
-    
-    if(wish_dir.length() < 0.1):
+
+    if (wish_dir.length() < 0.1):
         var deceleration = 0.96
         self.velocity.x *= deceleration
         self.velocity.z *= deceleration
-    
+
     else:
         var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
         var capped_speed = min((air_move_speed * wish_dir).length(), air_cap)

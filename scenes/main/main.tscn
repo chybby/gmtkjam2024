@@ -1,20 +1,26 @@
-[gd_scene load_steps=15 format=3 uid="uid://ef5dqqevmxcn"]
+[gd_scene load_steps=19 format=3 uid="uid://ef5dqqevmxcn"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_jcq7f"]
 [ext_resource type="PackedScene" uid="uid://nhikx0701dde" path="res://scenes/game_objects/world/world.tscn" id="2_o8oy4"]
 [ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/player.tscn" id="3_ed6k7"]
-[ext_resource type="PackedScene" uid="uid://cgqfkb0qo7uy6" path="res://scenes/game_objects/block/l_left_block.tscn" id="3_u58ai"]
-[ext_resource type="PackedScene" uid="uid://chp7hr41bccjw" path="res://scenes/game_objects/block/l_right_block.tscn" id="4_3n40q"]
+[ext_resource type="PackedScene" uid="uid://wi5cc17m8s0j" path="res://scenes/game_objects/block/l_left_block.tscn" id="3_u58ai"]
+[ext_resource type="PackedScene" uid="uid://npxcnna5262h" path="res://scenes/game_objects/block/l_right_block.tscn" id="4_3n40q"]
 [ext_resource type="PackedScene" uid="uid://d3s25hxud1ifg" path="res://scenes/pickups/pickup_basic.tscn" id="4_hnj84"]
-[ext_resource type="PackedScene" uid="uid://dvcq7fnmrlp60" path="res://scenes/game_objects/block/square_block.tscn" id="5_7ptyp"]
-[ext_resource type="PackedScene" uid="uid://ckske5m3erg3n" path="res://scenes/game_objects/block/straight_block.tscn" id="6_wna1e"]
+[ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="5_7ptyp"]
+[ext_resource type="PackedScene" uid="uid://d0mda831q1sey" path="res://scenes/game_objects/block/straight_block.tscn" id="6_wna1e"]
 [ext_resource type="PackedScene" uid="uid://dyu54f2o0xg6e" path="res://scenes/game_objects/block/t_block.tscn" id="7_s6hv1"]
 [ext_resource type="PackedScene" uid="uid://bsax2h4lvelnp" path="res://scenes/game_objects/block/z_left_block.tscn" id="8_g320s"]
 [ext_resource type="PackedScene" uid="uid://djath7mvf6hxj" path="res://scenes/game_objects/block/z_right_block.tscn" id="9_6vvaw"]
+[ext_resource type="PackedScene" uid="uid://5upb47fymeyc" path="res://scenes/ui/settings/settings.tscn" id="12_ekpm1"]
+[ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="12_er08g"]
+[ext_resource type="Script" path="res://scenes/ui/settings/settings.gd" id="13_q72rw"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ti5on"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+sky_top_color = Color(0.357247, 0.75, 0.738808, 1)
+sky_horizon_color = Color(0.253806, 0.437152, 0.46875, 1)
+sky_curve = 0.115149
+sky_cover = ExtResource("12_er08g")
+sky_cover_modulate = Color(0.491287, 0.639573, 1, 1)
 
 [sub_resource type="Sky" id="Sky_s2apd"]
 sky_material = SubResource("ProceduralSkyMaterial_ti5on")
@@ -23,25 +29,35 @@ sky_material = SubResource("ProceduralSkyMaterial_ti5on")
 background_mode = 2
 sky = SubResource("Sky_s2apd")
 tonemap_mode = 2
-glow_enabled = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_td6bl"]
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
 
 [node name="Main" type="Node3D"]
+process_mode = 3
 script = ExtResource("1_jcq7f")
 
 [node name="World" parent="." instance=ExtResource("2_o8oy4")]
 unique_name_in_owner = true
+process_mode = 1
 block_scenes = Array[PackedScene]([ExtResource("3_u58ai"), ExtResource("4_3n40q"), ExtResource("5_7ptyp"), ExtResource("6_wna1e"), ExtResource("7_s6hv1"), ExtResource("8_g320s"), ExtResource("9_6vvaw")])
 block_pickup_scene = ExtResource("4_hnj84")
 blocks_remaining = 10
 
 [node name="pickup_add_blocks" parent="." instance=ExtResource("4_hnj84")]
+process_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.79642, 0.941658, 2.97988)
 
 [node name="Player" parent="." instance=ExtResource("3_ed6k7")]
+process_mode = 1
 platform_floor_layers = 4294967295
 platform_wall_layers = 0
 
 [node name="CinematicCameraPivot" type="Node3D" parent="."]
+process_mode = 1
 
 [node name="CinematicCamera3D" type="Camera3D" parent="CinematicCameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.12921, 11.6669)
@@ -55,22 +71,56 @@ environment = SubResource("Environment_6ylbt")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="HUD"]
-anchors_preset = 1
-anchor_left = 1.0
+[node name="MarginContainer" type="MarginContainer" parent="HUD"]
+anchors_preset = 15
 anchor_right = 1.0
-offset_left = -100.0
-offset_bottom = 100.0
-grow_horizontal = 0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Panel" type="Panel" parent="HUD/MarginContainer"]
+clip_children = 1
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_td6bl")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HUD/MarginContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="HUD/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="HUD/MarginContainer/Panel/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(100, 100)
+size = Vector2i(400, 400)
 render_target_update_mode = 4
 
-[node name="TopDownCamera3D" type="Camera3D" parent="HUD/SubViewportContainer/SubViewport"]
+[node name="TopDownCamera3D" type="Camera3D" parent="HUD/MarginContainer/Panel/SubViewportContainer/SubViewport"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1000, 0)
 projection = 1
 current = true
-size = 10.0
+size = 15.0
+
+[node name="BlockCountLabel" type="Label" parent="HUD/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 80
+text = "10
+"
+
+[node name="Settings" parent="." instance=ExtResource("12_ekpm1")]
+process_mode = 3
+visible = false
+script = ExtResource("13_q72rw")
