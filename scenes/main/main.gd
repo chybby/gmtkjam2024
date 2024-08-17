@@ -29,6 +29,7 @@ func _input(event: InputEvent) -> void:
 func _ready() -> void:
     Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
     player.died.connect(_on_player_died)
+    settings.closed.connect(_on_settings_closed)
 
 func _physics_process(delta: float) -> void:
     top_down_camera_3d.rotation.y = player.look_angle()
@@ -45,3 +46,8 @@ func _on_player_died() -> void:
     cinematic_camera_3d.current = true
     game_over = true
     hud.visible = false
+
+func _on_settings_closed() -> void:
+    settings.visible = false
+    get_tree().paused = false
+    Input.mouse_mode = Input.MOUSE_MODE_CAPTURED

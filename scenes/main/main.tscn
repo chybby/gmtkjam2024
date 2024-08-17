@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ef5dqqevmxcn"]
+[gd_scene load_steps=18 format=3 uid="uid://ef5dqqevmxcn"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_jcq7f"]
 [ext_resource type="PackedScene" uid="uid://nhikx0701dde" path="res://scenes/game_objects/world/world.tscn" id="2_o8oy4"]
@@ -13,7 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://djath7mvf6hxj" path="res://scenes/game_objects/block/z_right_block.tscn" id="9_6vvaw"]
 [ext_resource type="PackedScene" uid="uid://5upb47fymeyc" path="res://scenes/ui/settings/settings.tscn" id="12_ekpm1"]
 [ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="12_er08g"]
-[ext_resource type="Script" path="res://scenes/ui/settings/settings.gd" id="13_q72rw"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ti5on"]
 sky_top_color = Color(0.357247, 0.75, 0.738808, 1)
@@ -123,4 +122,3 @@ text = "10
 [node name="Settings" parent="." instance=ExtResource("12_ekpm1")]
 process_mode = 3
 visible = false
-script = ExtResource("13_q72rw")

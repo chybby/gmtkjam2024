@@ -18,6 +18,7 @@ signal died
 @export var air_accel := 10.0
 @export var air_move_speed := 8.5
 @export var gravity_mult := 1.2
+@export var terminal_velocity := 70.0
 
 const HEADBOB_MOVE_AMOUNT = 0.06
 const HEADBOB_FREQUENCY = 2.4
@@ -69,6 +70,7 @@ func _physics_process(delta: float) -> void:
 
 func _handle_air_physics(delta) -> void:
     self.velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * delta * gravity_mult
+    self.velocity.y = max(self.velocity.y, -terminal_velocity)
 
     if (wish_dir.length() < 0.1):
         var deceleration = 0.96
