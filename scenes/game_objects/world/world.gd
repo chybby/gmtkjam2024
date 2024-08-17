@@ -16,6 +16,6 @@ func spawn_block() -> void:
 
 func _on_block_settled() -> void:
     tower_height = max(tower_height, current_block.world_height())
-    print(tower_height)
+    print('Tower height:', tower_height)
     current_block.settled.disconnect(_on_block_settled)
     spawn_block()

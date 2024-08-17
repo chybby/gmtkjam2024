@@ -1,40 +1,29 @@
-[gd_scene load_steps=7 format=3 uid="uid://cwav8ma78d78y"]
+[gd_scene load_steps=4 format=3 uid="uid://bmfdom0qtg0ys"]
 
-[ext_resource type="Script" path="res://scenes/game_objects/player/player.gd" id="1_k7pqn"]
-[ext_resource type="PackedScene" uid="uid://bosg1708wuxeb" path="res://scenes/components/hurtbox/hurtbox.tscn" id="2_7rusm"]
-[ext_resource type="Script" path="res://scenes/components/health/health.gd" id="2_vxojf"]
-[ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="3_4tsk4"]
+[ext_resource type="Script" path="res://scenes/game_objects/player/playerController.gd" id="1_rptl7"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_vp1ni"]
-radius = 8.0
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cjhkp"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_x1ybv"]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_66pfy"]
 
-[node name="Player" type="CharacterBody2D"]
-collision_layer = 2
-collision_mask = 5
-motion_mode = 1
-script = ExtResource("1_k7pqn")
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_rptl7")
 
-[node name="Health" type="Node" parent="."]
-script = ExtResource("2_vxojf")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_cjhkp")
 
-[node name="Visuals" type="Node2D" parent="."]
+[node name="WorldModel" type="Node3D" parent="."]
+unique_name_in_owner = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Visuals"]
-y_sort_enabled = true
-position = Vector2(0, 7)
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("3_4tsk4")
-offset = Vector2(0, -44)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldModel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_66pfy")
 
-[node name="Hurtbox" parent="." node_paths=PackedStringArray("health") instance=ExtResource("2_7rusm")]
-collision_mask = 4
-health = NodePath("../Health")
+[node name="Head" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.79, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-shape = SubResource("CircleShape2D_vp1ni")
-debug_color = Color(0, 1, 0, 0.419608)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_x1ybv")
+[node name="FPCamera" type="Camera3D" parent="Head"]
+unique_name_in_owner = true
+current = true
