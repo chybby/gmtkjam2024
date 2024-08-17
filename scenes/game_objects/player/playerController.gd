@@ -5,6 +5,8 @@ signal died
 
 @export var look_sensitivity : float = 0.006
 @export var auto_bhop := true
+@export var jump_number := 1
+
 
 @export var walk_speed := 7.0
 @export var sprint_speed := 8.5
@@ -12,10 +14,10 @@ signal died
 @export var ground_cap := 10.0
 @export var ground_friction := 6.0
 
-@export var jump_velocity := 6.0
+@export var jump_velocity := 7.0
 @export var air_cap := 0.85
-@export var air_accel := 800.0
-@export var air_move_speed := 500.0
+@export var air_accel := 10.0
+@export var air_move_speed := 8.5
 
 const HEADBOB_MOVE_AMOUNT = 0.06
 const HEADBOB_FREQUENCY = 2.4
@@ -24,11 +26,8 @@ const HEADBOB_FREQUENCY = 2.4
 @onready var hurtbox: Area3D = $Hurtbox
 
 var headbob_time := 0.0
-var double_jump := 1
-var jump_number := 10
+var double_jump := 0
 var wish_dir := Vector3.ZERO
-
-
 
 func look_angle() -> float:
     return rotation.y
@@ -75,14 +74,21 @@ func _physics_process(delta: float) -> void:
 
 func _handle_air_physics(delta) -> void:
     self.velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * delta
+    
+    if(wish_dir.length() < 0.1):
+        var deceleration = 0.96
+        self.velocity.x *= deceleration
+        self.velocity.z *= deceleration
+    
+    else:
+        var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
+        var capped_speed = min((air_move_speed * wish_dir).length(), air_cap)
+        var add_speed_till_cap = capped_speed - cur_speed_in_wish_dir
+        if add_speed_till_cap > 0:
+            var accel_speed = air_accel * air_move_speed * delta
+            accel_speed = min(accel_speed, add_speed_till_cap)
+            self.velocity += accel_speed * wish_dir
 
-    var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
-    var capped_speed = min((air_move_speed * wish_dir).length(), air_cap)
-    var add_speed_till_cap = capped_speed - cur_speed_in_wish_dir
-    if add_speed_till_cap > 0:
-        var accel_speed = air_accel * air_move_speed * delta
-        accel_speed = min(accel_speed, add_speed_till_cap)
-        self.velocity += accel_speed * wish_dir
 
 func _handle_ground_physics(delta) -> void:
     var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
@@ -110,7 +116,7 @@ func _headbob_effect(delta):
     )
 
 func jump():
-    self.velocity.y += jump_velocity
+    self.velocity.y = jump_velocity
 
 func _on_lava_entered(area: Area3D) -> void:
     died.emit()

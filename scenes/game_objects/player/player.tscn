@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://scenes/game_objects/player/playerController.gd" id="1_rptl7"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cjhkp"]
-radius = 0.4
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7t204"]
+radius = 0.38
 height = 1.8
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_66pfy"]
@@ -20,7 +20,7 @@ script = ExtResource("1_rptl7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-shape = SubResource("CapsuleShape3D_cjhkp")
+shape = SubResource("CapsuleShape3D_7t204")
 
 [node name="WorldModel" type="Node3D" parent="."]
 unique_name_in_owner = true
