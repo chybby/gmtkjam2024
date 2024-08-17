@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://wi5cc17m8s0j"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/block/block.gd" id="1_s8rn6"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2qkdf"]
+resource_local_to_scene = true
+friction = 0.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vekil"]
+size = Vector3(0.9, 1, 0.9)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u2gge"]
+size = Vector3(2.9, 1, 0.9)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x5o42"]
+resource_local_to_scene = true
+albedo_color = Color(0, 0.134813, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_a2580"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_6dtaj"]
+size = Vector3(3, 1, 1)
+
+[node name="LLeftBlock" type="RigidBody3D"]
+collision_mask = 3
+mass = 100.0
+physics_material_override = SubResource("PhysicsMaterial_2qkdf")
+gravity_scale = 0.0
+lock_rotation = true
+contact_monitor = true
+max_contacts_reported = 100
+linear_damp_mode = 1
+script = ExtResource("1_s8rn6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+shape = SubResource("BoxShape3D_vekil")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, -0.5)
+shape = SubResource("BoxShape3D_u2gge")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+material_override = SubResource("StandardMaterial3D_x5o42")
+mesh = SubResource("BoxMesh_a2580")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, -0.5)
+material_override = SubResource("StandardMaterial3D_x5o42")
+mesh = SubResource("BoxMesh_6dtaj")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

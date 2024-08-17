@@ -1,8 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://nhikx0701dde"]
+[gd_scene load_steps=15 format=3 uid="uid://nhikx0701dde"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/world/world.gd" id="1_1gpr2"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="2_5e020"]
 [ext_resource type="PackedScene" uid="uid://d0mda831q1sey" path="res://scenes/game_objects/block/straight_block.tscn" id="3_mpby0"]
+[ext_resource type="PackedScene" uid="uid://bsax2h4lvelnp" path="res://scenes/game_objects/block/z_left_block.tscn" id="4_7an0d"]
+[ext_resource type="PackedScene" uid="uid://djath7mvf6hxj" path="res://scenes/game_objects/block/z_right_block.tscn" id="5_00evr"]
+[ext_resource type="PackedScene" uid="uid://wi5cc17m8s0j" path="res://scenes/game_objects/block/l_left_block.tscn" id="6_aqv8q"]
+[ext_resource type="PackedScene" uid="uid://npxcnna5262h" path="res://scenes/game_objects/block/l_right_block.tscn" id="7_tde5x"]
+[ext_resource type="PackedScene" uid="uid://dyu54f2o0xg6e" path="res://scenes/game_objects/block/t_block.tscn" id="8_ea835"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_763f1"]
 size = Vector3(10, 1, 10)
@@ -24,7 +29,7 @@ plane = Plane(0, 0, 1, 0)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_1gpr2")
-block_scenes = Array[PackedScene]([ExtResource("2_5e020"), ExtResource("3_mpby0")])
+block_scenes = Array[PackedScene]([ExtResource("2_5e020"), ExtResource("3_mpby0"), ExtResource("4_7an0d"), ExtResource("5_00evr"), ExtResource("6_aqv8q"), ExtResource("7_tde5x"), ExtResource("8_ea835")])
 
 [node name="Floor" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
