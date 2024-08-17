@@ -12,6 +12,7 @@ signal settled
 
 @onready var mesh: MeshInstance3D = $MeshInstance3D
 @onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
+@onready var player: Player = get_tree().get_first_node_in_group('Player')
 
 var input_vector := Vector2.ZERO
 var motion := Vector3.ZERO
@@ -24,6 +25,7 @@ func world_height() -> float:
 
 func _input(event: InputEvent) -> void:
     if falling:
+        var player_angle: float = round(player.look_angle() / (PI/2)) * PI/2
         if discrete_motion:
             if event.is_action_pressed("block_move_left"):
                 motion = Vector3.LEFT
@@ -33,6 +35,7 @@ func _input(event: InputEvent) -> void:
                 motion = Vector3.FORWARD
             elif event.is_action_pressed("block_move_down"):
                 motion = Vector3.BACK
+            motion = motion.rotated(Vector3.UP, player_angle)
         else:
             input_vector = Input.get_vector("block_move_left", "block_move_right", "block_move_up", "block_move_down")
             linear_velocity.x = input_vector.x * horizontal_speed

@@ -7,7 +7,7 @@ height = 1.8
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_66pfy"]
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" groups=["Player"]]
 collision_layer = 4
 platform_floor_layers = 4294901761
 platform_wall_layers = 1

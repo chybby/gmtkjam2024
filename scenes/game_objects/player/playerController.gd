@@ -1,4 +1,5 @@
 extends CharacterBody3D
+class_name Player
 
 @export var look_sensitivity : float = 0.006
 @export var auto_bhop := true
@@ -17,10 +18,16 @@ extends CharacterBody3D
 const HEADBOB_MOVE_AMOUNT = 0.06
 const HEADBOB_FREQUENCY = 2.4
 
+@onready var head: Node3D = %Head
+
 var headbob_time := 0.0
 var double_jump := 1
 var jump_number := 10
 var wish_dir := Vector3.ZERO
+
+
+func look_angle() -> float:
+    return rotation.y
 
 
 func _ready() -> void:

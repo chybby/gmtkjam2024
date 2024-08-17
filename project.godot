@@ -46,6 +46,10 @@ script/templates_search_path="res://scripts/templates"
 
 enabled=PackedStringArray()
 
+[global_group]
+
+Player=""
+
 [gui]
 
 theme/custom="res://resources/ui_theme.tres"
