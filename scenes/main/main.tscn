@@ -41,6 +41,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.79642, 0.941658, 2.97988)
 platform_floor_layers = 4294967295
 platform_wall_layers = 0
 
+[node name="CinematicCameraPivot" type="Node3D" parent="."]
+
+[node name="CinematicCamera3D" type="Camera3D" parent="CinematicCameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.12921, 11.6669)
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.999999, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10, 0)
 shadow_enabled = true
@@ -48,9 +53,9 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_6ylbt")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HUD"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -59,12 +64,12 @@ offset_bottom = 100.0
 grow_horizontal = 0
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="HUD/SubViewportContainer"]
 handle_input_locally = false
 size = Vector2i(100, 100)
 render_target_update_mode = 4
 
-[node name="TopDownCamera3D" type="Camera3D" parent="CanvasLayer/SubViewportContainer/SubViewport"]
+[node name="TopDownCamera3D" type="Camera3D" parent="HUD/SubViewportContainer/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1000, 0)
 projection = 1
 current = true

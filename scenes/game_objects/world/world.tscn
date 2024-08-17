@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://nhikx0701dde"]
+[gd_scene load_steps=16 format=3 uid="uid://nhikx0701dde"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/world/world.gd" id="1_1gpr2"]
 [ext_resource type="PackedScene" uid="uid://dvcq7fnmrlp60" path="res://scenes/game_objects/block/square_block.tscn" id="2_5e020"]
@@ -8,12 +8,13 @@
 [ext_resource type="PackedScene" uid="uid://cgqfkb0qo7uy6" path="res://scenes/game_objects/block/l_left_block.tscn" id="6_aqv8q"]
 [ext_resource type="PackedScene" uid="uid://chp7hr41bccjw" path="res://scenes/game_objects/block/l_right_block.tscn" id="7_tde5x"]
 [ext_resource type="PackedScene" uid="uid://dyu54f2o0xg6e" path="res://scenes/game_objects/block/t_block.tscn" id="8_ea835"]
+[ext_resource type="PackedScene" uid="uid://f5wu04sewl4s" path="res://scenes/game_objects/lava/lava.tscn" id="9_wbpsf"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_763f1"]
 size = Vector3(10, 1, 10)
 
 [sub_resource type="BoxMesh" id="BoxMesh_kedp3"]
-size = Vector3(10, 1, 10)
+size = Vector3(10, 5, 10)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_yq2r8"]
 plane = Plane(1, 0, 0, 0)
@@ -38,7 +39,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_763f1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 mesh = SubResource("BoxMesh_kedp3")
+
+[node name="Lava" parent="." instance=ExtResource("9_wbpsf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.75221, 0)
+speed = 0.05
+delay = 120.0
 
 [node name="Wall" type="StaticBody3D" parent="."]
 collision_layer = 2

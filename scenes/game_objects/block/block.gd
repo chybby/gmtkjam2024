@@ -41,6 +41,11 @@ func _input(event: InputEvent) -> void:
             linear_velocity.x = input_vector.x * horizontal_speed
             linear_velocity.z = input_vector.y * horizontal_speed
 
+        if event.is_action_pressed("fast_fall"):
+            linear_velocity.y = 4 * -falling_speed
+        elif event.is_action_released("fast_fall"):
+            linear_velocity.y = -falling_speed
+
 
 func _ready() -> void:
     linear_velocity.y = -falling_speed

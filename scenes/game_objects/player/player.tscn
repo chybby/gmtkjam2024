@@ -1,11 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://bmfdom0qtg0ys"]
+[gd_scene load_steps=5 format=3 uid="uid://bmfdom0qtg0ys"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/player/playerController.gd" id="1_rptl7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cjhkp"]
+radius = 0.4
 height = 1.8
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_66pfy"]
+height = 1.8
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_p66yh"]
+size = Vector3(1, 1.8, 1)
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 collision_layer = 4
@@ -14,14 +19,14 @@ platform_wall_layers = 1
 script = ExtResource("1_rptl7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_cjhkp")
 
 [node name="WorldModel" type="Node3D" parent="."]
 unique_name_in_owner = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WorldModel"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 mesh = SubResource("CapsuleMesh_66pfy")
 
 [node name="Head" type="Node3D" parent="."]
@@ -31,3 +36,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 [node name="FPCamera" type="Camera3D" parent="Head"]
 unique_name_in_owner = true
 current = true
+
+[node name="Hurtbox" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("BoxShape3D_p66yh")

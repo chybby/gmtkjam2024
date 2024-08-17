@@ -1,6 +1,8 @@
 extends CharacterBody3D
 class_name Player
 
+signal died
+
 @export var look_sensitivity : float = 0.006
 @export var auto_bhop := true
 
@@ -19,6 +21,7 @@ const HEADBOB_MOVE_AMOUNT = 0.06
 const HEADBOB_FREQUENCY = 2.4
 
 @onready var head: Node3D = %Head
+@onready var hurtbox: Area3D = $Hurtbox
 
 var headbob_time := 0.0
 var double_jump := 1
@@ -26,14 +29,15 @@ var jump_number := 10
 var wish_dir := Vector3.ZERO
 
 
+
 func look_angle() -> float:
     return rotation.y
-
 
 func _ready() -> void:
     for child in %WorldModel.find_children("*", "VisualInstance3d"):
         child.set_layer_mask_value(1, false)
         child.set_layer_mask_value(10, true)
+    hurtbox.area_entered.connect(_on_lava_entered)
 
 func _unhandled_input(event: InputEvent) -> void:
     if event is InputEventMouseButton:
@@ -108,5 +112,5 @@ func _headbob_effect(delta):
 func jump():
     self.velocity.y += jump_velocity
 
-func _process(delta: float) -> void:
-    pass
+func _on_lava_entered(area: Area3D) -> void:
+    died.emit()
