@@ -1,14 +1,14 @@
 extends RigidBody3D
 class_name Block
 
-const COLOURS := [Color.RED, Color.GREEN, Color.BLUE]
-const USE_PHYSICS := false
-const DISCRETE_MOTION := true
+#const COLOURS := [Color.RED, Color.GREEN, Color.BLUE]
 
 signal settled
 
 @export var horizontal_speed := 3.0
 @export var falling_speed := 1.0
+@export var use_physics := false
+@export var discrete_motion := true
 
 @onready var mesh: MeshInstance3D = $MeshInstance3D
 @onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
@@ -19,11 +19,12 @@ var falling := true
 
 func world_height() -> float:
     var shape = collision_shape_3d.shape as BoxShape3D
-    return global_position.y + shape.size[1]/2
+    #TODO: needs to change based on block rotation
+    return global_position.y + shape.size[1]
 
 func _input(event: InputEvent) -> void:
     if falling:
-        if DISCRETE_MOTION:
+        if discrete_motion:
             if event.is_action_pressed("block_move_left"):
                 motion = Vector3.LEFT
             elif event.is_action_pressed("block_move_right"):
@@ -41,26 +42,28 @@ func _input(event: InputEvent) -> void:
 func _ready() -> void:
     linear_velocity.y = -falling_speed
     var material = mesh.material_override as StandardMaterial3D
-    material.albedo_color = COLOURS.pick_random()
+    #material.albedo_color = COLOURS.pick_random()
 
 func _physics_process(delta: float) -> void:
-    if USE_PHYSICS:
+    if use_physics:
         if position.y < -1.0:
             queue_free()
+    else:
+        if falling and linear_velocity.y > -falling_speed / 2:
+            falling = false
+            input_vector = Vector2.ZERO
+            freeze = true
+            position = position.round()
+            settled.emit()
 
-    if DISCRETE_MOTION:
+    if discrete_motion:
         if not motion.is_zero_approx() and not test_move(transform, motion):
             position += motion
         motion = Vector3.ZERO
 
-    if falling and linear_velocity.y > -falling_speed / 2:
-        falling = false
-        input_vector = Vector2.ZERO
-        freeze = true
-        settled.emit()
 
 func _on_body_entered(body: CollisionObject3D) -> void:
-    if body.get_collision_layer_value(1) and falling:
+    if use_physics and body.get_collision_layer_value(1) and falling:
         falling = false
         input_vector = Vector2.ZERO
         gravity_scale = 1

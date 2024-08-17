@@ -111,6 +111,7 @@ block_move_down={
 2d_physics/layer_2="Player"
 3d_physics/layer_2="walls"
 2d_physics/layer_3="Enemy"
+3d_physics/layer_3="Player"
 
 [physics]
 
