@@ -1,8 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://ef5dqqevmxcn"]
+[gd_scene load_steps=15 format=3 uid="uid://ef5dqqevmxcn"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_jcq7f"]
 [ext_resource type="PackedScene" uid="uid://nhikx0701dde" path="res://scenes/game_objects/world/world.tscn" id="2_o8oy4"]
-[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/player.tscn" id="3_ed6k7"]
+[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/Player.tscn" id="3_ed6k7"]
+[ext_resource type="PackedScene" uid="uid://cgqfkb0qo7uy6" path="res://scenes/game_objects/block/l_left_block.tscn" id="3_u58ai"]
+[ext_resource type="PackedScene" uid="uid://chp7hr41bccjw" path="res://scenes/game_objects/block/l_right_block.tscn" id="4_3n40q"]
+[ext_resource type="PackedScene" uid="uid://d3s25hxud1ifg" path="res://scenes/pickups/pickup_basic.tscn" id="4_hnj84"]
+[ext_resource type="PackedScene" uid="uid://dvcq7fnmrlp60" path="res://scenes/game_objects/block/square_block.tscn" id="5_7ptyp"]
+[ext_resource type="PackedScene" uid="uid://ckske5m3erg3n" path="res://scenes/game_objects/block/straight_block.tscn" id="6_wna1e"]
+[ext_resource type="PackedScene" uid="uid://dyu54f2o0xg6e" path="res://scenes/game_objects/block/t_block.tscn" id="7_s6hv1"]
+[ext_resource type="PackedScene" uid="uid://bsax2h4lvelnp" path="res://scenes/game_objects/block/z_left_block.tscn" id="8_g320s"]
+[ext_resource type="PackedScene" uid="uid://djath7mvf6hxj" path="res://scenes/game_objects/block/z_right_block.tscn" id="9_6vvaw"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ti5on"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -21,8 +29,17 @@ glow_enabled = true
 script = ExtResource("1_jcq7f")
 
 [node name="World" parent="." instance=ExtResource("2_o8oy4")]
+unique_name_in_owner = true
+block_scenes = Array[PackedScene]([ExtResource("3_u58ai"), ExtResource("4_3n40q"), ExtResource("5_7ptyp"), ExtResource("6_wna1e"), ExtResource("7_s6hv1"), ExtResource("8_g320s"), ExtResource("9_6vvaw")])
+block_pickup_scene = ExtResource("4_hnj84")
+blocks_remaining = 10
 
-[node name="Player" parent="." groups=["Player"] instance=ExtResource("3_ed6k7")]
+[node name="pickup_add_blocks" parent="." instance=ExtResource("4_hnj84")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.79642, 0.941658, 2.97988)
+
+[node name="Player" parent="." instance=ExtResource("3_ed6k7")]
+platform_floor_layers = 4294967295
+platform_wall_layers = 0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.999999, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10, 0)

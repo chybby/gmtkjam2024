@@ -1,7 +1,6 @@
 extends Node
 
-signal example
+signal block_pickup_picked_up
 
-
-func emit_example() -> void:
-    example.emit()
+func block_pickup_triggered() -> void:
+    block_pickup_picked_up.emit()

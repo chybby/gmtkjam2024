@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://d3s25hxud1ifg"]
+
+[ext_resource type="Script" path="res://scenes/pickups/pickup.gd" id="1_cjto6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gcg7y"]
+albedo_color = Color(0.92677, 0.398661, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_wqijc"]
+material = SubResource("StandardMaterial3D_gcg7y")
+radius = 0.35
+height = 0.7
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6moi2"]
+
+[node name="pickup_add_blocks" type="Area3D"]
+collision_mask = 4
+script = ExtResource("1_cjto6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+layers = 4
+mesh = SubResource("SphereMesh_wqijc")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_6moi2")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
