@@ -5,49 +5,113 @@
             "name": "More Blocks per Pickup",
             "description": "Increases the number of blocks you get per pickup",
             "image": "res://cards/more_blocks_per_pickup.png",
-            "rarity": 3
+            "rarity": 3,
+            "limit" : 999
         },
         {
             "id": 2,
             "name": "Heal Up",
-            "description": "Gain a heart",
+            "description": "Regain a heart",
             "image": "",
-            "rarity": 1
+            "rarity": 1,
+            "limit" : 999
         },
         {
             "id": 3,
             "name": "Double Jump!",
             "description": "Gain an extra jump",
             "image": "",
-            "rarity": 1
+            "rarity": 1,
+            "limit" : 999
+        },
+         {
+            "id": 4,
+            "name": "More Chances",
+            "description": "Chances spawn more often",
+            "image": "",
+            "rarity": 2,
+            "limit" : 3
         },
         {
             "id": 5,
             "name": "Rerolls",
-            "description": "Reroll the current blocks",
+            "description": "Gain 3 rerolls. (Used by pressing R)",
             "image": "res://cards/rerolls.png",
-            "rarity": 2
+            "rarity": 2,
+            "limit" : 999
         },
         {
             "id": 6,
             "name": "Bump Lava Down",
             "description": "Lowers the level of the rising lava.",
             "image": "res://cards/bump_lava_down.png",
-            "rarity": 3
+            "rarity": 2,
+            "limit" : 999
         },
         {
             "id": 7,
-            "name": "Slow Down Block",
-            "description": "Slows down the speed at which blocks fall.",
+            "name": "To the skies!",
+            "description": "Be teleported 10m up",
             "image": "res://cards/slow_down_block.png",
-            "rarity": 2
+            "rarity": 3,
+            "limit" : 999
+        },
+         {
+            "id": 8,
+            "name": "Max Health",
+            "description": "Add more max health",
+            "image": "res://cards/slow_down_block.png",
+            "rarity": 1,
+            "limit" : 999
         },
         {
-            "id": 8,
-            "name": "Slow Down Lava",
-            "description": "Slows down the rising speed of the lava.",
-            "image": "res://cards/slow_down_lava.png",
-            "rarity": 2
+            "id": 9,
+            "name": "Freeze lava",
+            "description": "Freeze lava for a short time",
+            "image": "res://cards/slow_down_block.png",
+            "rarity": 3,
+            "limit" : 999
         },
+        {
+            "id": 10,
+            "name": "Lucky!",
+            "description": "Get luckier chances",
+            "image": "res://cards/slow_down_block.png",
+            "rarity": 1,
+            "limit" : 999
+        },
+        {
+            "id": 11,
+            "name": "Bombs away!",
+            "description": "Bombs now periodically drop",
+            "image": "res://cards/slow_down_block.png",
+            "rarity": 1,
+            "limit" : 1
+        },
+        {
+            "id": 12,
+            "name": "We always bounce back",
+            "description": "Knockbacks are now stronger",
+            "image": "res://cards/slow_down_block.png",
+            "rarity": 2,
+            "limit" : 999
+        },
+         {
+            "id": 13,
+            "name": "Jump start",
+            "description": "Jump higher for a short period of time",
+            "image": "res://cards/slow_down_block.png",
+            "rarity": 3,
+            "limit" : 999
+        },
+        {
+            "id": 14,
+            "name": "Try Again",
+            "description": "Rerolls your chances",
+            "image": "res://cards/slow_down_block.png",
+            "rarity": 2,
+            "limit" : 999
+        }
+        
     ]
 }

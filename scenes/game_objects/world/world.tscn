@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://nhikx0701dde"]
+[gd_scene load_steps=21 format=3 uid="uid://nhikx0701dde"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/world/world.gd" id="1_1gpr2"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="2_5e020"]
@@ -8,11 +8,12 @@
 [ext_resource type="PackedScene" uid="uid://wi5cc17m8s0j" path="res://scenes/game_objects/block/l_left_block.tscn" id="6_aqv8q"]
 [ext_resource type="PackedScene" uid="uid://npxcnna5262h" path="res://scenes/game_objects/block/l_right_block.tscn" id="7_tde5x"]
 [ext_resource type="PackedScene" uid="uid://dyu54f2o0xg6e" path="res://scenes/game_objects/block/t_block.tscn" id="8_ea835"]
-[ext_resource type="PackedScene" uid="uid://d3s25hxud1ifg" path="res://scenes/pickups/pickup_block_pouch.tscn" id="9_skj5o"]
 [ext_resource type="PackedScene" uid="uid://f5wu04sewl4s" path="res://scenes/game_objects/lava/lava.tscn" id="9_wbpsf"]
+[ext_resource type="PackedScene" uid="uid://cafhdxx55lp0s" path="res://scenes/pickups/pickup_block_pouch.tscn" id="9_yddcy"]
 [ext_resource type="PackedScene" uid="uid://d1n1vct1l8nlp" path="res://scenes/pickups/pickup_chance.tscn" id="10_awibq"]
 [ext_resource type="PackedScene" uid="uid://bd1abuvhhwj0" path="res://scenes/game_objects/bomb/bomb.tscn" id="10_i1itg"]
 [ext_resource type="PackedScene" uid="uid://thqm0kkbuhhh" path="res://scenes/game_objects/heaven/heaven.tscn" id="11_s4k6m"]
+[ext_resource type="PackedScene" uid="uid://c0o7br7yshcri" path="res://scenes/game_objects/biome/snow_patch.tscn" id="11_x7j10"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_763f1"]
 size = Vector3(10, 1, 10)
@@ -35,8 +36,9 @@ plane = Plane(0, 0, 1, 0)
 [node name="World" type="Node3D"]
 script = ExtResource("1_1gpr2")
 block_scenes = Array[PackedScene]([ExtResource("2_5e020"), ExtResource("3_mpby0"), ExtResource("4_7an0d"), ExtResource("5_00evr"), ExtResource("6_aqv8q"), ExtResource("7_tde5x"), ExtResource("8_ea835")])
-block_pickup_scene = ExtResource("9_skj5o")
+block_pickup_scene = ExtResource("9_yddcy")
 chance_pickup_scene = ExtResource("10_awibq")
+snow_patch_scene = ExtResource("11_x7j10")
 bomb_scene = ExtResource("10_i1itg")
 
 [node name="Heaven" parent="." instance=ExtResource("11_s4k6m")]
@@ -79,7 +81,8 @@ shape = SubResource("WorldBoundaryShape3D_jaark")
 [node name="BombTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 5.0
-autostart = true
 
-[node name="PickupBlockPouch" parent="." instance=ExtResource("9_skj5o")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -3)
+[node name="SnowTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 5.0
+autostart = true

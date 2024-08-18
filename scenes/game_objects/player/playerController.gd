@@ -14,7 +14,7 @@ signal died
 @export var ground_friction := 6.0
 
 @export var jump_velocity := 9.0
-@export var bounce_velocity := 30.0
+@export var bounce_velocity := 40.0
 @export var air_cap := 0.85
 @export var air_accel := 10.0
 @export var air_move_speed := 8.5
@@ -26,10 +26,14 @@ const HEADBOB_FREQUENCY = 2.4
 
 @onready var head: Node3D = %Head
 @onready var hurtbox: Area3D = $Hurtbox
+@onready var buff_timer: Timer = %BuffTimer
 
 var headbob_time := 0.0
 var double_jump := 0
 var wish_dir := Vector3.ZERO
+var max_hp := 3
+var knockback_mult := 1.0
+var knockback_ramp := 1.5
 
 var warning_directions : Array[Vector2] = []
 
@@ -43,6 +47,11 @@ func _ready() -> void:
         child.set_layer_mask_value(1, false)
         child.set_layer_mask_value(10, true)
     hurtbox.area_entered.connect(_on_hurtbox_entered)
+    buff_timer.timeout.connect(_on_buff_timeout)
+    GameEvents.exited_ice_patch.connect(_on_exit_ice)
+    GameEvents.entered_ice_patch.connect(_on_enter_ice)
+    GameEvents.entered_vine_patch.connect(_on_enter_vines)
+    GameEvents.exited_vine_patch.connect(_on_exit_vines)
 
 func _unhandled_input(event: InputEvent) -> void:
     if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -86,19 +95,13 @@ func _handle_air_physics(delta) -> void:
     self.velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * delta * gravity_mult
     self.velocity.y = max(self.velocity.y, -terminal_velocity)
 
-    if (wish_dir.length() < 0.1):
-        var deceleration = 0.96
-        self.velocity.x *= deceleration
-        self.velocity.z *= deceleration
-
-    else:
-        var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
-        var capped_speed = min((air_move_speed * wish_dir).length(), air_cap)
-        var add_speed_till_cap = capped_speed - cur_speed_in_wish_dir
-        if add_speed_till_cap > 0:
-            var accel_speed = air_accel * air_move_speed * delta
-            accel_speed = min(accel_speed, add_speed_till_cap)
-            self.velocity += accel_speed * wish_dir
+    var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
+    var capped_speed = min((air_move_speed * wish_dir).length(), air_cap)
+    var add_speed_till_cap = capped_speed - cur_speed_in_wish_dir
+    if add_speed_till_cap > 0:
+        var accel_speed = air_accel * air_move_speed * delta
+        accel_speed = min(accel_speed, add_speed_till_cap)
+        self.velocity += accel_speed * wish_dir
 
 
 func _handle_ground_physics(delta) -> void:
@@ -129,10 +132,56 @@ func _headbob_effect(delta):
 func jump():
     self.velocity.y = jump_velocity
 
+func heal():
+    if (health < max_hp):
+        health += 1
+
+func increase_max_hp():
+    max_hp += 1
+    heal()
+    
+func increase_knockback():
+    knockback_mult *= knockback_ramp
+
+func knockback_player(vector: Vector3):
+    self.velocity += vector * knockback_mult
+
+func activate_jump_buff():
+    jump_velocity += 4.5
+    buff_timer.start(20)
+
+func teleport():
+    self.position += Vector3(0,10,0)
+    
+func height() -> float:
+    var height_value = self.position.y
+    return round(height_value * 100) / 100
+
 func _on_hurtbox_entered(area: Area3D) -> void:
     if area.get_collision_layer_value(4):
         if health == 1:
             died.emit()
         else:
             health -= 1
-            self.velocity.y = bounce_velocity
+            knockback_player(Vector3(0, bounce_velocity, 0))
+            
+func _on_buff_timeout() -> void:
+    jump_velocity -= 4.5
+    
+func _on_enter_ice() -> void:
+    print("slipping")
+    ground_friction = 1.0
+
+func _on_exit_ice() -> void:
+    print("nvm")
+    ground_friction = 6.0
+
+func _on_enter_vines() -> void:
+    walk_speed = 4.5
+    sprint_speed = 7
+    print("slowed")
+    
+func _on_exit_vines() -> void:
+    walk_speed = 7.0
+    sprint_speed = 8.5
+    print("normal")

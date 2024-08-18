@@ -11,6 +11,7 @@ func _ready() -> void:
     timer.start(delay)
     timer.timeout.connect(_on_timer_timeout)
     GameEvents.drop_lava.connect(_on_drop_lava)
+    GameEvents.freeze_lava.connect(_on_freeze_lava)
 
 func _physics_process(delta: float) -> void:
     if rising:
@@ -21,3 +22,8 @@ func _on_timer_timeout() -> void:
 
 func _on_drop_lava() -> void:
     position.y -= 3
+    
+func _on_freeze_lava() -> void: 
+    rising = false
+    timer.start(5)
+    

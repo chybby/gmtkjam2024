@@ -1,6 +1,6 @@
 extends RigidBody3D
 
-@export var explosion_push_strength := 50.0
+@export var explosion_push_strength := 30.0
 
 @onready var explosion_particles: GPUParticles3D = %ExplosionParticles
 @onready var timer: Timer = %Timer
@@ -41,6 +41,6 @@ func _on_timer_timeout() -> void:
             var gradient = -1/(3 - 0.1)
             var y_intercept = 1 + (0.1 * gradient)
             strength = explosion_push_strength * (gradient * distance + y_intercept)
-        player.velocity += direction * strength
+        player.knockback_player(direction * strength)
     await explosion_particles.finished
     queue_free()

@@ -1,10 +1,17 @@
 extends CanvasLayer
 class_name Chance
 
-@onready var card_container: HBoxContainer = $Control/Panel/CardContainer
 @export var card_base : PackedScene
+
+@onready var card_container: HBoxContainer = $Control/Panel/CardContainer
 @onready var world: World = %World
 @onready var player: Player = %Player
+
+var rarity_weights = {
+        3: 0.55,  # Common
+        2: 0.30,  # Rare
+        1: 0.15   # Legendary
+    }
 
 var card_number := 3
 var card_definitions = []
@@ -48,12 +55,6 @@ func get_random_card(rarity: int):
             return common_cards[randi() % common_cards.size()]
     
 func determine_rarity() -> int:
-    var rarity_weights = {
-        3: 0.55,  # Common
-        2: 0.30,  # Rare
-        1: 0.15   # Legendary
-    }
-    
     var random_value = randf()
     var cumulative_weight = 0.0
     
@@ -96,6 +97,7 @@ func _on_card_pressed(card_data):
     print("Card selected:" , card_data["name"])
     
     process_card_effect(card_data["name"])
+    decrement_card_count(card_data)
             
     hide()
     GameEvents.card_pick_triggered()
@@ -111,27 +113,57 @@ func _on_cancel_pressed() -> void:
 func process_card_effect(card_name: String) -> void:
      match card_name:
         "More Blocks per Pickup":
-            _add_blocks_to_pickup()
+            world.added_block_amount += 1
         "Rerolls":
-            _add_rerolls()
+            world.rerolls += 3
         "Bump Lava Down":
-            _drop_lava()
+            GameEvents.lava_drop_triggered()
         "Heal Up":
-            _heal_up()
+            player.heal()
         "Double Jump!":
-            _add_jump()
-
-func _add_blocks_to_pickup():
-    world.added_block_amount += 1
-
-func _add_rerolls():
-    world.rerolls += 3
-
-func _drop_lava():
-    GameEvents.lava_drop_triggered()
-
-func _heal_up():
-    player.health += 1
-
-func _add_jump():
-    player.jump_number += 1
+            player.jump_number += 1
+        "Max Health":
+            player.increase_max_hp()
+        "Freeze lava":
+            GameEvents.freeze_lava_triggered()
+        "More Chances":
+             world.more_chances()
+        "Lucky!":
+            rarity_weights[3] -= .1
+            rarity_weights[2] += .05
+            rarity_weights[1] += .05
+        "Bombs away!":
+            world.start_spawning_bombs()
+        "Jump start":
+            player.activate_jump_buff()
+        "Try Again":
+            world.reroll_chances()
+        "To the skies!":
+            player.teleport()
+        
+func decrement_card_count(card):
+    match int(card["rarity"]):
+        3:
+            var index = common_cards.find(card)
+            card["limit"] -= 1
+            if(card["limit"] <= 0):
+                common_cards.remove_at(index)
+            else:
+                common_cards[index] = card
+                print(common_cards[index])
+        2:
+            var index = rare_cards.find(card)
+            card["limit"] -= 1
+            if(card["limit"] <= 0):
+                rare_cards.remove_at(index)
+            else:
+                rare_cards[index] = card
+                print(rare_cards[index])
+        1:
+            var index = legendary_cards.find(card)
+            card["limit"] -= 1
+            if(card["limit"] <= 0):
+                legendary_cards.remove_at(index)
+            else:
+                legendary_cards[index] = card
+                print(legendary_cards[index])

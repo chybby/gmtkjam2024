@@ -3,8 +3,8 @@ extends TextureButton
 class_name base_card
 
 @onready var rarity_image: ColorRect = $MarginContainer/rarity_image
-@onready var card_name: Label = $MarginContainer/VBoxContainer/card_name
 @onready var description: Label = $MarginContainer/VBoxContainer/MarginContainer/Description
+@onready var card_name: Label = $MarginContainer/VBoxContainer/MarginContainer2/card_name
 
 var card
 

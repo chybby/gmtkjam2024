@@ -1,9 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://ef5dqqevmxcn"]
+[gd_scene load_steps=22 format=3 uid="uid://c7oj4o0jpu4bq"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_jcq7f"]
 [ext_resource type="PackedScene" uid="uid://nhikx0701dde" path="res://scenes/game_objects/world/world.tscn" id="2_o8oy4"]
 [ext_resource type="PackedScene" uid="uid://4cebjv242d0u" path="res://scenes/main/warning.tscn" id="2_wqer3"]
-[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/player.tscn" id="3_ed6k7"]
+[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/Player.tscn" id="3_ed6k7"]
 [ext_resource type="PackedScene" uid="uid://wi5cc17m8s0j" path="res://scenes/game_objects/block/l_left_block.tscn" id="3_u58ai"]
 [ext_resource type="PackedScene" uid="uid://npxcnna5262h" path="res://scenes/game_objects/block/l_right_block.tscn" id="4_3n40q"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="5_7ptyp"]
@@ -15,6 +15,8 @@
 [ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="12_er08g"]
 [ext_resource type="PackedScene" uid="uid://cjcftrrxio41j" path="res://scenes/ui/game_over/GameOver.tscn" id="14_40xvj"]
 [ext_resource type="PackedScene" uid="uid://dw38iluhkalqt" path="res://scenes/ui/chance/chance.tscn" id="15_bl443"]
+[ext_resource type="PackedScene" uid="uid://c0o7br7yshcri" path="res://scenes/game_objects/biome/snow_patch.tscn" id="16_ov0tv"]
+[ext_resource type="PackedScene" uid="uid://babff5b71d0ke" path="res://scenes/game_objects/biome/vines_patch.tscn" id="17_o1nxn"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ti5on"]
 sky_top_color = Color(0.357247, 0.75, 0.738808, 1)
@@ -119,6 +121,14 @@ projection = 1
 current = true
 size = 15.0
 
+[node name="HeightLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 80
+text = "3"
+
 [node name="HealthLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -167,3 +177,9 @@ visible = false
 
 [node name="Chance" parent="." instance=ExtResource("15_bl443")]
 visible = false
+
+[node name="snow_patch" parent="." instance=ExtResource("16_ov0tv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31615, 0, -2.49309)
+
+[node name="vines_patch" parent="." instance=ExtResource("17_o1nxn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.92185, 0, 2.56837)
