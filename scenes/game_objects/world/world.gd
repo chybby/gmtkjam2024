@@ -1,10 +1,12 @@
 extends Node3D
+class_name World
 
 @export var block_scenes: Array[PackedScene]
 @export var block_pickup_scene: PackedScene
+@export var chance_pickup_scene: PackedScene
 @export var bomb_scene: PackedScene
 @export var blocks_remaining := -1
-@export var added_block_amount := 10
+@export var added_block_amount := 3
 
 @onready var bomb_timer: Timer = %BombTimer
 
@@ -12,9 +14,14 @@ var current_block: Block = null
 var tower_height := 0.0
 var limited_blocks := false
 var spawning_blocks := false
+
 var last_spawned_pickup := 0.5
 var pickup_frequency := 5
 
+var last_spawned_chance := 0.0
+var chance_frequency := 5
+
+var rerolls := 0
 
 func _ready() -> void:
     if(blocks_remaining > 0):
@@ -22,6 +29,18 @@ func _ready() -> void:
         GameEvents.block_pickup_picked_up.connect(add_blocks)
     spawn_block()
     bomb_timer.timeout.connect(_on_bomb_timer_timeout)
+    
+func _input(event: InputEvent) -> void:
+    if event.is_action_pressed("reroll"):
+        _reroll_block()
+    
+func _reroll_block() -> void:
+    if(rerolls > 0):
+        rerolls -= 1
+        current_block.queue_free()
+        if(limited_blocks):
+            blocks_remaining += 1
+        spawn_block() 
 
 func spawn_block() -> void:
     if(limited_blocks):
@@ -52,6 +71,9 @@ func _on_block_settled() -> void:
         if (last_spawned_pickup - tower_height < pickup_frequency):
             spawn_pickup()
 
+    if(last_spawned_chance - tower_height < chance_frequency):
+        spawn_chance()
+
     print('Tower height:', tower_height)
     current_block.settled.disconnect(_on_block_settled)
     spawn_block()
@@ -64,15 +86,21 @@ func add_blocks() -> void:
 
 func spawn_pickup() -> void:
     last_spawned_pickup += pickup_frequency
-    var pickup = block_pickup_scene.instantiate() as Pickup
-    add_child(pickup)
-    var random_x = randi_range(-5, 4) + 0.5
-    var random_z = randi_range(-5, 4) + 0.5
-    pickup.position = Vector3(random_x, last_spawned_pickup, random_z)
+    var pickup = block_pickup_scene.instantiate() as Node3D
+    _spawn_object_at_height(last_spawned_pickup, pickup)
 
+func spawn_chance() -> void:
+    last_spawned_chance += chance_frequency
+    var chance = chance_pickup_scene.instantiate() as Node3D
+    _spawn_object_at_height(last_spawned_chance, chance)
+    
 func _on_bomb_timer_timeout() -> void:
     var bomb = bomb_scene.instantiate() as Node3D
-    add_child(bomb)
-    var random_x = randi_range(-5, 4)
-    var random_z = randi_range(-5, 4)
-    bomb.position = Vector3(random_x, tower_height + 10.0, random_z)
+    _spawn_object_at_height(tower_height + 10.0, bomb)
+    
+func _spawn_object_at_height(height: float, obj: Node3D):
+    add_child(obj)
+    var random_x = randi_range(-5, 4) + 0.5
+    var random_z = randi_range(-5, 4) + 0.5
+    obj.position = Vector3(random_x, height, random_z)
+    

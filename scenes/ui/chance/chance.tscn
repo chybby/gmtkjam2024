@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dw38iluhkalqt"]
 
-[ext_resource type="Script" path="res://chance.gd" id="1_7laai"]
+[ext_resource type="Script" path="res://scenes/ui/chance/chance.gd" id="1_7laai"]
 [ext_resource type="PackedScene" uid="uid://l0s2twqupwkb" path="res://scenes/ui/chance/base_card.tscn" id="2_sllp2"]
 
 [node name="Chance" type="CanvasLayer"]

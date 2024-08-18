@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://l0s2twqupwkb"]
 
-[ext_resource type="Script" path="res://base_card.gd" id="1_1nxgd"]
+[ext_resource type="Script" path="res://scenes/ui/chance/base_card.gd" id="1_1nxgd"]
 
 [node name="Card" type="TextureButton"]
 anchors_preset = 5

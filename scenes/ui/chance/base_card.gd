@@ -6,22 +6,22 @@ class_name base_card
 @onready var card_name: Label = $MarginContainer/VBoxContainer/card_name
 @onready var description: Label = $MarginContainer/VBoxContainer/MarginContainer/Description
 
-
-var text
-var texture
-var rarity
+var card
 
 func _ready() -> void:
-    if text != null:
-        set_card_label(text)
-    if rarity != null:
-        set_rarity(rarity)
+        set_card_label(card["name"])
+        set_card_description(card["description"])
+        set_rarity(card["rarity"])
+        
+func set_card(card):
+    self.card = card
     
 func set_card_label(text: String):
-    if card_name != null:
-        card_name.text = text
-    else:
-        self.text = text
+    card_name.text = text
+  
+
+func set_card_description(text: String):
+    description.text = text
     
 func set_rarity(rarity: int):
     if rarity_image != null:
@@ -32,5 +32,3 @@ func set_rarity(rarity: int):
                 rarity_image.color = Color(0.545098, 0, 0.545098, 1)
             1:  
                 rarity_image.color = Color(1, 0.54902, 0, 1)
-    else:
-        self.rarity = rarity

@@ -10,13 +10,14 @@ extends Node3D
 @onready var hud: CanvasLayer = $HUD
 @onready var block_count_label: Label = %BlockCountLabel
 @onready var health_label: Label = %HealthLabel
+@onready var rerolls_label: Label = %RerollsLabel
+
 @onready var warnings: Control = %Warnings
 
 @onready var settings: CanvasLayer = $Settings
 @onready var game_over_menu: CanvasLayer = $GameOver
 
 @onready var chance: Chance = $Chance
-
 
 @export var cinematic_camera_rotate_speed := 1.0
 @export var cinematic_camera_climb_speed := 0.5
@@ -55,6 +56,7 @@ func _process(delta: float) -> void:
         cinematic_camera_pivot.position.y += cinematic_camera_climb_speed * delta
     block_count_label.text = str(world.blocks_remaining)
     health_label.text = str(player.health)
+    rerolls_label.text = str(world.rerolls)
 
     for warning in warnings.get_children():
         warning.queue_free()
@@ -81,7 +83,6 @@ func close_settings() -> void:
 func open_settings() -> void:
     settings.visible = true
     pause()
-
 
 func _on_player_died() -> void:
     cinematic_camera_3d.current = true
