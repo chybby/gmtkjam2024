@@ -97,3 +97,7 @@ draw_pass_1 = SubResource("SphereMesh_87rov")
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 3.0
+
+[node name="Centre" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.3, 0.5)

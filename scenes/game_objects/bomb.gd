@@ -6,6 +6,7 @@ extends RigidBody3D
 @onready var timer: Timer = %Timer
 @onready var explosion_area: Area3D = $ExplosionArea
 @onready var mesh_instance_3d: MeshInstance3D = $MeshInstance3D
+@onready var centre: Node3D = %Centre
 
 
 func _ready() -> void:
@@ -27,7 +28,7 @@ func _on_timer_timeout() -> void:
     var caught_in_explosion := explosion_area.get_overlapping_bodies()
     if caught_in_explosion.size() != 0:
         var player := caught_in_explosion[0] as Player
-        var vector := (player.global_position + Vector3.UP * 0.9) - global_position
+        var vector := (player.global_position + Vector3.UP * 0.9) - centre.global_position
         var direction = vector.normalized()
         var distance = vector.length()
 

@@ -18,6 +18,6 @@ func _physics_process(delta: float) -> void:
 
 func _on_timer_timeout() -> void:
     rising = true
-    
+
 func _on_drop_lava() -> void:
     position.y -= 3

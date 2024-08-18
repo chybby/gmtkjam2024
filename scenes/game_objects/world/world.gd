@@ -22,29 +22,39 @@ var last_spawned_chance := 0.0
 var chance_frequency := 5
 
 var rerolls := 0
+var block_raycasts := []
+
 
 func _ready() -> void:
-    if(blocks_remaining > 0):
+    if (blocks_remaining > 0):
         limited_blocks = true
         GameEvents.block_pickup_picked_up.connect(add_blocks)
     spawn_block()
     bomb_timer.timeout.connect(_on_bomb_timer_timeout)
-    
+
 func _input(event: InputEvent) -> void:
     if event.is_action_pressed("reroll"):
         _reroll_block()
-    
+
 func _reroll_block() -> void:
-    if(rerolls > 0):
+    if (rerolls > 0):
         rerolls -= 1
         current_block.queue_free()
-        if(limited_blocks):
+        if (limited_blocks):
             blocks_remaining += 1
-        spawn_block() 
+        spawn_block()
+
+    for x in 10:
+        block_raycasts.append([])
+        for z in 10:
+            var query := PhysicsRayQueryParameters3D.create(Vector3(x - 4.5, 100.0, z - 4.5), Vector3(x - 4.5, 0.0, z - 4.5))
+            query.collision_mask = 1 | 8
+            query.collide_with_areas = true
+            block_raycasts[block_raycasts.size() - 1].append(query)
 
 func spawn_block() -> void:
-    if(limited_blocks):
-        if(blocks_remaining <= 0):
+    if (limited_blocks):
+        if (blocks_remaining <= 0):
             spawning_blocks = false
             return
         else:
@@ -67,11 +77,12 @@ func spawn_block() -> void:
 func _on_block_settled() -> void:
     tower_height = max(tower_height, current_block.world_height())
 
-    if(limited_blocks):
-        if (last_spawned_pickup - tower_height < pickup_frequency):
+    if (limited_blocks):
+        #if (last_spawned_pickup - tower_height < pickup_frequency):
+        if blocks_remaining == 0:
             spawn_pickup()
 
-    if(last_spawned_chance - tower_height < chance_frequency):
+    if (last_spawned_chance - tower_height < chance_frequency):
         spawn_chance()
 
     print('Tower height:', tower_height)
@@ -79,28 +90,37 @@ func _on_block_settled() -> void:
     spawn_block()
 
 func add_blocks() -> void:
-    if(limited_blocks):
+    if (limited_blocks):
         blocks_remaining += added_block_amount
-        if(!spawning_blocks):
+        if (!spawning_blocks):
             spawn_block()
 
 func spawn_pickup() -> void:
     last_spawned_pickup += pickup_frequency
-    var pickup = block_pickup_scene.instantiate() as Node3D
-    _spawn_object_at_height(last_spawned_pickup, pickup)
+    var pickup = block_pickup_scene.instantiate() as Pickup
+    add_child(pickup)
+
+    var options = []
+    var space_state = get_world_3d().direct_space_state
+    for x in 10:
+        for z in 10:
+            var result := space_state.intersect_ray(block_raycasts[x][z])
+            print(result['collider'].collision_mask)
+            if result['collider'].collision_mask & 1:
+                options.append(Vector3(x, last_spawned_pickup, z))
+    pickup.position = options.pick_random() - Vector3(5.0, 0, 5.0)
 
 func spawn_chance() -> void:
     last_spawned_chance += chance_frequency
     var chance = chance_pickup_scene.instantiate() as Node3D
     _spawn_object_at_height(last_spawned_chance, chance)
-    
+
 func _on_bomb_timer_timeout() -> void:
     var bomb = bomb_scene.instantiate() as Node3D
     _spawn_object_at_height(tower_height + 10.0, bomb)
-    
+
 func _spawn_object_at_height(height: float, obj: Node3D):
     add_child(obj)
     var random_x = randi_range(-5, 4) + 0.5
     var random_z = randi_range(-5, 4) + 0.5
     obj.position = Vector3(random_x, height, random_z)
-    

@@ -5,7 +5,7 @@ signal died
 
 @export var look_sensitivity: float = 0.2
 @export var auto_bhop := true
-@export var jump_number := 1
+@export var jump_number := 0
 
 @export var walk_speed := 7.0
 @export var sprint_speed := 8.5
@@ -20,7 +20,6 @@ signal died
 @export var air_move_speed := 8.5
 @export var gravity_mult := 2.5
 @export var terminal_velocity := 70.0
-
 
 const HEADBOB_MOVE_AMOUNT = 0.06
 const HEADBOB_FREQUENCY = 2.4

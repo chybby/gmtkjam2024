@@ -1,10 +1,12 @@
-extends Area3D
-
+extends RigidBody3D
 class_name Pickup
 
+func _physics_process(delta: float) -> void:
+    if not freeze and linear_velocity.is_zero_approx():
+        freeze = true
+        position = position.round()
+
 func _on_body_entered(body: Node):
-    print(body.name)
     if body.is_in_group("Player"):
-        print("Pickup triggered")
         GameEvents.block_pickup_triggered()
         queue_free()

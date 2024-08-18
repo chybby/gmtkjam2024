@@ -41,7 +41,6 @@ func _ready() -> void:
     GameEvents.card_selected.connect(_on_card_selected)
     GameEvents.chance_picked_up.connect(_on_chance_picked_up)
 
-
 func _physics_process(delta: float) -> void:
     if GlobalState.rotate_minimap:
         top_down_camera_3d.rotation.y = player.look_angle()
