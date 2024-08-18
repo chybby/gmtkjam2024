@@ -6,7 +6,7 @@ signal chance_picked_up
 
 func block_pickup_triggered() -> void:
     block_pickup_picked_up.emit()
-    
+
 func card_pick_triggered() -> void:
     card_selected.emit()
 

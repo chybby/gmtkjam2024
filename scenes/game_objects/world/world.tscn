@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://nhikx0701dde"]
+[gd_scene load_steps=18 format=3 uid="uid://nhikx0701dde"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/world/world.gd" id="1_1gpr2"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="2_5e020"]
@@ -8,7 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://wi5cc17m8s0j" path="res://scenes/game_objects/block/l_left_block.tscn" id="6_aqv8q"]
 [ext_resource type="PackedScene" uid="uid://npxcnna5262h" path="res://scenes/game_objects/block/l_right_block.tscn" id="7_tde5x"]
 [ext_resource type="PackedScene" uid="uid://dyu54f2o0xg6e" path="res://scenes/game_objects/block/t_block.tscn" id="8_ea835"]
+[ext_resource type="PackedScene" uid="uid://d3s25hxud1ifg" path="res://scenes/pickups/pickup_basic.tscn" id="9_skj5o"]
 [ext_resource type="PackedScene" uid="uid://f5wu04sewl4s" path="res://scenes/game_objects/lava/lava.tscn" id="9_wbpsf"]
+[ext_resource type="PackedScene" uid="uid://bd1abuvhhwj0" path="res://scenes/game_objects/bomb.tscn" id="10_i1itg"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_763f1"]
 size = Vector3(10, 1, 10)
@@ -31,6 +33,8 @@ plane = Plane(0, 0, 1, 0)
 [node name="World" type="Node3D"]
 script = ExtResource("1_1gpr2")
 block_scenes = Array[PackedScene]([ExtResource("2_5e020"), ExtResource("3_mpby0"), ExtResource("4_7an0d"), ExtResource("5_00evr"), ExtResource("6_aqv8q"), ExtResource("7_tde5x"), ExtResource("8_ea835")])
+block_pickup_scene = ExtResource("9_skj5o")
+bomb_scene = ExtResource("10_i1itg")
 
 [node name="Floor" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
@@ -65,3 +69,8 @@ shape = SubResource("WorldBoundaryShape3D_mra5s")
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="Wall"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.1)
 shape = SubResource("WorldBoundaryShape3D_jaark")
+
+[node name="BombTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 5.0
+autostart = true

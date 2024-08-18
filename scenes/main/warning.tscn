@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://4cebjv242d0u"]
+
+[ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="1_eijrx"]
+
+[node name="Warning" type="TextureRect"]
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+pivot_offset = Vector2(64, 64)
+mouse_filter = 2
+texture = ExtResource("1_eijrx")

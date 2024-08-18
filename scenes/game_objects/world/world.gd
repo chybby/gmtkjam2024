@@ -2,8 +2,11 @@ extends Node3D
 
 @export var block_scenes: Array[PackedScene]
 @export var block_pickup_scene: PackedScene
+@export var bomb_scene: PackedScene
 @export var blocks_remaining := -1
 @export var added_block_amount := 10
+
+@onready var bomb_timer: Timer = %BombTimer
 
 var current_block: Block = null
 var tower_height := 0.0
@@ -18,6 +21,7 @@ func _ready() -> void:
         limited_blocks = true
         GameEvents.block_pickup_picked_up.connect(add_blocks)
     spawn_block()
+    bomb_timer.timeout.connect(_on_bomb_timer_timeout)
 
 func spawn_block() -> void:
     if(limited_blocks):
@@ -58,12 +62,17 @@ func add_blocks() -> void:
         if(!spawning_blocks):
             spawn_block()
 
-
 func spawn_pickup() -> void:
     last_spawned_pickup += pickup_frequency
     var pickup = block_pickup_scene.instantiate() as Pickup
     add_child(pickup)
-    var random_x = randf_range(-5, 5)
-    var random_z = randf_range(-5, 5)
+    var random_x = randi_range(-5, 4) + 0.5
+    var random_z = randi_range(-5, 4) + 0.5
     pickup.position = Vector3(random_x, last_spawned_pickup, random_z)
-    print('Spawned pickup: ', pickup.position)
+
+func _on_bomb_timer_timeout() -> void:
+    var bomb = bomb_scene.instantiate() as Node3D
+    add_child(bomb)
+    var random_x = randi_range(-5, 4) + 0.5
+    var random_z = randi_range(-5, 4) + 0.5
+    bomb.position = Vector3(random_x, tower_height + 10.0, random_z)

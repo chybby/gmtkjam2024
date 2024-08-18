@@ -32,6 +32,8 @@ var headbob_time := 0.0
 var double_jump := 0
 var wish_dir := Vector3.ZERO
 
+var warning_directions : Array[Vector2] = []
+
 var health := 3
 
 func look_angle() -> float:
@@ -41,7 +43,7 @@ func _ready() -> void:
     for child in %WorldModel.find_children("*", "VisualInstance3d"):
         child.set_layer_mask_value(1, false)
         child.set_layer_mask_value(10, true)
-    hurtbox.area_entered.connect(_on_lava_entered)
+    hurtbox.area_entered.connect(_on_hurtbox_entered)
 
 func _unhandled_input(event: InputEvent) -> void:
     if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -55,6 +57,12 @@ func get_move_speed() -> float:
 
 func _process(delta: float) -> void:
     look_sensitivity = GlobalState.mouse_sensitivity
+    warning_directions = []
+    for area in hurtbox.get_overlapping_areas():
+        if area.get_collision_layer_value(5):
+            var direction := (area.global_position - global_position).normalized()
+            var direction_2d = Vector2(direction.x, direction.z)
+            warning_directions.append(direction_2d.rotated(rotation.y))
 
 func _physics_process(delta: float) -> void:
     var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -122,9 +130,10 @@ func _headbob_effect(delta):
 func jump():
     self.velocity.y = jump_velocity
 
-func _on_lava_entered(area: Area3D) -> void:
-    if health == 1:
-        died.emit()
-    else:
-        health -= 1
-        self.velocity.y = bounce_velocity
+func _on_hurtbox_entered(area: Area3D) -> void:
+    if area.get_collision_layer_value(4):
+        if health == 1:
+            died.emit()
+        else:
+            health -= 1
+            self.velocity.y = bounce_velocity

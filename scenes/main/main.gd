@@ -10,6 +10,7 @@ extends Node3D
 @onready var hud: CanvasLayer = $HUD
 @onready var block_count_label: Label = %BlockCountLabel
 @onready var health_label: Label = %HealthLabel
+@onready var warnings: Control = %Warnings
 
 @onready var settings: CanvasLayer = $Settings
 @onready var game_over_menu: CanvasLayer = $GameOver
@@ -19,6 +20,7 @@ extends Node3D
 
 @export var cinematic_camera_rotate_speed := 1.0
 @export var cinematic_camera_climb_speed := 0.5
+@export var warning_scene: PackedScene
 
 var game_over := false
 var pause_counter := 0
@@ -53,25 +55,33 @@ func _process(delta: float) -> void:
         cinematic_camera_pivot.position.y += cinematic_camera_climb_speed * delta
     block_count_label.text = str(world.blocks_remaining)
     health_label.text = str(player.health)
-    
+
+    for warning in warnings.get_children():
+        warning.queue_free()
+    for warning_direction in player.warning_directions:
+        var warning := warning_scene.instantiate()
+        warnings.add_child(warning)
+        warning.position += warning_direction * 400
+
 func unpause() -> void:
     pause_counter -= 1
     if pause_counter == 0:
         get_tree().paused = false
         Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-    
+
 func pause() -> void:
     pause_counter += 1
     get_tree().paused = true
     Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-    
+
 func close_settings() -> void:
     settings.visible = false
     unpause()
-                
+
 func open_settings() -> void:
     settings.visible = true
     pause()
+
 
 func _on_player_died() -> void:
     cinematic_camera_3d.current = true
@@ -90,7 +100,7 @@ func _on_try_again(chaos_mode: bool) -> void:
 func _on_card_selected() -> void:
     chance.hide()
     unpause()
-    
+
 func _on_chance_picked_up() -> void:
     pause()
-    chance.show_chance_cards() 
+    chance.show_chance_cards()

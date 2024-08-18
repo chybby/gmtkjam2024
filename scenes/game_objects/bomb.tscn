@@ -1,0 +1,94 @@
+[gd_scene load_steps=15 format=3 uid="uid://bd1abuvhhwj0"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/bomb.gd" id="1_14nxo"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8k0vw"]
+size = Vector3(0.6, 0.6, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qum8h"]
+albedo_color = Color(0.300781, 0.300781, 0.300781, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_bh8tc"]
+radius = 0.3
+height = 0.6
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_sfq6b"]
+height = 3.0
+radius = 3.0
+
+[sub_resource type="Gradient" id="Gradient_kmlxq"]
+offsets = PackedFloat32Array(0, 0.294798, 0.537572, 0.780347)
+colors = PackedColorArray(1, 0.998268, 0.971832, 1, 0.956645, 0.822298, 0, 1, 0.884386, 0.0435753, 0, 1, 0.0546875, 0.0546875, 0.0546875, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cnphx"]
+gradient = SubResource("Gradient_kmlxq")
+
+[sub_resource type="Curve" id="Curve_2kl5r"]
+_data = [Vector2(0.60199, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_r02e7"]
+curve = SubResource("Curve_2kl5r")
+
+[sub_resource type="Curve" id="Curve_spmdx"]
+_data = [Vector2(0, 0), 0.0, 4.03344, 0, 0, Vector2(0.507463, 0.89011), 0.0, 0.0, 0, 0, Vector2(0.835821, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_bt07s"]
+curve = SubResource("Curve_spmdx")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yptav"]
+emission_shape = 2
+emission_sphere_radius = 1.0
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 4.0
+scale_curve = SubResource("CurveTexture_bt07s")
+color_ramp = SubResource("GradientTexture1D_cnphx")
+emission_curve = SubResource("CurveTexture_r02e7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hayve"]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_87rov"]
+material = SubResource("StandardMaterial3D_hayve")
+
+[node name="Bomb" type="RigidBody3D"]
+collision_layer = 0
+axis_lock_linear_x = true
+axis_lock_linear_z = true
+lock_rotation = true
+contact_monitor = true
+max_contacts_reported = 4
+script = ExtResource("1_14nxo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_8k0vw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_qum8h")
+mesh = SubResource("SphereMesh_bh8tc")
+
+[node name="ExplosionArea" type="Area3D" parent="."]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExplosionArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_sfq6b")
+
+[node name="ExplosionParticles" type="GPUParticles3D" parent="."]
+unique_name_in_owner = true
+emitting = false
+amount = 10
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.9
+trail_lifetime = 3.68
+process_material = SubResource("ParticleProcessMaterial_yptav")
+draw_pass_1 = SubResource("SphereMesh_87rov")
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 3.0

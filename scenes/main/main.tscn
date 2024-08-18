@@ -1,8 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://ef5dqqevmxcn"]
+[gd_scene load_steps=22 format=3 uid="uid://ef5dqqevmxcn"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_jcq7f"]
 [ext_resource type="PackedScene" uid="uid://nhikx0701dde" path="res://scenes/game_objects/world/world.tscn" id="2_o8oy4"]
-[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/Player.tscn" id="3_ed6k7"]
+[ext_resource type="PackedScene" uid="uid://4cebjv242d0u" path="res://scenes/main/warning.tscn" id="2_wqer3"]
+[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/player.tscn" id="3_ed6k7"]
 [ext_resource type="PackedScene" uid="uid://wi5cc17m8s0j" path="res://scenes/game_objects/block/l_left_block.tscn" id="3_u58ai"]
 [ext_resource type="PackedScene" uid="uid://npxcnna5262h" path="res://scenes/game_objects/block/l_right_block.tscn" id="4_3n40q"]
 [ext_resource type="PackedScene" uid="uid://d3s25hxud1ifg" path="res://scenes/pickups/pickup_basic.tscn" id="4_hnj84"]
@@ -13,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://djath7mvf6hxj" path="res://scenes/game_objects/block/z_right_block.tscn" id="9_6vvaw"]
 [ext_resource type="PackedScene" uid="uid://5upb47fymeyc" path="res://scenes/ui/settings/settings.tscn" id="12_ekpm1"]
 [ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="12_er08g"]
-[ext_resource type="PackedScene" uid="uid://d1n1vct1l8nlp" path="res://scenes/pickups/pickup_chance.tscn" id="13_o7qyt"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/pickup_chance.tscn" id="13_o7qyt"]
 [ext_resource type="PackedScene" uid="uid://cjcftrrxio41j" path="res://scenes/ui/game_over/GameOver.tscn" id="14_40xvj"]
 [ext_resource type="PackedScene" uid="uid://dw38iluhkalqt" path="res://scenes/ui/chance/chance.tscn" id="15_bl443"]
 
@@ -41,12 +42,12 @@ corner_radius_bottom_left = 40
 [node name="Main" type="Node3D"]
 process_mode = 3
 script = ExtResource("1_jcq7f")
+warning_scene = ExtResource("2_wqer3")
 
 [node name="World" parent="." instance=ExtResource("2_o8oy4")]
 unique_name_in_owner = true
 process_mode = 1
 block_scenes = Array[PackedScene]([ExtResource("3_u58ai"), ExtResource("4_3n40q"), ExtResource("5_7ptyp"), ExtResource("6_wna1e"), ExtResource("7_s6hv1"), ExtResource("8_g320s"), ExtResource("9_6vvaw")])
-block_pickup_scene = ExtResource("4_hnj84")
 blocks_remaining = 10
 
 [node name="pickup_add_blocks" parent="." instance=ExtResource("4_hnj84")]
@@ -136,6 +137,19 @@ size_flags_vertical = 8
 theme_override_font_sizes/font_size = 80
 text = "10
 "
+
+[node name="Warnings" type="Control" parent="HUD"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [node name="Settings" parent="." instance=ExtResource("12_ekpm1")]
 process_mode = 3
