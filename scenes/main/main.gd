@@ -38,7 +38,10 @@ func _ready() -> void:
     game_over_menu.try_again.connect(_on_try_again)
 
 func _physics_process(delta: float) -> void:
-    top_down_camera_3d.rotation.y = player.look_angle()
+    if GlobalState.rotate_minimap:
+        top_down_camera_3d.rotation.y = player.look_angle()
+    else:
+        top_down_camera_3d.rotation.y = 0
     top_down_camera_3d.position.x = player.position.x
     top_down_camera_3d.position.z = player.position.z
 
