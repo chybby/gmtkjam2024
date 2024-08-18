@@ -22,8 +22,7 @@ func _on_timer_timeout() -> void:
 
 func _on_drop_lava() -> void:
     position.y -= 3
-    
-func _on_freeze_lava() -> void: 
+
+func _on_freeze_lava() -> void:
     rising = false
     timer.start(5)
-    

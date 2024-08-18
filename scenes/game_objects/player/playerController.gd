@@ -139,7 +139,7 @@ func heal():
 func increase_max_hp():
     max_hp += 1
     heal()
-    
+
 func increase_knockback():
     knockback_mult *= knockback_ramp
 
@@ -152,7 +152,7 @@ func activate_jump_buff():
 
 func teleport():
     self.position += Vector3(0,10,0)
-    
+
 func height() -> float:
     var height_value = self.position.y
     return round(height_value * 100) / 100
@@ -164,10 +164,10 @@ func _on_hurtbox_entered(area: Area3D) -> void:
         else:
             health -= 1
             knockback_player(Vector3(0, bounce_velocity, 0))
-            
+
 func _on_buff_timeout() -> void:
     jump_velocity -= 4.5
-    
+
 func _on_enter_ice() -> void:
     print("slipping")
     ground_friction = 1.0
@@ -180,7 +180,7 @@ func _on_enter_vines() -> void:
     walk_speed = 4.5
     sprint_speed = 7
     print("slowed")
-    
+
 func _on_exit_vines() -> void:
     walk_speed = 7.0
     sprint_speed = 8.5

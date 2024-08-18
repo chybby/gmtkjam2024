@@ -34,13 +34,6 @@ func _ready() -> void:
     spawn_block()
     bomb_timer.timeout.connect(_on_bomb_timer_timeout)
     snow_timer.timeout.connect(_on_snow_timer_timeout)
-    for x in 10:
-        block_raycasts.append([])
-        for z in 10:
-            var query := PhysicsRayQueryParameters3D.create(Vector3(x - 4.5, 100.0, z - 4.5), Vector3(x - 4.5, 0.0, z - 4.5))
-            query.collision_mask = 1 | 8
-            query.collide_with_areas = true
-            block_raycasts[block_raycasts.size() - 1].append(query)
 
     for x in 10:
         block_raycasts.append([])
@@ -76,8 +69,6 @@ func spawn_block() -> void:
     add_child(current_block)
     current_block.position.y = tower_height + 10.0
 
-    # TODO: Rotating can currently cause two blocks to collide while they're
-    # sliding past each other.
     current_block.rotate_x(randi_range(0, 3) * (PI / 2))
     current_block.rotate_y(randi_range(0, 3) * (PI / 2))
     current_block.rotate_z(randi_range(0, 3) * (PI / 2))
@@ -89,7 +80,7 @@ func _on_block_settled() -> void:
 
     if (limited_blocks):
         #if (last_spawned_pickup - tower_height < pickup_frequency):
-        #if blocks_remaining == 0:
+        if blocks_remaining == 0:
             spawn_pickup()
 
     if (last_spawned_chance - tower_height < chance_frequency):
@@ -111,7 +102,7 @@ func spawn_pickup() -> void:
     add_child(pickup)
 
     pickup.position = get_valid_drop_position()
-    
+
 
 func spawn_chance() -> void:
     last_spawned_chance += chance_frequency
@@ -121,14 +112,14 @@ func spawn_chance() -> void:
 func _on_bomb_timer_timeout() -> void:
     var bomb = bomb_scene.instantiate() as Node3D
     _spawn_object_at_height(tower_height + 10.0, bomb)
-    
+
 func _on_snow_timer_timeout() -> void:
     var snow = snow_patch_scene.instantiate() as Node3D
     _spawn_object_at_height(tower_height + 10.0, snow)
-    
+
 func more_chances() -> void:
     chance_frequency -= 1
-    
+
 func start_spawning_bombs() -> void:
     bomb_timer.start()
 

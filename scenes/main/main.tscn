@@ -1,9 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://c7oj4o0jpu4bq"]
+[gd_scene load_steps=21 format=3 uid="uid://ef5dqqevmxcn"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_jcq7f"]
 [ext_resource type="PackedScene" uid="uid://nhikx0701dde" path="res://scenes/game_objects/world/world.tscn" id="2_o8oy4"]
 [ext_resource type="PackedScene" uid="uid://4cebjv242d0u" path="res://scenes/main/warning.tscn" id="2_wqer3"]
-[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/Player.tscn" id="3_ed6k7"]
+[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/player.tscn" id="3_ed6k7"]
 [ext_resource type="PackedScene" uid="uid://wi5cc17m8s0j" path="res://scenes/game_objects/block/l_left_block.tscn" id="3_u58ai"]
 [ext_resource type="PackedScene" uid="uid://npxcnna5262h" path="res://scenes/game_objects/block/l_right_block.tscn" id="4_3n40q"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="5_7ptyp"]
@@ -12,18 +12,18 @@
 [ext_resource type="PackedScene" uid="uid://bsax2h4lvelnp" path="res://scenes/game_objects/block/z_left_block.tscn" id="8_g320s"]
 [ext_resource type="PackedScene" uid="uid://djath7mvf6hxj" path="res://scenes/game_objects/block/z_right_block.tscn" id="9_6vvaw"]
 [ext_resource type="PackedScene" uid="uid://5upb47fymeyc" path="res://scenes/ui/settings/settings.tscn" id="12_ekpm1"]
-[ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="12_er08g"]
 [ext_resource type="PackedScene" uid="uid://cjcftrrxio41j" path="res://scenes/ui/game_over/GameOver.tscn" id="14_40xvj"]
 [ext_resource type="PackedScene" uid="uid://dw38iluhkalqt" path="res://scenes/ui/chance/chance.tscn" id="15_bl443"]
 [ext_resource type="PackedScene" uid="uid://c0o7br7yshcri" path="res://scenes/game_objects/biome/snow_patch.tscn" id="16_ov0tv"]
 [ext_resource type="PackedScene" uid="uid://babff5b71d0ke" path="res://scenes/game_objects/biome/vines_patch.tscn" id="17_o1nxn"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ti5on"]
-sky_top_color = Color(0.357247, 0.75, 0.738808, 1)
-sky_horizon_color = Color(0.253806, 0.437152, 0.46875, 1)
-sky_curve = 0.115149
-sky_cover = ExtResource("12_er08g")
-sky_cover_modulate = Color(0.491287, 0.639573, 1, 1)
+sky_top_color = Color(0, 0.286457, 0.527344, 1)
+sky_horizon_color = Color(0.420119, 0.671255, 0.777344, 1)
+sky_curve = 0.349066
+sun_angle_max = 15.0
+sun_curve = 2.35375
+energy_multiplier = 3.0
 
 [sub_resource type="Sky" id="Sky_s2apd"]
 sky_material = SubResource("ProceduralSkyMaterial_ti5on")
@@ -32,6 +32,10 @@ sky_material = SubResource("ProceduralSkyMaterial_ti5on")
 background_mode = 2
 sky = SubResource("Sky_s2apd")
 tonemap_mode = 2
+tonemap_white = 0.75
+ssao_enabled = true
+ssao_radius = 0.53
+glow_enabled = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_td6bl"]
 corner_radius_top_left = 40
@@ -48,7 +52,7 @@ warning_scene = ExtResource("2_wqer3")
 unique_name_in_owner = true
 process_mode = 1
 block_scenes = Array[PackedScene]([ExtResource("3_u58ai"), ExtResource("4_3n40q"), ExtResource("5_7ptyp"), ExtResource("6_wna1e"), ExtResource("7_s6hv1"), ExtResource("8_g320s"), ExtResource("9_6vvaw")])
-blocks_remaining = 10
+blocks_remaining = 5
 
 [node name="Player" parent="." instance=ExtResource("3_ed6k7")]
 unique_name_in_owner = true
@@ -61,12 +65,15 @@ process_mode = 1
 
 [node name="CinematicCamera3D" type="Camera3D" parent="CinematicCameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.12921, 11.6669)
+size = 8.222
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.999999, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+light_color = Color(1, 0.922586, 0.58476, 1)
+light_energy = 0.8
 light_bake_mode = 1
 shadow_enabled = true
-shadow_blur = 2.5
+shadow_blur = 2.04
 directional_shadow_split_1 = 0.05
 directional_shadow_split_2 = 0.1
 directional_shadow_split_3 = 0.2

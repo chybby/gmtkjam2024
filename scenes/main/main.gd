@@ -51,8 +51,8 @@ func _physics_process(delta: float) -> void:
     top_down_camera_3d.position.z = player.position.z
 
 func _process(delta: float) -> void:
-    cinematic_camera_pivot.rotate_y(cinematic_camera_rotate_speed * delta)
     if game_over and cinematic_camera_pivot.position.y < world.tower_height:
+        cinematic_camera_pivot.rotate_y(cinematic_camera_rotate_speed * delta)
         cinematic_camera_pivot.position.y += cinematic_camera_climb_speed * delta
     block_count_label.text = str(world.blocks_remaining)
     health_label.text = str(player.health)

@@ -1,8 +1,6 @@
 extends RigidBody3D
 class_name Block
 
-#const COLOURS := [Color.RED, Color.GREEN, Color.BLUE]
-
 signal settled
 
 @export var horizontal_speed := 3.0
@@ -19,9 +17,8 @@ var motion := Vector3.ZERO
 var falling := true
 
 func world_height() -> float:
-    var shape = collision_shape_3d.shape as BoxShape3D
-    #TODO: needs to change based on block rotation.
-    return global_position.y + shape.size[1]
+    # TODO: fix
+    return global_position.y
 
 func _input(event: InputEvent) -> void:
     if falling:
@@ -49,8 +46,6 @@ func _input(event: InputEvent) -> void:
 
 func _ready() -> void:
     linear_velocity.y = -falling_speed
-    #var material = mesh.material_override as StandardMaterial3D
-    #material.albedo_color = COLOURS.pick_random()
     if GlobalState.chaos_mode:
         use_physics = true
 
