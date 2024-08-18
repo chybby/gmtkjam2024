@@ -14,28 +14,30 @@ extends Node3D
 @onready var settings: CanvasLayer = $Settings
 @onready var game_over_menu: CanvasLayer = $GameOver
 
+@onready var chance: Chance = $Chance
+
+
 @export var cinematic_camera_rotate_speed := 1.0
 @export var cinematic_camera_climb_speed := 0.5
 
 var game_over := false
+var pause_counter := 0
 
 func _input(event: InputEvent) -> void:
     if event.is_action_pressed("pause"):
         if settings.visible:
-            settings.visible = false
-            get_tree().paused = false
-            Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+            close_settings()
         else:
-            get_tree().paused = true
-            settings.visible = true
-            Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-
+            open_settings()
 
 func _ready() -> void:
     Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
     player.died.connect(_on_player_died)
     settings.closed.connect(_on_settings_closed)
     game_over_menu.try_again.connect(_on_try_again)
+    GameEvents.card_selected.connect(_on_card_selected)
+    GameEvents.chance_picked_up.connect(_on_chance_picked_up)
+
 
 func _physics_process(delta: float) -> void:
     if GlobalState.rotate_minimap:
@@ -51,6 +53,25 @@ func _process(delta: float) -> void:
         cinematic_camera_pivot.position.y += cinematic_camera_climb_speed * delta
     block_count_label.text = str(world.blocks_remaining)
     health_label.text = str(player.health)
+    
+func unpause() -> void:
+    pause_counter -= 1
+    if pause_counter == 0:
+        get_tree().paused = false
+        Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+    
+func pause() -> void:
+    pause_counter += 1
+    get_tree().paused = true
+    Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+    
+func close_settings() -> void:
+    settings.visible = false
+    unpause()
+                
+func open_settings() -> void:
+    settings.visible = true
+    pause()
 
 func _on_player_died() -> void:
     cinematic_camera_3d.current = true
@@ -60,10 +81,16 @@ func _on_player_died() -> void:
     Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _on_settings_closed() -> void:
-    settings.visible = false
-    get_tree().paused = false
-    Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+    close_settings()
 
 func _on_try_again(chaos_mode: bool) -> void:
     GlobalState.chaos_mode = chaos_mode
     get_tree().reload_current_scene()
+
+func _on_card_selected() -> void:
+    chance.hide()
+    unpause()
+    
+func _on_chance_picked_up() -> void:
+    pause()
+    chance.show_chance_cards() 

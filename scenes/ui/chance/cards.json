@@ -1,0 +1,52 @@
+{
+    "cards": [
+        {
+            "name": "More Blocks per Pickup",
+            "description": "Increases the number of blocks you get with each pickup.",
+            "image": "res://cards/more_blocks_per_pickup.png",
+            "rarity": 1
+        },
+        {
+            "name": "More Frequent Special Blocks",
+            "description": "Special blocks appear more frequently.",
+            "image": "res://cards/more_frequent_special_blocks.png",
+            "rarity": 2
+        },
+        {
+            "name": "Special Blocks",
+            "description": "Enables special blocks with unique properties.",
+            "image": "res://cards/special_blocks.png",
+            "rarity": 3
+        },
+        {
+            "name": "Special Blocks as Pickups",
+            "description": "Special blocks can be picked up during the game.",
+            "image": "res://cards/special_blocks_as_pickups.png",
+            "rarity": 3
+        },
+        {
+            "name": "Rerolls",
+            "description": "Reroll the current set of blocks or cards.",
+            "image": "res://cards/rerolls.png",
+            "rarity": 2
+        },
+        {
+            "name": "Bump Lava Down",
+            "description": "Lowers the level of the rising lava.",
+            "image": "res://cards/bump_lava_down.png",
+            "rarity": 4
+        },
+        {
+            "name": "Slow Down Block",
+            "description": "Slows down the speed at which blocks fall.",
+            "image": "res://cards/slow_down_block.png",
+            "rarity": 2
+        },
+        {
+            "name": "Slow Down Lava",
+            "description": "Slows down the rising speed of the lava.",
+            "image": "res://cards/slow_down_lava.png",
+            "rarity": 4
+        }
+    ]
+}

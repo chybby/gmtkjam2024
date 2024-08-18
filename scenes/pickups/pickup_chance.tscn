@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://d3s25hxud1ifg"]
+[gd_scene load_steps=5 format=3 uid="uid://d1n1vct1l8nlp"]
 
-[ext_resource type="Script" path="res://scenes/pickups/pickup.gd" id="1_cjto6"]
+[ext_resource type="Script" path="res://scenes/pickups/pickup_chance.gd" id="1_mbxkm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gcg7y"]
-albedo_color = Color(0.149735, 0, 0.944195, 1)
+albedo_color = Color(0.736005, 0.348506, 0, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_wqijc"]
 material = SubResource("StandardMaterial3D_gcg7y")
@@ -12,9 +12,9 @@ height = 0.7
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_6moi2"]
 
-[node name="pickup_add_blocks" type="Area3D"]
+[node name="pickup_chance" type="Area3D"]
 collision_mask = 4
-script = ExtResource("1_cjto6")
+script = ExtResource("1_mbxkm")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 layers = 4
