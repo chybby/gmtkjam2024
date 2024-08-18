@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://djath7mvf6hxj" path="res://scenes/game_objects/block/z_right_block.tscn" id="9_6vvaw"]
 [ext_resource type="PackedScene" uid="uid://5upb47fymeyc" path="res://scenes/ui/settings/settings.tscn" id="12_ekpm1"]
 [ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="12_er08g"]
-[ext_resource type="PackedScene" path="res://scenes/pickups/pickup_chance.tscn" id="13_o7qyt"]
+[ext_resource type="PackedScene" uid="uid://d1n1vct1l8nlp" path="res://scenes/pickups/pickup_chance.tscn" id="13_o7qyt"]
 [ext_resource type="PackedScene" uid="uid://cjcftrrxio41j" path="res://scenes/ui/game_over/GameOver.tscn" id="14_40xvj"]
 [ext_resource type="PackedScene" uid="uid://dw38iluhkalqt" path="res://scenes/ui/chance/chance.tscn" id="15_bl443"]
 
@@ -58,6 +58,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.79642, 0.941658, 2.97988)
 process_mode = 1
 platform_floor_layers = 4294967295
 platform_wall_layers = 0
+jump_velocity = 9.0
 
 [node name="CinematicCameraPivot" type="Node3D" parent="."]
 process_mode = 1
@@ -67,7 +68,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.12921, 11.6669)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.999999, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10, 0)
+light_bake_mode = 1
 shadow_enabled = true
+shadow_blur = 2.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_6ylbt")
@@ -117,6 +120,7 @@ render_target_update_mode = 4
 [node name="TopDownCamera3D" type="Camera3D" parent="HUD/MarginContainer/VBoxContainer/Panel/SubViewportContainer/SubViewport"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1000, 0)
+cull_mask = 1048573
 projection = 1
 current = true
 size = 15.0

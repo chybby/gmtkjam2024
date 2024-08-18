@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://nhikx0701dde"]
+[gd_scene load_steps=19 format=3 uid="uid://nhikx0701dde"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/world/world.gd" id="1_1gpr2"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="2_5e020"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://d3s25hxud1ifg" path="res://scenes/pickups/pickup_basic.tscn" id="9_skj5o"]
 [ext_resource type="PackedScene" uid="uid://f5wu04sewl4s" path="res://scenes/game_objects/lava/lava.tscn" id="9_wbpsf"]
 [ext_resource type="PackedScene" uid="uid://bd1abuvhhwj0" path="res://scenes/game_objects/bomb.tscn" id="10_i1itg"]
+[ext_resource type="PackedScene" uid="uid://thqm0kkbuhhh" path="res://scenes/game_objects/heaven/heaven.tscn" id="11_s4k6m"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_763f1"]
 size = Vector3(10, 1, 10)
@@ -35,6 +36,9 @@ script = ExtResource("1_1gpr2")
 block_scenes = Array[PackedScene]([ExtResource("2_5e020"), ExtResource("3_mpby0"), ExtResource("4_7an0d"), ExtResource("5_00evr"), ExtResource("6_aqv8q"), ExtResource("7_tde5x"), ExtResource("8_ea835")])
 block_pickup_scene = ExtResource("9_skj5o")
 bomb_scene = ExtResource("10_i1itg")
+
+[node name="Heaven" parent="." instance=ExtResource("11_s4k6m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 99.5, 0)
 
 [node name="Floor" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)

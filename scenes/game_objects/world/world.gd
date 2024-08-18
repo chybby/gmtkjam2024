@@ -12,7 +12,7 @@ var current_block: Block = null
 var tower_height := 0.0
 var limited_blocks := false
 var spawning_blocks := false
-var last_spawned_pickup := 0.0
+var last_spawned_pickup := 0.5
 var pickup_frequency := 5
 
 
@@ -73,6 +73,6 @@ func spawn_pickup() -> void:
 func _on_bomb_timer_timeout() -> void:
     var bomb = bomb_scene.instantiate() as Node3D
     add_child(bomb)
-    var random_x = randi_range(-5, 4) + 0.5
-    var random_z = randi_range(-5, 4) + 0.5
+    var random_x = randi_range(-5, 4)
+    var random_z = randi_range(-5, 4)
     bomb.position = Vector3(random_x, tower_height + 10.0, random_z)

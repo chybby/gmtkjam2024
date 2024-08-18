@@ -16,6 +16,11 @@ func _on_body_entered(body: Node) -> void:
     if timer.is_stopped():
         timer.start()
 
+func _physics_process(delta: float) -> void:
+    if not freeze and linear_velocity.is_zero_approx():
+        freeze = true
+        position = position.round()
+
 func _on_timer_timeout() -> void:
     explosion_particles.emitting = true
     mesh_instance_3d.visible = false

@@ -13,12 +13,12 @@ signal died
 @export var ground_cap := 10.0
 @export var ground_friction := 6.0
 
-@export var jump_velocity := 7.0
+@export var jump_velocity := 9.0
 @export var bounce_velocity := 30.0
 @export var air_cap := 0.85
 @export var air_accel := 10.0
 @export var air_move_speed := 8.5
-@export var gravity_mult := 1.2
+@export var gravity_mult := 2.5
 @export var terminal_velocity := 70.0
 
 
