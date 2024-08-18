@@ -1,25 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://dyu54f2o0xg6e"]
+[gd_scene load_steps=6 format=3 uid="uid://dyu54f2o0xg6e"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/block/block.gd" id="1_c2wb3"]
+[ext_resource type="ArrayMesh" uid="uid://jcdmiv4iwh20" path="res://blender/t_block_Cube_001.res" id="2_abwd5"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2qkdf"]
 resource_local_to_scene = true
 friction = 0.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vekil"]
-size = Vector3(0.9, 1, 0.9)
+size = Vector3(0.9, 0.9, 0.9)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_u2gge"]
-size = Vector3(2.9, 1, 0.9)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x5o42"]
-resource_local_to_scene = true
-albedo_color = Color(0.706474, 0, 1, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_a2580"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_6dtaj"]
-size = Vector3(3, 1, 1)
+size = Vector3(2.9, 0.9, 0.9)
 
 [node name="TBlock" type="RigidBody3D"]
 collision_mask = 3
@@ -41,13 +33,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -0.5)
 shape = SubResource("BoxShape3D_u2gge")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
-material_override = SubResource("StandardMaterial3D_x5o42")
-mesh = SubResource("BoxMesh_a2580")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -0.5)
-material_override = SubResource("StandardMaterial3D_x5o42")
-mesh = SubResource("BoxMesh_6dtaj")
+mesh = ExtResource("2_abwd5")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

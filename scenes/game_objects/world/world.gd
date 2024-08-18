@@ -32,6 +32,14 @@ func _ready() -> void:
     spawn_block()
     bomb_timer.timeout.connect(_on_bomb_timer_timeout)
 
+    for x in 10:
+        block_raycasts.append([])
+        for z in 10:
+            var query := PhysicsRayQueryParameters3D.create(Vector3(x - 4.5, 100.0, z - 4.5), Vector3(x - 4.5, 0.0, z - 4.5))
+            query.collision_mask = 1 | 8
+            query.collide_with_areas = true
+            block_raycasts[block_raycasts.size() - 1].append(query)
+
 func _input(event: InputEvent) -> void:
     if event.is_action_pressed("reroll"):
         _reroll_block()
@@ -43,14 +51,6 @@ func _reroll_block() -> void:
         if (limited_blocks):
             blocks_remaining += 1
         spawn_block()
-
-    for x in 10:
-        block_raycasts.append([])
-        for z in 10:
-            var query := PhysicsRayQueryParameters3D.create(Vector3(x - 4.5, 100.0, z - 4.5), Vector3(x - 4.5, 0.0, z - 4.5))
-            query.collision_mask = 1 | 8
-            query.collide_with_areas = true
-            block_raycasts[block_raycasts.size() - 1].append(query)
 
 func spawn_block() -> void:
     if (limited_blocks):
@@ -105,7 +105,6 @@ func spawn_pickup() -> void:
     for x in 10:
         for z in 10:
             var result := space_state.intersect_ray(block_raycasts[x][z])
-            print(result['collider'].collision_mask)
             if result['collider'].collision_mask & 1:
                 options.append(Vector3(x, last_spawned_pickup, z))
     pickup.position = options.pick_random() - Vector3(5.0, 0, 5.0)
@@ -121,6 +120,6 @@ func _on_bomb_timer_timeout() -> void:
 
 func _spawn_object_at_height(height: float, obj: Node3D):
     add_child(obj)
-    var random_x = randi_range(-5, 4) + 0.5
-    var random_z = randi_range(-5, 4) + 0.5
+    var random_x = randi_range(-5, 4)
+    var random_z = randi_range(-5, 4)
     obj.position = Vector3(random_x, height, random_z)

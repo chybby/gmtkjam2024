@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://ef5dqqevmxcn"]
+[gd_scene load_steps=20 format=3 uid="uid://ef5dqqevmxcn"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_jcq7f"]
 [ext_resource type="PackedScene" uid="uid://nhikx0701dde" path="res://scenes/game_objects/world/world.tscn" id="2_o8oy4"]
@@ -13,7 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://djath7mvf6hxj" path="res://scenes/game_objects/block/z_right_block.tscn" id="9_6vvaw"]
 [ext_resource type="PackedScene" uid="uid://5upb47fymeyc" path="res://scenes/ui/settings/settings.tscn" id="12_ekpm1"]
 [ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="12_er08g"]
-[ext_resource type="PackedScene" uid="uid://d1n1vct1l8nlp" path="res://scenes/pickups/pickup_chance.tscn" id="13_o7qyt"]
 [ext_resource type="PackedScene" uid="uid://cjcftrrxio41j" path="res://scenes/ui/game_over/GameOver.tscn" id="14_40xvj"]
 [ext_resource type="PackedScene" uid="uid://dw38iluhkalqt" path="res://scenes/ui/chance/chance.tscn" id="15_bl443"]
 
@@ -54,7 +53,6 @@ unique_name_in_owner = true
 process_mode = 1
 platform_floor_layers = 4294967295
 platform_wall_layers = 0
-jump_velocity = 9.0
 
 [node name="CinematicCameraPivot" type="Node3D" parent="."]
 process_mode = 1
@@ -73,9 +71,6 @@ directional_shadow_split_3 = 0.2
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_6ylbt")
-
-[node name="pickup_chance" parent="." instance=ExtResource("13_o7qyt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.259953, 0.63402, 3.53505)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 

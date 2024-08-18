@@ -17,11 +17,13 @@ collision_mask = 4
 script = ExtResource("1_mbxkm")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
 layers = 4
 mesh = SubResource("SphereMesh_wqijc")
 skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
 shape = SubResource("SphereShape3D_6moi2")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
