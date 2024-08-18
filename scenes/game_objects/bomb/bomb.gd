@@ -5,8 +5,9 @@ extends RigidBody3D
 @onready var explosion_particles: GPUParticles3D = %ExplosionParticles
 @onready var timer: Timer = %Timer
 @onready var explosion_area: Area3D = $ExplosionArea
-@onready var mesh_instance_3d: MeshInstance3D = $MeshInstance3D
+@onready var model: Node3D = %Model
 @onready var centre: Node3D = %Centre
+
 
 
 func _ready() -> void:
@@ -16,6 +17,7 @@ func _ready() -> void:
 func _on_body_entered(body: Node) -> void:
     if timer.is_stopped():
         timer.start()
+        model.play_exploding()
 
 func _physics_process(delta: float) -> void:
     if not freeze and linear_velocity.is_zero_approx():
@@ -24,7 +26,7 @@ func _physics_process(delta: float) -> void:
 
 func _on_timer_timeout() -> void:
     explosion_particles.emitting = true
-    mesh_instance_3d.visible = false
+    model.visible = false
     var caught_in_explosion := explosion_area.get_overlapping_bodies()
     if caught_in_explosion.size() != 0:
         var player := caught_in_explosion[0] as Player

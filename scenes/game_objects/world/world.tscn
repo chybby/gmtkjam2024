@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://d3s25hxud1ifg" path="res://scenes/pickups/pickup_block_pouch.tscn" id="9_skj5o"]
 [ext_resource type="PackedScene" uid="uid://f5wu04sewl4s" path="res://scenes/game_objects/lava/lava.tscn" id="9_wbpsf"]
 [ext_resource type="PackedScene" uid="uid://d1n1vct1l8nlp" path="res://scenes/pickups/pickup_chance.tscn" id="10_awibq"]
-[ext_resource type="PackedScene" uid="uid://bd1abuvhhwj0" path="res://scenes/game_objects/bomb.tscn" id="10_i1itg"]
+[ext_resource type="PackedScene" uid="uid://bd1abuvhhwj0" path="res://scenes/game_objects/bomb/bomb.tscn" id="10_i1itg"]
 [ext_resource type="PackedScene" uid="uid://thqm0kkbuhhh" path="res://scenes/game_objects/heaven/heaven.tscn" id="11_s4k6m"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_763f1"]
@@ -80,3 +80,6 @@ shape = SubResource("WorldBoundaryShape3D_jaark")
 unique_name_in_owner = true
 wait_time = 5.0
 autostart = true
+
+[node name="PickupBlockPouch" parent="." instance=ExtResource("9_skj5o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -3)
