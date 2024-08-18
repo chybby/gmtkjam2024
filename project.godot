@@ -23,6 +23,7 @@ buses/default_bus_layout="res://resources/default_bus_layout.tres"
 [autoload]
 
 GameEvents="*res://scenes/autoload/game_events.tscn"
+GlobalState="*res://scenes/autoload/global_state.tscn"
 
 [debug]
 

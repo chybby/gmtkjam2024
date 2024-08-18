@@ -2,13 +2,17 @@ extends Node3D
 
 @onready var world: Node3D = %World
 @onready var player: Player = $Player
+
 @onready var top_down_camera_3d: Camera3D = %TopDownCamera3D
 @onready var cinematic_camera_pivot: Node3D = $CinematicCameraPivot
 @onready var cinematic_camera_3d: Camera3D = $CinematicCameraPivot/CinematicCamera3D
+
 @onready var hud: CanvasLayer = $HUD
-@onready var settings: CanvasLayer = $Settings
 @onready var block_count_label: Label = %BlockCountLabel
 @onready var health_label: Label = %HealthLabel
+
+@onready var settings: CanvasLayer = $Settings
+@onready var game_over_menu: CanvasLayer = $GameOver
 
 @export var cinematic_camera_rotate_speed := 1.0
 @export var cinematic_camera_climb_speed := 0.5
@@ -31,6 +35,7 @@ func _ready() -> void:
     Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
     player.died.connect(_on_player_died)
     settings.closed.connect(_on_settings_closed)
+    game_over_menu.try_again.connect(_on_try_again)
 
 func _physics_process(delta: float) -> void:
     top_down_camera_3d.rotation.y = player.look_angle()
@@ -48,8 +53,14 @@ func _on_player_died() -> void:
     cinematic_camera_3d.current = true
     game_over = true
     hud.visible = false
+    game_over_menu.visible = true
+    Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _on_settings_closed() -> void:
     settings.visible = false
     get_tree().paused = false
     Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+func _on_try_again(chaos_mode: bool) -> void:
+    GlobalState.chaos_mode = chaos_mode
+    get_tree().reload_current_scene()

@@ -51,6 +51,8 @@ func _ready() -> void:
     linear_velocity.y = -falling_speed
     #var material = mesh.material_override as StandardMaterial3D
     #material.albedo_color = COLOURS.pick_random()
+    if GlobalState.chaos_mode:
+        use_physics = true
 
 func _physics_process(delta: float) -> void:
     if use_physics:

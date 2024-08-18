@@ -3,7 +3,7 @@ class_name Player
 
 signal died
 
-@export var look_sensitivity: float = 0.5
+@export var look_sensitivity: float = 0.2
 @export var auto_bhop := true
 @export var jump_number := 1
 
@@ -52,6 +52,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func get_move_speed() -> float:
         return sprint_speed if Input.is_action_pressed("sprint") else walk_speed
+
+func _process(delta: float) -> void:
+    look_sensitivity = GlobalState.mouse_sensitivity
 
 func _physics_process(delta: float) -> void:
     var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
