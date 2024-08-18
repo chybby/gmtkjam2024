@@ -14,11 +14,13 @@ signal died
 @export var ground_friction := 6.0
 
 @export var jump_velocity := 7.0
+@export var bounce_velocity := 30.0
 @export var air_cap := 0.85
 @export var air_accel := 10.0
 @export var air_move_speed := 8.5
 @export var gravity_mult := 1.2
 @export var terminal_velocity := 70.0
+
 
 const HEADBOB_MOVE_AMOUNT = 0.06
 const HEADBOB_FREQUENCY = 2.4
@@ -29,6 +31,8 @@ const HEADBOB_FREQUENCY = 2.4
 var headbob_time := 0.0
 var double_jump := 0
 var wish_dir := Vector3.ZERO
+
+var health := 3
 
 func look_angle() -> float:
     return rotation.y
@@ -116,4 +120,8 @@ func jump():
     self.velocity.y = jump_velocity
 
 func _on_lava_entered(area: Area3D) -> void:
-    died.emit()
+    if health == 1:
+        died.emit()
+    else:
+        health -= 1
+        self.velocity.y = bounce_velocity

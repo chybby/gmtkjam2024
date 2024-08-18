@@ -8,6 +8,7 @@ extends Node3D
 @onready var hud: CanvasLayer = $HUD
 @onready var settings: CanvasLayer = $Settings
 @onready var block_count_label: Label = %BlockCountLabel
+@onready var health_label: Label = %HealthLabel
 
 @export var cinematic_camera_rotate_speed := 1.0
 @export var cinematic_camera_climb_speed := 0.5
@@ -41,6 +42,7 @@ func _process(delta: float) -> void:
     if game_over and cinematic_camera_pivot.position.y < world.tower_height:
         cinematic_camera_pivot.position.y += cinematic_camera_climb_speed * delta
     block_count_label.text = str(world.blocks_remaining)
+    health_label.text = str(player.health)
 
 func _on_player_died() -> void:
     cinematic_camera_3d.current = true
