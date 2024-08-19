@@ -47,6 +47,10 @@ script/templates_search_path="res://scripts/templates"
 
 enabled=PackedStringArray()
 
+[filesystem]
+
+import/blender/enabled=false
+
 [global_group]
 
 Player=""
