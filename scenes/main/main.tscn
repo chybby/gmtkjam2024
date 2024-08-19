@@ -69,8 +69,10 @@ blocks_remaining = 5
 [node name="Player" parent="." instance=ExtResource("3_ed6k7")]
 unique_name_in_owner = true
 process_mode = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.15441, 0, -3.74057)
 platform_floor_layers = 4294967295
 platform_wall_layers = 0
+jump_velocity = 9.0
 
 [node name="CinematicCameraPivot" type="Node3D" parent="."]
 process_mode = 1
@@ -216,7 +218,7 @@ visible = false
 visible = false
 
 [node name="snow_patch" parent="." instance=ExtResource("16_ov0tv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31615, 0, -2.49309)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.520725, 3.80276, -4.16258)
 
 [node name="vines_patch" parent="." instance=ExtResource("17_o1nxn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.92185, 0, 2.56837)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.92185, 4, -4.26892)

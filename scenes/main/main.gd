@@ -12,7 +12,6 @@ extends Node3D
 @onready var health_label: Label = %HealthLabel
 @onready var rerolls_label: Label = %RerollsLabel
 @onready var height_label: Label = %HeightLabel
-@onready var speed_label: Label = %SpeedLabel
 
 @onready var warnings: Control = %Warnings
 
@@ -59,8 +58,6 @@ func _process(delta: float) -> void:
     health_label.text = str(player.health)
     rerolls_label.text = str(world.rerolls)
     height_label.text = str(player.height())
-    speed_label.text = str(player.velocity.length())
-
 
     for warning in warnings.get_children():
         warning.queue_free()

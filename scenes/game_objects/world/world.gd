@@ -51,29 +51,34 @@ func _ready() -> void:
     vines_timer.timeout.connect(_on_vines_timer_timeout)
     wind_start_timer.timeout.connect(_on_wind_start_timeout)
     wind_stop_timer.timeout.connect(_on_wind_stop_timeout)
-    
+
     setup_ray_array()
-    
+
+const VINE_BIOME_START := 20.0
+const SNOW_BIOME_START := 40.0
+const WIND_BIOME_START := 60.0
+const SPACE_BIOME_START := 80.0
+
 func _physics_process(delta: float) -> void:
     var cur_height = player.height()
-    if cur_height >= 20 and not spawning_vines:
+    if cur_height >= VINE_BIOME_START and not spawning_vines:
         start_spawning_vines()
-    elif cur_height < 20 and spawning_vines:
+    elif cur_height < VINE_BIOME_START and spawning_vines:
         stop_spawning_vines()
-    
-    if cur_height >= 40 and not spawning_snow:
+
+    if cur_height >= SNOW_BIOME_START and not spawning_snow:
         start_spawning_snow()
-    elif cur_height < 40 and spawning_snow:
+    elif cur_height < SNOW_BIOME_START and spawning_snow:
         stop_spawning_snow()
-    
-    if cur_height >= 60 and not spawning_wind:
+
+    if cur_height >= WIND_BIOME_START and not spawning_wind:
         start_spawning_wind()
-    elif cur_height < 60 and spawning_wind:
+    elif cur_height < WIND_BIOME_START and spawning_wind:
         stop_spawning_wind()
-        
-    if cur_height >= 80 and not low_grav:
+
+    if cur_height >= SPACE_BIOME_START and not low_grav:
         start_low_grav()
-    elif cur_height < 80 and low_grav:
+    elif cur_height < SPACE_BIOME_START and low_grav:
         stop_low_grav()
 
 func _input(event: InputEvent) -> void:
@@ -178,11 +183,11 @@ func start_spawning_bombs() -> void:
 func start_spawning_vines() -> void:
     spawning_vines = true
     vines_timer.start()
-    
+
 func stop_spawning_vines() -> void:
     spawning_vines = false
     vines_timer.stop()
-    
+
 func start_spawning_snow() -> void:
     spawning_snow = true
     snow_timer.start()
@@ -194,15 +199,15 @@ func stop_spawning_snow() -> void:
 func start_spawning_wind() -> void:
     spawning_wind = true
     wind_start_timer.start()
-    
+
 func stop_spawning_wind() -> void:
     spawning_wind = false
     wind_start_timer.stop()
-    
+
 func start_low_grav() -> void:
     low_grav = true
     player.gravity_mult *= .5
-    
+
 func stop_low_grav() -> void:
     low_grav = false
     player.gravity_mult *= 2
@@ -223,7 +228,7 @@ func get_random_direction() -> Vector3:
         Vector3(0, 0, 1),    # Forward (positive Z direction)
         Vector3(0, 0, -1)    # Backward (negative Z direction)
     ]
-    
+
     return directions.pick_random()
 
 func _spawn_object_at_height(height: float, obj: Node3D):
@@ -231,7 +236,7 @@ func _spawn_object_at_height(height: float, obj: Node3D):
     var random_x = randi_range(-5, 4)
     var random_z = randi_range(-5, 4)
     obj.position = Vector3(random_x, height, random_z)
-    
+
 func setup_ray_array() -> void:
     for x in 10:
         block_raycasts.append([])
@@ -247,7 +252,6 @@ func get_valid_drop_position() -> Vector3:
     for x in 10:
         for z in 10:
             var result := space_state.intersect_ray(block_raycasts[x][z])
-            print(result['collider'].collision_mask)
             if result['collider'].collision_mask & 1:
                 options.append(Vector3(x, last_spawned_pickup, z))
     return options.pick_random() - Vector3(5.0, 0, 5.0)

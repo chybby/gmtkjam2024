@@ -134,6 +134,8 @@ reroll={
 3d_physics/layer_3="Player"
 3d_physics/layer_4="lava"
 3d_physics/layer_5="danger"
+3d_physics/layer_6="ice"
+3d_physics/layer_7="vines"
 
 [physics]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://nhikx0701dde"]
+[gd_scene load_steps=22 format=3 uid="uid://nhikx0701dde"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/world/world.gd" id="1_1gpr2"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="2_5e020"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://bd1abuvhhwj0" path="res://scenes/game_objects/bomb/bomb.tscn" id="10_i1itg"]
 [ext_resource type="PackedScene" uid="uid://thqm0kkbuhhh" path="res://scenes/game_objects/heaven/heaven.tscn" id="11_s4k6m"]
 [ext_resource type="PackedScene" uid="uid://c0o7br7yshcri" path="res://scenes/game_objects/biome/snow_patch.tscn" id="11_x7j10"]
+[ext_resource type="PackedScene" uid="uid://babff5b71d0ke" path="res://scenes/game_objects/biome/vines_patch.tscn" id="12_h4umr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_763f1"]
 size = Vector3(10, 1, 10)
@@ -39,6 +40,7 @@ block_scenes = Array[PackedScene]([ExtResource("2_5e020"), ExtResource("3_mpby0"
 block_pickup_scene = ExtResource("9_yddcy")
 chance_pickup_scene = ExtResource("10_awibq")
 snow_patch_scene = ExtResource("11_x7j10")
+vines_patch_scene = ExtResource("12_h4umr")
 bomb_scene = ExtResource("10_i1itg")
 
 [node name="Heaven" parent="." instance=ExtResource("11_s4k6m")]

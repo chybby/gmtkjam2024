@@ -51,12 +51,8 @@ func _ready() -> void:
         child.set_layer_mask_value(1, false)
         child.set_layer_mask_value(10, true)
     hurtbox.area_entered.connect(_on_hurtbox_entered)
+    hurtbox.area_exited.connect(_on_hurtbox_exited)
     buff_timer.timeout.connect(_on_buff_timeout)
-    
-    GameEvents.exited_ice_patch.connect(_on_exit_ice)
-    GameEvents.entered_ice_patch.connect(_on_enter_ice)
-    GameEvents.entered_vine_patch.connect(_on_enter_vines)
-    GameEvents.exited_vine_patch.connect(_on_exit_vines)
 
 func _unhandled_input(event: InputEvent) -> void:
     if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -107,7 +103,7 @@ func _handle_air_physics(delta) -> void:
         var accel_speed = air_accel * air_move_speed * delta
         accel_speed = min(accel_speed, add_speed_till_cap)
         self.velocity += accel_speed * wish_dir
-        
+
     self.velocity += wind_force * delta * wind_air_str
 
 func _handle_ground_physics(delta) -> void:
@@ -124,7 +120,7 @@ func _handle_ground_physics(delta) -> void:
     if self.velocity.length() > 0:
         new_speed /= self.velocity.length()
     self.velocity *= new_speed
-    
+
     self.velocity += wind_force * delta * wind_str
 
     _headbob_effect(delta)
@@ -155,7 +151,7 @@ func knockback_player(vector: Vector3):
     self.velocity += vector * knockback_mult
 
 func apply_wind(vector: Vector3):
-    wind_force = vector 
+    wind_force = vector
 
 func activate_jump_buff():
     jump_velocity += 4.5
@@ -163,6 +159,7 @@ func activate_jump_buff():
 
 func teleport():
     self.position += Vector3(0,10,0)
+    self.velocity = Vector3.ZERO
 
 func height() -> float:
     var height_value = self.position.y
@@ -175,24 +172,26 @@ func _on_hurtbox_entered(area: Area3D) -> void:
         else:
             health -= 1
             knockback_player(Vector3(0, bounce_velocity, 0))
+    elif area.get_collision_layer_value(6):
+        # Ice.
+        print("slipping")
+        ground_friction = 1.0
+    elif area.get_collision_layer_value(7):
+        # Vines.
+        print("slowed")
+        walk_speed = 4.5
+        sprint_speed = 7
+
+func _on_hurtbox_exited(area: Area3D) -> void:
+    if area.get_collision_layer_value(6):
+        # Ice.
+        print("stop slipping")
+        ground_friction = 6.0
+    elif area.get_collision_layer_value(7):
+        # Vines.
+        print("stop slowed")
+        walk_speed = 7.0
+        sprint_speed = 8.5
 
 func _on_buff_timeout() -> void:
     jump_velocity -= 4.5
-
-func _on_enter_ice() -> void:
-    print("slipping")
-    ground_friction = 1.0
-
-func _on_exit_ice() -> void:
-    print("nvm")
-    ground_friction = 6.0
-
-func _on_enter_vines() -> void:
-    walk_speed = 4.5
-    sprint_speed = 7
-    print("slowed")
-
-func _on_exit_vines() -> void:
-    walk_speed = 7.0
-    sprint_speed = 8.5
-    print("normal")

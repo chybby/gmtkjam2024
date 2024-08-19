@@ -1,6 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://babff5b71d0ke"]
+[gd_scene load_steps=6 format=3 uid="uid://babff5b71d0ke"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/biome/vines_patch.gd" id="1_kjavj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_14ckh"]
+size = Vector3(1, 0.404236, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_scd8g"]
 size = Vector3(1, 0.3, 1)
@@ -9,16 +12,26 @@ size = Vector3(1, 0.3, 1)
 albedo_color = Color(0.0152518, 0.209532, 0.0651363, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_spb80"]
+size = Vector3(1, 0.299805, 1)
 
-[node name="vines_patch" type="RigidBody3D"]
+[node name="VinesPatch" type="RigidBody3D"]
 collision_layer = 0
-collision_mask = 5
 axis_lock_linear_x = true
 axis_lock_linear_z = true
 lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 4
+linear_velocity = Vector3(0, -1, 0)
 script = ExtResource("1_kjavj")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 64
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.202118, 0.5)
+shape = SubResource("BoxShape3D_14ckh")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.15, 0.5)
@@ -27,7 +40,7 @@ skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_1jk0m")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.149902, 0.5)
 shape = SubResource("BoxShape3D_spb80")
 
 [node name="LifetimeTimer" type="Timer" parent="."]
