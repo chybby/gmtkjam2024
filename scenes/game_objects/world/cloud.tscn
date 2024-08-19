@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://0hdenv0s1qua"]
+
+[ext_resource type="PackedScene" uid="uid://cnvqfowxv1p3v" path="res://blender/cloud.glb" id="1_fhm5d"]
+
+[node name="cloud" instance=ExtResource("1_fhm5d")]
+
+[node name="Cylinder_004" parent="." index="0"]
+cast_shadow = 0

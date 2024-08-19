@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://nhikx0701dde"]
+[gd_scene load_steps=34 format=3 uid="uid://nhikx0701dde"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/world/world.gd" id="1_1gpr2"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="2_5e020"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://babff5b71d0ke" path="res://scenes/game_objects/biome/vines_patch.tscn" id="12_h4umr"]
 [ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="15_efs7d"]
 [ext_resource type="Shader" uid="uid://c3sf484df0la5" path="res://resources/gradient.tres" id="15_va47u"]
+[ext_resource type="PackedScene" uid="uid://cnvqfowxv1p3v" path="res://blender/cloud.glb" id="18_44ihv"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7m41u"]
 particle_flag_rotate_y = true
@@ -76,6 +77,44 @@ plane = Plane(0, 0, -1, 0)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_jaark"]
 plane = Plane(0, 0, 1, 0)
+
+[sub_resource type="Animation" id="Animation_khfct"]
+resource_name = "rotate_clouds"
+length = 400.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Clouds:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 400),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_5kvh7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Clouds:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6djjo"]
+_data = {
+"RESET": SubResource("Animation_5kvh7"),
+"rotate_clouds": SubResource("Animation_khfct")
+}
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_1gpr2")
@@ -186,3 +225,69 @@ one_shot = true
 unique_name_in_owner = true
 wait_time = 3.0
 one_shot = true
+
+[node name="Clouds" type="Node3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -12.1086, 0)
+
+[node name="cloud" parent="Clouds" instance=ExtResource("18_44ihv")]
+transform = Transform3D(-0.591383, 0, 1.91057, 0, 2, 0, -1.91057, 0, -0.591383, -7.83838, 23.9856, -28.5227)
+
+[node name="Cylinder_004" parent="Clouds/cloud" index="0"]
+cast_shadow = 0
+
+[node name="cloud8" parent="Clouds" instance=ExtResource("18_44ihv")]
+transform = Transform3D(-0.719277, 0, -1.86618, 0, 2, 0, 1.86618, 0, -0.719277, 13.6645, 36.8649, -28.1645)
+
+[node name="Cylinder_004" parent="Clouds/cloud8" index="0"]
+cast_shadow = 0
+
+[node name="cloud2" parent="Clouds" instance=ExtResource("18_44ihv")]
+transform = Transform3D(1.97627, 0, 0.307144, 0, 2, 0, -0.307144, 0, 1.97627, 32.255, 18.4886, -2.07848)
+
+[node name="Cylinder_004" parent="Clouds/cloud2" index="0"]
+cast_shadow = 0
+
+[node name="cloud5" parent="Clouds" instance=ExtResource("18_44ihv")]
+transform = Transform3D(-1.85494, 0, 0.747789, 0, 2, 0, -0.747789, 0, -1.85494, 32.255, 37.7392, 8.01501)
+
+[node name="Cylinder_004" parent="Clouds/cloud5" index="0"]
+cast_shadow = 0
+
+[node name="cloud4" parent="Clouds" instance=ExtResource("18_44ihv")]
+transform = Transform3D(-2, 0, -1.74846e-07, 0, 2, 0, 1.74846e-07, 0, -2, -30.3263, 42.7797, -15.3909)
+
+[node name="Cylinder_004" parent="Clouds/cloud4" index="0"]
+cast_shadow = 0
+
+[node name="cloud6" parent="Clouds" instance=ExtResource("18_44ihv")]
+transform = Transform3D(1.69641, 0, 1.05934, 0, 2, 0, -1.05934, 0, 1.69641, -25.1318, 23.0782, 23.4604)
+
+[node name="Cylinder_004" parent="Clouds/cloud6" index="0"]
+cast_shadow = 0
+
+[node name="cloud3" parent="Clouds" instance=ExtResource("18_44ihv")]
+transform = Transform3D(-0.40578, 0, 1.9584, 0, 2, 0, -1.9584, 0, -0.40578, 22.7177, 28.66, 27.7461)
+
+[node name="Cylinder_004" parent="Clouds/cloud3" index="0"]
+cast_shadow = 0
+
+[node name="cloud7" parent="Clouds" instance=ExtResource("18_44ihv")]
+transform = Transform3D(-0.525355, 0, -1.92977, 0, 2, 0, 1.92977, 0, -0.525355, -17.4623, 44.597, 25.4175)
+
+[node name="Cylinder_004" parent="Clouds/cloud7" index="0"]
+cast_shadow = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6djjo")
+}
+autoplay = "rotate_clouds"
+
+[editable path="Clouds/cloud"]
+[editable path="Clouds/cloud8"]
+[editable path="Clouds/cloud2"]
+[editable path="Clouds/cloud5"]
+[editable path="Clouds/cloud4"]
+[editable path="Clouds/cloud6"]
+[editable path="Clouds/cloud3"]
+[editable path="Clouds/cloud7"]
