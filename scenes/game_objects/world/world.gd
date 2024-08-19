@@ -74,7 +74,7 @@ func _physics_process(delta: float) -> void:
 
     var cur_height = player.height()
     particle_holder.position.y = cur_height + 20
-    
+
     if cur_height >= VINE_BIOME_START and not spawning_vines:
         start_spawning_vines()
         if not vines_hint_shown:
@@ -287,7 +287,7 @@ func get_valid_drop_position() -> Vector3:
 func apply_wind_particles():
     var pos
     var rot
-    var height = player.height()
+
     match wind_direction:
         Vector3.RIGHT:
             pos = Vector3(-10, -12, 0)

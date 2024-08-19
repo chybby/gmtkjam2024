@@ -6,6 +6,7 @@ signal chance_picked_up
 signal drop_lava
 signal freeze_lava
 signal hint(text: String)
+signal health_changed
 
 func block_pickup_triggered() -> void:
     block_pickup_picked_up.emit()
@@ -24,3 +25,6 @@ func freeze_lava_triggered() -> void:
 
 func show_hint(text: String) -> void:
     hint.emit(text)
+    
+func health_changed_triggered() -> void:
+    health_changed.emit()

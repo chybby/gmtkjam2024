@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://nhikx0701dde"]
+[gd_scene load_steps=26 format=3 uid="uid://nhikx0701dde"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/world/world.gd" id="1_1gpr2"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="2_5e020"]
@@ -23,15 +23,14 @@ emission_shape_scale = Vector3(10, 1, 10)
 emission_shape = 6
 emission_ring_axis = Vector3(0, 0, 1)
 emission_ring_height = 1.0
-emission_ring_radius = 1.0
+emission_ring_radius = 5.0
 emission_ring_inner_radius = 0.0
-direction = Vector3(0, -1, 0)
 spread = 0.0
-initial_velocity_min = 6.0
-initial_velocity_max = 8.0
+initial_velocity_min = 12.0
+initial_velocity_max = 16.0
 angular_velocity_min = -100.0
 angular_velocity_max = 100.0
-gravity = Vector3(0, 0, 0)
+gravity = Vector3(0, -4, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3nsl2"]
 transparency = 1
@@ -84,11 +83,20 @@ draw_pass_1 = SubResource("PlaneMesh_vt4n4")
 
 [node name="FallingSnowParticles" type="GPUParticles3D" parent="ParticleHolder"]
 unique_name_in_owner = true
-visible = false
 emitting = false
 amount = 80
 lifetime = 5.0
 visibility_aabb = AABB(-5, -20, -5, 10, 20, 10)
+process_material = SubResource("ParticleProcessMaterial_7m41u")
+draw_pass_1 = SubResource("PlaneMesh_vt4n4")
+
+[node name="WindParticles" type="GPUParticles3D" parent="ParticleHolder"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -15, 0)
+emitting = false
+amount = 240
+lifetime = 5.0
+visibility_aabb = AABB(-5, -10, -5, 20, 15, 10)
 process_material = SubResource("ParticleProcessMaterial_7m41u")
 draw_pass_1 = SubResource("PlaneMesh_vt4n4")
 

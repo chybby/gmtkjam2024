@@ -31,7 +31,7 @@ const HEADBOB_FREQUENCY = 2.4
 var headbob_time := 0.0
 var double_jump := 0
 var wish_dir := Vector3.ZERO
-var max_hp := 3
+
 var knockback_mult := 1.0
 var knockback_ramp := 1.5
 
@@ -41,6 +41,7 @@ var wind_air_str := 2.0
 
 var warning_directions : Array[Vector2] = []
 
+var max_hp := 3
 var health := 3
 
 func look_angle() -> float:
@@ -135,10 +136,16 @@ func _headbob_effect(delta):
 
 func jump():
     self.velocity.y = jump_velocity
+    
+func change_health(change: int):
+    health += change
+    GameEvents.health_changed_triggered()
+    if(health <= 0):
+        died.emit()
 
 func heal():
     if (health < max_hp):
-        health += 1
+        change_health(1)
 
 func increase_max_hp():
     max_hp += 1
@@ -167,11 +174,8 @@ func height() -> float:
 
 func _on_hurtbox_entered(area: Area3D) -> void:
     if area.get_collision_layer_value(4):
-        if health == 1:
-            died.emit()
-        else:
-            health -= 1
-            knockback_player(Vector3(0, bounce_velocity, 0))
+        change_health(-1)
+        self.velocity.y = bounce_velocity * knockback_mult
     elif area.get_collision_layer_value(6):
         # Ice.
         print("slipping")
@@ -192,7 +196,6 @@ func _on_hurtbox_exited(area: Area3D) -> void:
         print("stop slowed")
         walk_speed = 7.0
         sprint_speed = 8.5
-            self.velocity.y = bounce_velocity * knockback_mult
 
 func _on_buff_timeout() -> void:
     jump_velocity -= 4.5

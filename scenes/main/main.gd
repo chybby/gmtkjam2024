@@ -24,6 +24,9 @@ extends Node3D
 @export var cinematic_camera_climb_speed := 0.5
 @export var warning_scene: PackedScene
 
+@export var full_heart_scene: PackedScene
+@export var empty_heart_scene: PackedScene
+
 @onready var hint: PanelContainer = %Hint
 @onready var hint_label: RichTextLabel = %HintLabel
 
@@ -49,6 +52,9 @@ func _ready() -> void:
     GameEvents.card_selected.connect(_on_card_selected)
     GameEvents.chance_picked_up.connect(_on_chance_picked_up)
     GameEvents.hint.connect(_on_hint)
+    GameEvents.health_changed.connect(_on_health_changed)
+    
+    _on_health_changed()
 
 func _physics_process(delta: float) -> void:
     if GlobalState.rotate_minimap:
@@ -64,15 +70,6 @@ func _process(delta: float) -> void:
         if cinematic_camera_pivot.position.y < world.tower_height:
             cinematic_camera_pivot.position.y += cinematic_camera_climb_speed * delta
     block_count_label.text = str(world.blocks_remaining)
-
-    # Add missing hearts.
-    var hearts := health.get_children()
-    for i in max(0, player.health - hearts.size()):
-        health.add_child(hearts[0].duplicate())
-    # Remove extra hearts.
-    for i in max(0, hearts.size() - player.health):
-        health.remove_child(hearts[hearts.size() - 1])
-        hearts.pop_back()
 
     rerolls_label.text = str(world.rerolls)
     height_label.text = str(round(player.height()))
@@ -130,3 +127,20 @@ func _on_hint(text: String) -> void:
     hint.visible = true
     await get_tree().create_timer(5).timeout
     hint.visible = false
+
+func _on_health_changed() -> void:
+    var max = player.max_hp
+    var hp = player.health
+    
+    for child in health.get_children():
+        child.queue_free()
+    
+    #add empty hearts
+    for i in max(0, max - hp):
+        var missing_hp = empty_heart_scene.instantiate()
+        health.add_child(missing_hp)
+    
+    #add hearts
+    for i in max(0, hp):
+        var hp_obj = full_heart_scene.instantiate()
+        health.add_child(hp_obj)
