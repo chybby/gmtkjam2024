@@ -50,7 +50,6 @@ func _ready() -> void:
     if (blocks_remaining > 0):
         limited_blocks = true
         GameEvents.block_pickup_picked_up.connect(add_blocks)
-    spawn_block()
     bomb_timer.timeout.connect(_on_bomb_timer_timeout)
     snow_timer.timeout.connect(_on_snow_timer_timeout)
     vines_timer.timeout.connect(_on_vines_timer_timeout)
@@ -59,32 +58,52 @@ func _ready() -> void:
 
     setup_ray_array()
 
-const VINE_BIOME_START := 20.0
-const SNOW_BIOME_START := 40.0
-const WIND_BIOME_START := 60.0
-const SPACE_BIOME_START := 80.0
+const VINE_BIOME_START := 10.0
+const SNOW_BIOME_START := 20.0
+const WIND_BIOME_START := 30.0
+const SPACE_BIOME_START := 40.0
+
+var vines_hint_shown := false
+var snow_hint_shown := false
+var wind_hint_shown := false
+var space_hint_shown := false
 
 func _physics_process(delta: float) -> void:
+    if current_block == null and blocks_remaining > 0:
+        spawn_block()
+
     var cur_height = player.height()
     particle_holder.position.y = cur_height + 20
     
     if cur_height >= VINE_BIOME_START and not spawning_vines:
         start_spawning_vines()
+        if not vines_hint_shown:
+            GameEvents.show_hint("Don't get your feet tangled up in the falling vines!")
+            vines_hint_shown = true
     elif cur_height < VINE_BIOME_START and spawning_vines:
         stop_spawning_vines()
 
     if cur_height >= SNOW_BIOME_START and not spawning_snow:
         start_spawning_snow()
+        if not snow_hint_shown:
+            GameEvents.show_hint("Brrr, it's getting chilly up here.\nMind the slippery ice!")
+            snow_hint_shown = true
     elif cur_height < SNOW_BIOME_START and spawning_snow:
         stop_spawning_snow()
 
     if cur_height >= WIND_BIOME_START and not spawning_wind:
         start_spawning_wind()
+        if not wind_hint_shown:
+            GameEvents.show_hint("These winds are strong enough to blow you away!")
+            wind_hint_shown = true
     elif cur_height < WIND_BIOME_START and spawning_wind:
         stop_spawning_wind()
 
     if cur_height >= SPACE_BIOME_START and not low_grav:
         start_low_grav()
+        if not space_hint_shown:
+            GameEvents.show_hint("You're high enough to start escaping the pull of gravity!")
+            space_hint_shown = true
     elif cur_height < SPACE_BIOME_START and low_grav:
         stop_low_grav()
 
@@ -96,9 +115,7 @@ func _reroll_block() -> void:
     if (rerolls > 0):
         rerolls -= 1
         current_block.queue_free()
-        if (limited_blocks):
-            blocks_remaining += 1
-        spawn_block()
+        current_block = null
 
 func spawn_block() -> void:
     current_block = block_scenes.pick_random().instantiate() as Block
@@ -115,30 +132,26 @@ func _on_block_settled() -> void:
     tower_height = max(tower_height, current_block.world_height())
 
     if (limited_blocks):
-        #if (last_spawned_pickup - tower_height < pickup_frequency):
         blocks_remaining -= 1
         if blocks_remaining == 0:
             if not no_blocks_hint_shown:
-                GameEvents.show_hint("You need more blocks, dumdum")
+                GameEvents.show_hint("You've run out of blocks!\nPick up the pouch that dropped from above.")
                 no_blocks_hint_shown = true
             spawn_pickup()
-            return
 
     if (last_spawned_chance - tower_height < chance_frequency):
         spawn_chance()
 
     print('Tower height:', tower_height)
     current_block.settled.disconnect(_on_block_settled)
-    spawn_block()
+    current_block = null
 
 func add_blocks() -> void:
     if (limited_blocks):
-        if blocks_remaining == 0:
-            spawn_block()
         blocks_remaining += added_block_amount
 
 func spawn_pickup() -> void:
-    last_spawned_pickup += pickup_frequency
+    last_spawned_pickup = player.position.y + 10.0
     var pickup = block_pickup_scene.instantiate() as Pickup
 
     pickup.position = get_valid_drop_position()
@@ -192,7 +205,8 @@ func start_spawning_vines() -> void:
     spawning_vines = true
     vines_timer.start()
     falling_leaf_particles.emitting = true
-    
+
+
 func stop_spawning_vines() -> void:
     spawning_vines = false
     vines_timer.stop()
@@ -266,6 +280,8 @@ func get_valid_drop_position() -> Vector3:
             var result := space_state.intersect_ray(block_raycasts[x][z])
             if result['collider'].collision_mask & 1:
                 options.append(Vector3(x, last_spawned_pickup, z))
+    if options.size() == 0:
+        return Vector3(0.0, last_spawned_pickup, 0.0)
     return options.pick_random() - Vector3(5.0, 0, 5.0)
     
 func apply_wind_particles():

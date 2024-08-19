@@ -93,7 +93,7 @@ process_material = SubResource("ParticleProcessMaterial_7m41u")
 draw_pass_1 = SubResource("PlaneMesh_vt4n4")
 
 [node name="Heaven" parent="." instance=ExtResource("11_s4k6m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 99.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50.5, 0)
 
 [node name="Floor" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
@@ -139,14 +139,14 @@ wait_time = 5.0
 
 [node name="VinesTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 5.0
+wait_time = 10.0
 
 [node name="WindStartTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 5.0
+wait_time = 10.0
 one_shot = true
 
 [node name="WindStopTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 5.0
+wait_time = 3.0
 one_shot = true

@@ -33,7 +33,7 @@ var pause_counter := 0
 
 func _input(event: InputEvent) -> void:
     if event.is_action_pressed("pause"):
-        if game_over_menu.visible:
+        if game_over_menu.visible or chance.visible:
             return
 
         if settings.visible:
@@ -75,7 +75,7 @@ func _process(delta: float) -> void:
         hearts.pop_back()
 
     rerolls_label.text = str(world.rerolls)
-    height_label.text = str(player.height())
+    height_label.text = str(round(player.height()))
 
     for warning in warnings.get_children():
         warning.queue_free()
