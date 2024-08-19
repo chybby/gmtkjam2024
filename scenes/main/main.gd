@@ -8,8 +8,8 @@ extends Node3D
 @onready var cinematic_camera_3d: Camera3D = $CinematicCameraPivot/CinematicCamera3D
 
 @onready var hud: CanvasLayer = $HUD
+@onready var health: HBoxContainer = %Health
 @onready var block_count_label: Label = %BlockCountLabel
-@onready var health_label: Label = %HealthLabel
 @onready var rerolls_label: Label = %RerollsLabel
 @onready var height_label: Label = %HeightLabel
 
@@ -24,11 +24,18 @@ extends Node3D
 @export var cinematic_camera_climb_speed := 0.5
 @export var warning_scene: PackedScene
 
+@onready var hint: PanelContainer = %Hint
+@onready var hint_label: RichTextLabel = %HintLabel
+
+
 var game_over := false
 var pause_counter := 0
 
 func _input(event: InputEvent) -> void:
     if event.is_action_pressed("pause"):
+        if game_over_menu.visible:
+            return
+
         if settings.visible:
             close_settings()
         else:
@@ -41,6 +48,7 @@ func _ready() -> void:
     game_over_menu.try_again.connect(_on_try_again)
     GameEvents.card_selected.connect(_on_card_selected)
     GameEvents.chance_picked_up.connect(_on_chance_picked_up)
+    GameEvents.hint.connect(_on_hint)
 
 func _physics_process(delta: float) -> void:
     if GlobalState.rotate_minimap:
@@ -51,11 +59,21 @@ func _physics_process(delta: float) -> void:
     top_down_camera_3d.position.z = player.position.z
 
 func _process(delta: float) -> void:
-    if game_over and cinematic_camera_pivot.position.y < world.tower_height:
+    if game_over:
         cinematic_camera_pivot.rotate_y(cinematic_camera_rotate_speed * delta)
-        cinematic_camera_pivot.position.y += cinematic_camera_climb_speed * delta
+        if cinematic_camera_pivot.position.y < world.tower_height:
+            cinematic_camera_pivot.position.y += cinematic_camera_climb_speed * delta
     block_count_label.text = str(world.blocks_remaining)
-    health_label.text = str(player.health)
+
+    # Add missing hearts.
+    var hearts := health.get_children()
+    for i in max(0, player.health - hearts.size()):
+        health.add_child(hearts[0].duplicate())
+    # Remove extra hearts.
+    for i in max(0, hearts.size() - player.health):
+        health.remove_child(hearts[hearts.size() - 1])
+        hearts.pop_back()
+
     rerolls_label.text = str(world.rerolls)
     height_label.text = str(player.height())
 
@@ -106,3 +124,9 @@ func _on_card_selected() -> void:
 func _on_chance_picked_up() -> void:
     pause()
     chance.show_chance_cards()
+
+func _on_hint(text: String) -> void:
+    hint_label.text = text
+    hint.visible = true
+    await get_tree().create_timer(5).timeout
+    hint.visible = false

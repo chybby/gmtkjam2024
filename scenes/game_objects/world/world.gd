@@ -24,7 +24,6 @@ class_name World
 var current_block: Block = null
 var tower_height := 0.0
 var limited_blocks := false
-var spawning_blocks := false
 var spawning_vines := false
 var spawning_snow := false
 var spawning_wind := false
@@ -42,6 +41,8 @@ var chance_frequency := 7
 
 var rerolls := 5
 var block_raycasts := []
+
+var no_blocks_hint_shown := false
 
 
 func _ready() -> void:
@@ -97,15 +98,6 @@ func _reroll_block() -> void:
         spawn_block()
 
 func spawn_block() -> void:
-    if (limited_blocks):
-        if (blocks_remaining <= 0):
-            spawning_blocks = false
-            return
-        else:
-            blocks_remaining -= 1
-
-    spawning_blocks = true
-
     current_block = block_scenes.pick_random().instantiate() as Block
     add_child(current_block)
     current_block.position.y = tower_height + 10.0
@@ -121,8 +113,13 @@ func _on_block_settled() -> void:
 
     if (limited_blocks):
         #if (last_spawned_pickup - tower_height < pickup_frequency):
+        blocks_remaining -= 1
         if blocks_remaining == 0:
+            if not no_blocks_hint_shown:
+                GameEvents.show_hint("You need more blocks, dumdum")
+                no_blocks_hint_shown = true
             spawn_pickup()
+            return
 
     if (last_spawned_chance - tower_height < chance_frequency):
         spawn_chance()
@@ -133,9 +130,9 @@ func _on_block_settled() -> void:
 
 func add_blocks() -> void:
     if (limited_blocks):
-        blocks_remaining += added_block_amount
-        if (!spawning_blocks):
+        if blocks_remaining == 0:
             spawn_block()
+        blocks_remaining += added_block_amount
 
 func spawn_pickup() -> void:
     last_spawned_pickup += pickup_frequency
@@ -190,13 +187,13 @@ func start_spawning_vines() -> void:
     spawning_vines = true
     vines_timer.start()
     falling_leaf_particles.emitting = true
-    
-    
+
+
 func stop_spawning_vines() -> void:
     spawning_vines = false
     vines_timer.stop()
     falling_leaf_particles.emitting = false
-    
+
 func start_spawning_snow() -> void:
     spawning_snow = true
     snow_timer.start()

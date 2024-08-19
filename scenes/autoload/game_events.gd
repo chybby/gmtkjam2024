@@ -5,6 +5,7 @@ signal card_selected
 signal chance_picked_up
 signal drop_lava
 signal freeze_lava
+signal hint(text: String)
 
 func block_pickup_triggered() -> void:
     block_pickup_picked_up.emit()
@@ -20,3 +21,6 @@ func lava_drop_triggered() -> void:
 
 func freeze_lava_triggered() -> void:
     freeze_lava.emit()
+
+func show_hint(text: String) -> void:
+    hint.emit(text)

@@ -1,16 +1,16 @@
 extends CanvasLayer
 class_name Chance
 
-@export var card_base : PackedScene
+@export var card_scene: PackedScene
 
-@onready var card_container: HBoxContainer = $Control/Panel/CardContainer
+@onready var card_container: HBoxContainer = %CardContainer
 @onready var world: World = %World
 @onready var player: Player = %Player
 
 var rarity_weights = {
-        3: 0.55,  # Common
-        2: 0.30,  # Rare
-        1: 0.15   # Legendary
+        3: 0.55, # Common
+        2: 0.30, # Rare
+        1: 0.15 # Legendary
     }
 
 var card_number := 3
@@ -28,19 +28,19 @@ func show_chance_cards():
     while selected_cards.size() < 3:
         var rarity = determine_rarity()
         var random_card = get_random_card(rarity)
-        if(random_card not in selected_cards):
+        if (random_card not in selected_cards):
             selected_cards.append(random_card)
             print(random_card["name"])
-            
+
     for card in selected_cards:
-        var card_instance = card_base.instantiate() as base_card
+        var card_instance = card_scene.instantiate() as Card
         card_instance.set_card(card)
-        
+
         var bound_callable = Callable(self, "_on_card_pressed").bind(card)
         card_instance.connect("pressed", bound_callable)
-        
+
         card_container.add_child(card_instance)
-        
+
     show()
 
 func get_random_card(rarity: int):
@@ -53,18 +53,18 @@ func get_random_card(rarity: int):
             return legendary_cards[randi() % legendary_cards.size()]
         _:
             return common_cards[randi() % common_cards.size()]
-    
+
 func determine_rarity() -> int:
     var random_value = randf()
     var cumulative_weight = 0.0
-    
+
     for rarity in rarity_weights.keys():
         cumulative_weight += rarity_weights[rarity]
         if random_value < cumulative_weight:
             return rarity
-            
+
     return 4
-    
+
 func load_card_data(file_path: String) -> void:
     var file = FileAccess.open(file_path, FileAccess.READ)
     if file:
@@ -82,22 +82,22 @@ func load_card_data(file_path: String) -> void:
                     1:
                         legendary_cards.append(card)
                     _:
-                        print("fucky wucky")  
+                        print("fucky wucky")
         else:
             print("Error parsing JSON: ", json.error_string)
         file.close()
     else:
         print("Error opening file: ", file_path)
-        
+
 func _on_card_pressed(card_data):
-    print("Card selected:" , card_data["name"])
-    
+    print("Card selected:", card_data["name"])
+
     process_card_effect(card_data["name"])
     decrement_card_count(card_data)
-            
+
     hide()
     GameEvents.card_pick_triggered()
-    
+
 func clear_container():
     for child in card_container.get_children():
         child.queue_free()
@@ -105,7 +105,7 @@ func clear_container():
 func _on_cancel_pressed() -> void:
     hide()
     GameEvents.card_pick_triggered()
-    
+
 func process_card_effect(card_name: String) -> void:
      match card_name:
         "More Blocks per Pouch":
@@ -143,13 +143,13 @@ func process_card_effect(card_name: String) -> void:
             world.refill()
         "Extra extra":
             card_number += 1
-        
+
 func decrement_card_count(card):
     match int(card["rarity"]):
         3:
             var index = common_cards.find(card)
             card["limit"] -= 1
-            if(card["limit"] <= 0):
+            if (card["limit"] <= 0):
                 common_cards.remove_at(index)
             else:
                 common_cards[index] = card
@@ -157,7 +157,7 @@ func decrement_card_count(card):
         2:
             var index = rare_cards.find(card)
             card["limit"] -= 1
-            if(card["limit"] <= 0):
+            if (card["limit"] <= 0):
                 rare_cards.remove_at(index)
             else:
                 rare_cards[index] = card
@@ -165,7 +165,7 @@ func decrement_card_count(card):
         1:
             var index = legendary_cards.find(card)
             card["limit"] -= 1
-            if(card["limit"] <= 0):
+            if (card["limit"] <= 0):
                 legendary_cards.remove_at(index)
             else:
                 legendary_cards[index] = card

@@ -1,81 +1,54 @@
 [gd_scene load_steps=3 format=3 uid="uid://dw38iluhkalqt"]
 
 [ext_resource type="Script" path="res://scenes/ui/chance/chance.gd" id="1_7laai"]
-[ext_resource type="PackedScene" uid="uid://l0s2twqupwkb" path="res://scenes/ui/chance/base_card.tscn" id="2_sllp2"]
+[ext_resource type="PackedScene" uid="uid://l0s2twqupwkb" path="res://scenes/ui/chance/card.tscn" id="2_sllp2"]
 
 [node name="Chance" type="CanvasLayer"]
 script = ExtResource("1_7laai")
-card_base = ExtResource("2_sllp2")
+card_scene = ExtResource("2_sllp2")
 
-[node name="Control" type="Control" parent="."]
-process_mode = 3
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="Panel" type="PanelContainer" parent="."]
+anchors_preset = -1
+anchor_left = 0.0791667
+anchor_top = 0.0777778
+anchor_right = 0.923958
+anchor_bottom = 0.931481
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+metadata/_edit_use_anchors_ = true
 
-[node name="Panel" type="Panel" parent="Control"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -776.0
-offset_top = -471.0
-offset_right = 846.0
-offset_bottom = 451.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_bottom = 50
 
-[node name="CardContainer" type="HBoxContainer" parent="Control/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 69
+text = "Chance !"
+
+[node name="CardContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_direction = 2
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -784.5
-offset_top = -250.0
-offset_right = 784.5
-offset_bottom = 250.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_constants/separation = 60
 alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="Control/Panel"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -186.0
-offset_top = 46.0
-offset_right = 186.0
-offset_bottom = 106.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 69
-text = "Chance !"
-horizontal_alignment = 1
-autowrap_mode = 2
+[node name="Skip" type="Button" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Skip
+"
 
-[node name="Cancel" type="Button" parent="Control/Panel"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -30.0
-offset_top = -75.0
-offset_right = 30.0
-offset_bottom = -44.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_font_sizes/font_size = 69
-text = "Cancel"
-
-[connection signal="pressed" from="Control/Panel/Cancel" to="." method="_on_cancel_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/Skip" to="." method="_on_cancel_pressed"]
