@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://l0s2twqupwkb"]
+
+[ext_resource type="Script" path="res://scenes/ui/chance/card.gd" id="1_8ip8g"]
+
+[node name="Card" type="Button"]
+custom_minimum_size = Vector2(300, 400)
+offset_right = 200.0
+offset_bottom = 200.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_8ip8g")
+rare_colour = Color(0.27451, 0.584314, 0.909804, 1)
+darker_rare_colour = Color(0.196222, 0.370648, 0.808594, 1)
+epic_colour = Color(0.462745, 0.203922, 0.580392, 1)
+darker_epic_colour = Color(0.370175, 0.0953464, 0.546875, 1)
+legendary_colour = Color(0.968627, 0.792157, 0.247059, 1)
+darker_legendary_colour = Color(0.828125, 0.60822, 0.193564, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Quite Long Card Name"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="DescriptionLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 3
+text = "This card does some cool stuff."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

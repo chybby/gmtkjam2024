@@ -1,9 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://c7oj4o0jpu4bq"]
+[gd_scene load_steps=25 format=3 uid="uid://ef5dqqevmxcn"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_jcq7f"]
 [ext_resource type="PackedScene" uid="uid://nhikx0701dde" path="res://scenes/game_objects/world/world.tscn" id="2_o8oy4"]
 [ext_resource type="PackedScene" uid="uid://4cebjv242d0u" path="res://scenes/main/warning.tscn" id="2_wqer3"]
-[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/Player.tscn" id="3_ed6k7"]
+[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/player.tscn" id="3_ed6k7"]
 [ext_resource type="PackedScene" uid="uid://wi5cc17m8s0j" path="res://scenes/game_objects/block/l_left_block.tscn" id="3_u58ai"]
 [ext_resource type="PackedScene" uid="uid://npxcnna5262h" path="res://scenes/game_objects/block/l_right_block.tscn" id="4_3n40q"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="5_7ptyp"]
@@ -12,10 +12,14 @@
 [ext_resource type="PackedScene" uid="uid://bsax2h4lvelnp" path="res://scenes/game_objects/block/z_left_block.tscn" id="8_g320s"]
 [ext_resource type="PackedScene" uid="uid://djath7mvf6hxj" path="res://scenes/game_objects/block/z_right_block.tscn" id="9_6vvaw"]
 [ext_resource type="PackedScene" uid="uid://5upb47fymeyc" path="res://scenes/ui/settings/settings.tscn" id="12_ekpm1"]
+[ext_resource type="StyleBox" uid="uid://di1woh733y1jh" path="res://resources/style_box_flat_right.tres" id="12_iopbs"]
+[ext_resource type="Texture2D" uid="uid://d1wssalbfvsop" path="res://assets/Heart.png" id="13_oikw7"]
 [ext_resource type="PackedScene" uid="uid://cjcftrrxio41j" path="res://scenes/ui/game_over/GameOver.tscn" id="14_40xvj"]
+[ext_resource type="Texture2D" uid="uid://bppycmv0hpaoi" path="res://assets/Blocks.png" id="14_h0ukb"]
 [ext_resource type="PackedScene" uid="uid://dw38iluhkalqt" path="res://scenes/ui/chance/chance.tscn" id="15_bl443"]
 [ext_resource type="PackedScene" uid="uid://c0o7br7yshcri" path="res://scenes/game_objects/biome/snow_patch.tscn" id="16_ov0tv"]
 [ext_resource type="PackedScene" uid="uid://babff5b71d0ke" path="res://scenes/game_objects/biome/vines_patch.tscn" id="17_o1nxn"]
+[ext_resource type="PackedScene" uid="uid://d1n1vct1l8nlp" path="res://scenes/pickups/pickup_chance.tscn" id="18_frf32"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ti5on"]
 sky_top_color = Color(0, 0.286457, 0.527344, 1)
@@ -37,23 +41,12 @@ ssao_enabled = true
 ssao_radius = 0.53
 glow_enabled = true
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lvftw"]
-border_width_left = 16
-border_width_top = 16
-border_width_right = 16
-border_width_bottom = 16
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_td6bl"]
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
-corner_radius_bottom_right = 24
-corner_radius_bottom_left = 24
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jthj7"]
+skew = Vector2(-0.1, 0)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
 
 [node name="Main" type="Node3D"]
 process_mode = 3
@@ -70,7 +63,7 @@ blocks_remaining = 5
 [node name="Player" parent="." instance=ExtResource("3_ed6k7")]
 unique_name_in_owner = true
 process_mode = 1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.15441, 0, -3.74057)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.15441, 0, 3.24197)
 platform_floor_layers = 4294967295
 platform_wall_layers = 0
 jump_velocity = 9.0
@@ -104,53 +97,71 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+
+[node name="Hint" type="PanelContainer" parent="HUD/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/MarginContainer/Hint"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 10
+
+[node name="HintLabel" type="RichTextLabel" parent="HUD/MarginContainer/Hint/MarginContainer"]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+theme_override_font_sizes/bold_italics_font_size = 30
+theme_override_font_sizes/italics_font_size = 30
+theme_override_font_sizes/mono_font_size = 30
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
+bbcode_enabled = true
+text = "Look out for ice.
+You doofus."
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Panel" type="Panel" parent="HUD/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(400, 400)
+[node name="Panel" type="PanelContainer" parent="HUD/MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 8
 size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_lvftw")
+theme_override_styles/panel = ExtResource("12_iopbs")
 
 [node name="Panel" type="Panel" parent="HUD/MarginContainer/VBoxContainer/Panel"]
 clip_children = 2
-custom_minimum_size = Vector2(368, 368)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -184.0
-offset_top = -184.0
-offset_right = 184.0
-offset_bottom = 184.0
-grow_horizontal = 2
-grow_vertical = 2
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxFlat_td6bl")
+theme_override_styles/panel = SubResource("StyleBoxFlat_jthj7")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="HUD/MarginContainer/VBoxContainer/Panel/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -25.0
+offset_right = 25.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="HUD/MarginContainer/VBoxContainer/Panel/Panel/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(368, 368)
+size = Vector2i(450, 400)
 render_target_update_mode = 4
 
 [node name="TopDownCamera3D" type="Camera3D" parent="HUD/MarginContainer/VBoxContainer/Panel/Panel/SubViewportContainer/SubViewport"]
@@ -161,30 +172,54 @@ projection = 1
 current = true
 size = 15.0
 
-[node name="HeightLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer"]
+[node name="Health" type="HBoxContainer" parent="HUD/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_font_sizes/font_size = 80
-text = "3"
 
-[node name="HealthLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
+[node name="Heart1" type="TextureRect" parent="HUD/MarginContainer/VBoxContainer/Health"]
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_font_sizes/font_size = 80
-text = "3"
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("13_oikw7")
+expand_mode = 2
 
-[node name="BlockCountLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
+[node name="Heart2" type="TextureRect" parent="HUD/MarginContainer/VBoxContainer/Health"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("13_oikw7")
+expand_mode = 2
+
+[node name="Heart3" type="TextureRect" parent="HUD/MarginContainer/VBoxContainer/Health"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("13_oikw7")
+expand_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-size_flags_vertical = 8
+
+[node name="BlockCountLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 80
 text = "10
 "
+
+[node name="TextureRect" type="TextureRect" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("14_h0ukb")
+expand_mode = 2
 
 [node name="RerollsLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -194,6 +229,14 @@ size_flags_vertical = 8
 theme_override_font_sizes/font_size = 80
 text = "10
 "
+
+[node name="HeightLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 80
+text = "3"
 
 [node name="Warnings" type="Control" parent="HUD"]
 unique_name_in_owner = true
@@ -223,3 +266,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.520725, 3.80276, -4.16258)
 
 [node name="vines_patch" parent="." instance=ExtResource("17_o1nxn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.92185, 4, -4.26892)
+
+[node name="pickup_chance" parent="." instance=ExtResource("18_frf32")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.48175, 0, -3.6841)
