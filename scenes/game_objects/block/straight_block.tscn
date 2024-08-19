@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://d0mda831q1sey"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/block/block.gd" id="1_rs8bq"]
-[ext_resource type="ArrayMesh" uid="uid://nh5ldm7ldy7" path="res://blender/straight_Cube_001.res" id="2_lpq6x"]
+[ext_resource type="PackedScene" uid="uid://b0d2b0twuwrff" path="res://blender/straight.glb" id="2_2g58j"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2qkdf"]
 resource_local_to_scene = true
@@ -25,7 +25,6 @@ script = ExtResource("1_rs8bq")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.5)
 shape = SubResource("BoxShape3D_u2gge")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = ExtResource("2_lpq6x")
+[node name="straight" parent="." instance=ExtResource("2_2g58j")]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

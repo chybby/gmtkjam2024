@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://wi5cc17m8s0j"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/block/block.gd" id="1_s8rn6"]
-[ext_resource type="ArrayMesh" uid="uid://ed3i0ko2l6ec" path="res://blender/l_left_block_Cube.res" id="2_x3okm"]
+[ext_resource type="PackedScene" uid="uid://cwj70al8gm1ae" path="res://blender/l_left_block.glb" id="2_nb5jo"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2qkdf"]
 resource_local_to_scene = true
@@ -32,7 +32,6 @@ shape = SubResource("BoxShape3D_vekil")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, -0.5)
 shape = SubResource("BoxShape3D_u2gge")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = ExtResource("2_x3okm")
+[node name="l_left_block" parent="." instance=ExtResource("2_nb5jo")]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

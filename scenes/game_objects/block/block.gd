@@ -8,7 +8,6 @@ signal settled
 @export var use_physics := false
 @export var discrete_motion := true
 
-@onready var mesh: MeshInstance3D = $MeshInstance3D
 @onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
 @onready var player: Player = get_tree().get_first_node_in_group('Player')
 
