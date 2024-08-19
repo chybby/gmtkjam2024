@@ -74,17 +74,13 @@ func load_card_data(file_path: String) -> void:
         if error == OK:
             card_definitions = json.data["cards"]
             for card in card_definitions:
-                print(card["rarity"])
                 match int(card["rarity"]):
                     3:
                         common_cards.append(card)
-                        print("common appended")
                     2:
                         rare_cards.append(card)
-                        print("rare appended")
                     1:
                         legendary_cards.append(card)
-                        print("legendary appended")
                     _:
                         print("fucky wucky")  
         else:

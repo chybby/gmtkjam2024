@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scenes/game_objects/biome/snow_patch.gd" id="1_nn0yn"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_scd8g"]
+size = Vector3(1, 0.1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1jk0m"]
 albedo_color = Color(0.568627, 1, 0.988235, 1)
@@ -20,18 +21,18 @@ max_contacts_reported = 4
 script = ExtResource("1_nn0yn")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0.05, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.05, 0.5)
 mesh = SubResource("BoxMesh_scd8g")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_1jk0m")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
 shape = SubResource("BoxShape3D_spb80")
 
 [node name="LifetimeTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 10.0
+wait_time = 15.0
 autostart = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

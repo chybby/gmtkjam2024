@@ -18,7 +18,6 @@ func _on_body_exited(body: Node) -> void:
         is_in_block = false
         GameEvents.ice_patch_exited()
 
-
 func _on_lifetime_timer_timeout() -> void:
     if(is_in_block):
         GameEvents.ice_patch_exited()

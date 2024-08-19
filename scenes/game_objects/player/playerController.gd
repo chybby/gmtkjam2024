@@ -35,6 +35,10 @@ var max_hp := 3
 var knockback_mult := 1.0
 var knockback_ramp := 1.5
 
+var wind_force := Vector3.ZERO
+var wind_str := 30.0
+var wind_air_str := 2.0
+
 var warning_directions : Array[Vector2] = []
 
 var health := 3
@@ -48,6 +52,7 @@ func _ready() -> void:
         child.set_layer_mask_value(10, true)
     hurtbox.area_entered.connect(_on_hurtbox_entered)
     buff_timer.timeout.connect(_on_buff_timeout)
+    
     GameEvents.exited_ice_patch.connect(_on_exit_ice)
     GameEvents.entered_ice_patch.connect(_on_enter_ice)
     GameEvents.entered_vine_patch.connect(_on_enter_vines)
@@ -102,7 +107,8 @@ func _handle_air_physics(delta) -> void:
         var accel_speed = air_accel * air_move_speed * delta
         accel_speed = min(accel_speed, add_speed_till_cap)
         self.velocity += accel_speed * wish_dir
-
+        
+    self.velocity += wind_force * delta * wind_air_str
 
 func _handle_ground_physics(delta) -> void:
     var cur_speed_in_wish_dir = self.velocity.dot(wish_dir)
@@ -118,6 +124,8 @@ func _handle_ground_physics(delta) -> void:
     if self.velocity.length() > 0:
         new_speed /= self.velocity.length()
     self.velocity *= new_speed
+    
+    self.velocity += wind_force * delta * wind_str
 
     _headbob_effect(delta)
 
@@ -145,6 +153,9 @@ func increase_knockback():
 
 func knockback_player(vector: Vector3):
     self.velocity += vector * knockback_mult
+
+func apply_wind(vector: Vector3):
+    wind_force = vector 
 
 func activate_jump_buff():
     jump_velocity += 4.5
