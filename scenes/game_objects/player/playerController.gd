@@ -171,8 +171,7 @@ func _on_hurtbox_entered(area: Area3D) -> void:
             died.emit()
         else:
             health -= 1
-            self.velocity.y = bounce_velocity * knockback_mult
-
+            knockback_player(Vector3(0, bounce_velocity, 0))
     elif area.get_collision_layer_value(6):
         # Ice.
         print("slipping")
@@ -193,6 +192,7 @@ func _on_hurtbox_exited(area: Area3D) -> void:
         print("stop slowed")
         walk_speed = 7.0
         sprint_speed = 8.5
+            self.velocity.y = bounce_velocity * knockback_mult
 
 func _on_buff_timeout() -> void:
     jump_velocity -= 4.5

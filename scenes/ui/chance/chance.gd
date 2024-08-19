@@ -25,7 +25,7 @@ func _ready():
 func show_chance_cards():
     clear_container()
     var selected_cards = []
-    while selected_cards.size() < 3:
+    while selected_cards.size() < card_number:
         var rarity = determine_rarity()
         var random_card = get_random_card(rarity)
         if(random_card not in selected_cards):

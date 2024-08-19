@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://bd1abuvhhwj0" path="res://scenes/game_objects/bomb/bomb.tscn" id="10_i1itg"]
 [ext_resource type="PackedScene" uid="uid://thqm0kkbuhhh" path="res://scenes/game_objects/heaven/heaven.tscn" id="11_s4k6m"]
 [ext_resource type="PackedScene" uid="uid://c0o7br7yshcri" path="res://scenes/game_objects/biome/snow_patch.tscn" id="11_x7j10"]
+[ext_resource type="PackedScene" uid="uid://babff5b71d0ke" path="res://scenes/game_objects/biome/vines_patch.tscn" id="12_h4umr"]
 [ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="15_efs7d"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7m41u"]
@@ -66,6 +67,7 @@ block_scenes = Array[PackedScene]([ExtResource("2_5e020"), ExtResource("3_mpby0"
 block_pickup_scene = ExtResource("9_yddcy")
 chance_pickup_scene = ExtResource("10_awibq")
 snow_patch_scene = ExtResource("11_x7j10")
+vines_patch_scene = ExtResource("12_h4umr")
 bomb_scene = ExtResource("10_i1itg")
 
 [node name="ParticleHolder" type="Node3D" parent="."]
@@ -82,6 +84,7 @@ draw_pass_1 = SubResource("PlaneMesh_vt4n4")
 
 [node name="FallingSnowParticles" type="GPUParticles3D" parent="ParticleHolder"]
 unique_name_in_owner = true
+visible = false
 emitting = false
 amount = 80
 lifetime = 5.0

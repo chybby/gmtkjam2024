@@ -18,6 +18,7 @@ class_name World
 @onready var particle_holder: Node3D = $ParticleHolder
 @onready var falling_leaf_particles: GPUParticles3D = %FallingLeafParticles
 @onready var falling_snow_particles: GPUParticles3D = %FallingSnowParticles
+@onready var wind_particles: GPUParticles3D = %WindParticles
 
 @onready var player: Player = %Player
 
@@ -64,6 +65,8 @@ const SPACE_BIOME_START := 80.0
 
 func _physics_process(delta: float) -> void:
     var cur_height = player.height()
+    particle_holder.position.y = cur_height + 20
+    
     if cur_height >= VINE_BIOME_START and not spawning_vines:
         start_spawning_vines()
     elif cur_height < VINE_BIOME_START and spawning_vines:
@@ -167,12 +170,14 @@ func _on_wind_start_timeout() -> void:
     blowing_wind = true
     wind_direction = get_random_direction()
     player.apply_wind(wind_direction)
+    apply_wind_particles()
     wind_stop_timer.start()
     print("blowing ", wind_direction)
 
 func _on_wind_stop_timeout() -> void:
     blowing_wind = false
     player.apply_wind(Vector3.ZERO)
+    wind_particles.emitting = false
     if(spawning_wind):
         wind_start_timer.start()
     print("out of breath")
@@ -190,7 +195,6 @@ func start_spawning_vines() -> void:
     spawning_vines = true
     vines_timer.start()
     falling_leaf_particles.emitting = true
-    
     
 func stop_spawning_vines() -> void:
     spawning_vines = false
@@ -234,10 +238,10 @@ func _on_pickup_destroyed() -> void:
 
 func get_random_direction() -> Vector3:
     var directions = [
-        Vector3(1, 0, 0),    # Right (positive X direction)
-        Vector3(-1, 0, 0),   # Left (negative X direction)
-        Vector3(0, 0, 1),    # Forward (positive Z direction)
-        Vector3(0, 0, -1)    # Backward (negative Z direction)
+        Vector3.RIGHT,    # Right (positive X direction)
+        Vector3.LEFT,   # Left (negative X direction)
+        Vector3.FORWARD,    # Forward (positive Z direction)
+        Vector3.BACK    # Backward (negative Z direction)
     ]
 
     return directions.pick_random()
@@ -266,3 +270,26 @@ func get_valid_drop_position() -> Vector3:
             if result['collider'].collision_mask & 1:
                 options.append(Vector3(x, last_spawned_pickup, z))
     return options.pick_random() - Vector3(5.0, 0, 5.0)
+    
+func apply_wind_particles():
+    var pos
+    var rot
+    var height = player.height()
+    match wind_direction:
+        Vector3.RIGHT:
+            pos = Vector3(-10, -12, 0)
+            rot = 0
+        Vector3.LEFT:
+            pos = Vector3(10, -12, 0)
+            rot = 180
+        Vector3.BACK:
+            pos = Vector3(0, -12, -10)
+            rot = 270
+        Vector3.FORWARD:
+            pos = Vector3(0, -12, 10)
+            rot = 90
+            
+    wind_particles.position = pos
+    wind_particles.rotation_degrees.y = rot
+    wind_particles.emitting = true
+    
