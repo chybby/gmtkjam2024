@@ -9,6 +9,9 @@ func _ready() -> void:
     try_again_button.pressed.connect(_on_try_again_button_pressed)
     chaos_mode_button.pressed.connect(_on_chaos_mode_button_pressed)
 
+func allow_chaos_mode() -> void:
+    chaos_mode_button.visible = true
+
 func _on_try_again_button_pressed() -> void:
     try_again.emit(false)
 

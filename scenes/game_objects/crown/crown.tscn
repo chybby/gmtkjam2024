@@ -1,0 +1,159 @@
+[gd_scene load_steps=20 format=3 uid="uid://ca8dwtoh7eun2"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/crown/crown.gd" id="1_hl46c"]
+[ext_resource type="PackedScene" uid="uid://swuhnrf0k35" path="res://scenes/game_objects/crown/crown_model.tscn" id="2_mvksg"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_usidk"]
+radius = 1.19163
+
+[sub_resource type="Animation" id="Animation_sgnn8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ModelPivot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 6.28319, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ModelPivot:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_kfc2d"]
+resource_name = "bounce_spin"
+length = 12.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ModelPivot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 12),
+"transitions": PackedFloat32Array(1, 2),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ModelPivot:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(6, 12),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector3(0, 0.1, 0), Vector3(0, -0.3, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_al2do"]
+_data = {
+"RESET": SubResource("Animation_sgnn8"),
+"bounce_spin": SubResource("Animation_kfc2d")
+}
+
+[sub_resource type="Curve" id="Curve_r0h00"]
+_data = [Vector2(0.432526, 1), 0.0, 0.0, 0, 0, Vector2(0.944637, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_o48j2"]
+curve = SubResource("Curve_r0h00")
+
+[sub_resource type="Gradient" id="Gradient_davg3"]
+offsets = PackedFloat32Array(0, 0.191571, 0.800766)
+colors = PackedColorArray(0.988281, 1, 0.976563, 1, 0.972236, 0.98934, 0, 1, 1, 0.343387, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ve3cw"]
+gradient = SubResource("Gradient_davg3")
+
+[sub_resource type="Curve" id="Curve_pnnwg"]
+_data = [Vector2(0.882353, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_hg5s0"]
+curve = SubResource("Curve_pnnwg")
+
+[sub_resource type="Curve" id="Curve_h6psk"]
+_data = [Vector2(0.743945, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_p3cvh"]
+curve = SubResource("Curve_h6psk")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_g535f"]
+emission_shape = 2
+emission_sphere_radius = 1.5
+direction = Vector3(0, 0, 0)
+radial_velocity_min = -2.23517e-05
+radial_velocity_max = 0.499978
+gravity = Vector3(0, 0, 0)
+attractor_interaction_enabled = false
+scale_min = 0.01
+scale_max = 0.1
+scale_curve = SubResource("CurveTexture_p3cvh")
+color_initial_ramp = SubResource("GradientTexture1D_ve3cw")
+alpha_curve = SubResource("CurveTexture_o48j2")
+emission_curve = SubResource("CurveTexture_hg5s0")
+
+[sub_resource type="Gradient" id="Gradient_0a6hv"]
+offsets = PackedFloat32Array(0, 0.528302)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_n0bqa"]
+gradient = SubResource("Gradient_0a6hv")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pd8ek"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_n0bqa")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_d0fg7"]
+material = SubResource("StandardMaterial3D_pd8ek")
+orientation = 2
+
+[node name="Crown" type="Area3D"]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_hl46c")
+
+[node name="ModelPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 4.46638e-06, 0, 1, 0, -4.46638e-06, 0, 1, 0, 0, 0)
+
+[node name="Model" parent="ModelPivot" instance=ExtResource("2_mvksg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.462174, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.252223, 0)
+shape = SubResource("SphereShape3D_usidk")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_al2do")
+}
+autoplay = "bounce_spin"
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+layers = 2
+amount = 100
+lifetime = 3.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_g535f")
+draw_pass_1 = SubResource("PlaneMesh_d0fg7")

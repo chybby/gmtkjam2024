@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://swuhnrf0k35"]
+
+[ext_resource type="PackedScene" uid="uid://br1w0ayr37aia" path="res://blender/crown.glb" id="1_xl1ry"]
+
+[node name="crown" instance=ExtResource("1_xl1ry")]
+
+[node name="Circle" parent="." index="0"]
+layers = 2
+cast_shadow = 0

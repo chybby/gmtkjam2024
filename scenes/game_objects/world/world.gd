@@ -30,6 +30,8 @@ class_name World
 @onready var player: Player = %Player
 @onready var lava: Lava = %Lava
 
+var blocks_placed := 0
+
 var current_block: Block = null
 var tower_height := 0.0
 var limited_blocks := false
@@ -48,7 +50,7 @@ var pickup_frequency := 5
 var last_spawned_chance := 0.0
 var chance_frequency := 7
 
-var rerolls := 5
+var rerolls := 0
 var block_raycasts := []
 
 var no_blocks_hint_shown := false
@@ -81,7 +83,7 @@ func _physics_process(delta: float) -> void:
 
     var cur_height = player.height()
     particle_holder.position.y = cur_height + 20
-    
+
     apply_biome_effects()
 
     if cur_height >= VINE_BIOME_START and not spawning_vines:
@@ -129,21 +131,32 @@ func _reroll_block() -> void:
 func spawn_block() -> void:
     current_block = block_scenes.pick_random().instantiate() as Block
     add_child(current_block)
-    current_block.position.y = tower_height + 10.0
+    if blocks_placed < 5:
+        current_block.position.y = 10.0
 
-    current_block.rotate_x(randi_range(0, 3) * (PI / 2))
-    current_block.rotate_y(randi_range(0, 3) * (PI / 2))
-    current_block.rotate_z(randi_range(0, 3) * (PI / 2))
+        current_block.rotate_x(1 * (PI / 2))
+        #current_block.rotate_y(randi_range(0, 3) * (PI / 2))
+        #current_block.rotate_z(randi_range(0, 3) * (PI / 2))
+    else:
+        current_block.position.y = tower_height + 10.0
+
+        current_block.rotate_x(randi_range(0, 3) * (PI / 2))
+        current_block.rotate_y(randi_range(0, 3) * (PI / 2))
+        current_block.rotate_z(randi_range(0, 3) * (PI / 2))
 
     current_block.settled.connect(_on_block_settled)
 
 func _on_block_settled() -> void:
+    blocks_placed += 1
     tower_height = max(tower_height, current_block.world_height())
+
+    if blocks_placed == 7:
+        GameEvents.show_hint("Use the right mouse button to speed up falling blocks.")
 
     if (limited_blocks):
         blocks_remaining -= 1
         if blocks_remaining == 0:
-            if not no_blocks_hint_shown:
+            if not GlobalState.intro_mode and not no_blocks_hint_shown:
                 GameEvents.show_hint("You've run out of blocks!\nPick up the pouch that dropped from above.")
                 no_blocks_hint_shown = true
             spawn_pickup()
@@ -160,6 +173,13 @@ func add_blocks() -> void:
         blocks_remaining += added_block_amount
 
 func spawn_pickup() -> void:
+    if GlobalState.intro_mode:
+        var pickup = block_pickup_scene.instantiate() as Pickup
+        pickup.position = Vector3(0, 15, 2)
+        pickup.tree_exiting.connect(_on_pickup_destroyed)
+        add_child.call_deferred(pickup)
+        return
+
     last_spawned_pickup = player.position.y + 10.0
     var pickup = block_pickup_scene.instantiate() as Pickup
 
@@ -168,6 +188,8 @@ func spawn_pickup() -> void:
     add_child.call_deferred(pickup)
 
 func spawn_chance() -> void:
+    if GlobalState.intro_mode:
+        return
     last_spawned_chance += chance_frequency
     var chance = chance_pickup_scene.instantiate() as Node3D
     _spawn_object_at_height(last_spawned_chance, chance)
@@ -197,7 +219,7 @@ func _on_wind_stop_timeout() -> void:
     blowing_wind = false
     player.apply_wind(Vector3.ZERO)
     wind_particles.emitting = false
-    if(spawning_wind):
+    if (spawning_wind):
         wind_start_timer.start()
     print("out of breath")
 
@@ -248,18 +270,18 @@ func stop_low_grav() -> void:
 func reroll_chances() -> void:
     var chance = chance_pickup_scene.instantiate() as Node3D
     add_child(chance)
-    chance.position = %Player.position + Vector3(0,2,0)
+    chance.position = %Player.position + Vector3(0, 2, 0)
 
 func _on_pickup_destroyed() -> void:
-    if(blocks_remaining == 0):
+    if (blocks_remaining == 0):
         spawn_pickup()
 
 func get_random_direction() -> Vector3:
     var directions = [
-        Vector3.RIGHT,    # Right (positive X direction)
-        Vector3.LEFT,   # Left (negative X direction)
-        Vector3.FORWARD,    # Forward (positive Z direction)
-        Vector3.BACK    # Backward (negative Z direction)
+        Vector3.RIGHT, # Right (positive X direction)
+        Vector3.LEFT, # Left (negative X direction)
+        Vector3.FORWARD, # Forward (positive Z direction)
+        Vector3.BACK # Backward (negative Z direction)
     ]
 
     return directions.pick_random()
@@ -290,7 +312,7 @@ func get_valid_drop_position() -> Vector3:
     if options.size() == 0:
         return Vector3(0.0, last_spawned_pickup, 0.0)
     return options.pick_random() - Vector3(5.0, 0, 5.0)
-    
+
 func apply_wind_particles():
     var pos
     var rot
@@ -308,21 +330,25 @@ func apply_wind_particles():
         Vector3.FORWARD:
             pos = Vector3(0, -12, 10)
             rot = 90
-            
+
     wind_particles.position = pos
     wind_particles.rotation_degrees.y = rot
     wind_particles.emitting = true
-    
+
 func apply_biome_effects():
     falling_leaf_particles.emitting = false
     falling_snow_particles.emitting = false
     space_particles.emitting = false
-    
+
     var height = player.height()
-    if(height >= VINE_BIOME_START and height < SNOW_BIOME_START):
+    if (height >= VINE_BIOME_START and height < SNOW_BIOME_START):
         falling_leaf_particles.emitting = true
-    elif(height >= SNOW_BIOME_START and height < WIND_BIOME_START):
+    elif (height >= SNOW_BIOME_START and height < WIND_BIOME_START):
         falling_snow_particles.emitting = true
-    elif(height >= SPACE_BIOME_START):
+    elif (height >= SPACE_BIOME_START):
         space_particles.emitting = true
-        
+
+
+func blow_away_intro_blocks() -> void:
+    for block in get_tree().get_nodes_in_group("blocks"):
+        block.blow_away()

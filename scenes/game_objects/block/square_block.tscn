@@ -10,7 +10,7 @@ friction = 0.0
 [sub_resource type="BoxShape3D" id="BoxShape3D_u2gge"]
 size = Vector3(1.9, 0.9, 1.9)
 
-[node name="SquareBlock" type="RigidBody3D"]
+[node name="SquareBlock" type="RigidBody3D" groups=["blocks"]]
 collision_mask = 3
 mass = 100.0
 physics_material_override = SubResource("PhysicsMaterial_2qkdf")

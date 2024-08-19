@@ -22,26 +22,36 @@ func world_height() -> float:
 
 func _input(event: InputEvent) -> void:
     if falling:
-        var player_angle: float = round(player.look_angle() / (PI/2)) * PI/2
-        if discrete_motion:
+        if GlobalState.intro_mode:
             if event.is_action_pressed("block_move_left"):
                 motion = Vector3.LEFT
             elif event.is_action_pressed("block_move_right"):
                 motion = Vector3.RIGHT
-            elif event.is_action_pressed("block_move_up"):
-                motion = Vector3.FORWARD
-            elif event.is_action_pressed("block_move_down"):
-                motion = Vector3.BACK
-            motion = motion.rotated(Vector3.UP, player_angle)
-        else:
-            input_vector = Input.get_vector("block_move_left", "block_move_right", "block_move_up", "block_move_down")
-            linear_velocity.x = input_vector.x * horizontal_speed
-            linear_velocity.z = input_vector.y * horizontal_speed
 
-        if event.is_action_pressed("fast_fall"):
-            linear_velocity.y = 4 * -falling_speed
-        elif event.is_action_released("fast_fall"):
-            linear_velocity.y = -falling_speed
+            if event.is_action_pressed("block_move_down"):
+                linear_velocity.y = 8 * -falling_speed
+        else:
+
+            var player_angle: float = round(player.look_angle() / (PI/2)) * PI/2
+            if discrete_motion:
+                if event.is_action_pressed("block_move_left"):
+                    motion = Vector3.LEFT
+                elif event.is_action_pressed("block_move_right"):
+                    motion = Vector3.RIGHT
+                elif event.is_action_pressed("block_move_up"):
+                    motion = Vector3.FORWARD
+                elif event.is_action_pressed("block_move_down"):
+                    motion = Vector3.BACK
+                motion = motion.rotated(Vector3.UP, player_angle)
+            else:
+                input_vector = Input.get_vector("block_move_left", "block_move_right", "block_move_up", "block_move_down")
+                linear_velocity.x = input_vector.x * horizontal_speed
+                linear_velocity.z = input_vector.y * horizontal_speed
+
+            if event.is_action_pressed("fast_fall"):
+                linear_velocity.y = 4 * -falling_speed
+            elif event.is_action_released("fast_fall"):
+                linear_velocity.y = -falling_speed
 
 
 func _ready() -> void:
@@ -77,3 +87,17 @@ func _on_body_entered(body: CollisionObject3D) -> void:
         lock_rotation = false
         set_collision_mask_value(2, false)
         settled.emit()
+
+func blow_away() -> void:
+    gravity_scale = 1
+    linear_damp_mode = DAMP_MODE_COMBINE
+    physics_material_override.friction = 1
+    lock_rotation = false
+    set_collision_mask_value(2, false)
+    freeze = false
+
+    var direction = (global_position - player.global_position).normalized()
+
+    apply_impulse(direction * 1500)#Vector3(0, 1000, -1000))
+    await get_tree().create_timer(5).timeout
+    queue_free()

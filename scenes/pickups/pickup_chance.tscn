@@ -62,6 +62,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ygsl3"]
+resource_local_to_scene = true
 _data = {
 "RESET": SubResource("Animation_fycyt"),
 "bounce_and_spin": SubResource("Animation_j0ugc")

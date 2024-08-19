@@ -11,19 +11,22 @@ class_name Lava
 var rising := false
 
 func _ready() -> void:
-    timer.start(delay)
     timer.timeout.connect(_on_timer_timeout)
     GameEvents.drop_lava.connect(_on_drop_lava)
     GameEvents.freeze_lava.connect(_on_freeze_lava)
-    if(discrete):
+    GameEvents.game_started.connect(_on_game_started)
+    if (discrete):
         position.y = -0.4
+
+func _on_game_started() -> void:
+    timer.start(delay)
 
 func _physics_process(delta: float) -> void:
     if rising and not discrete:
         position.y += delta * speed
 
 func _on_timer_timeout() -> void:
-    if(!discrete):
+    if (!discrete):
         rising = true
     else:
         position.y += 1
@@ -33,7 +36,7 @@ func _on_drop_lava() -> void:
     position.y -= 3
 
 func _on_freeze_lava() -> void:
-    if(!discrete):
+    if (!discrete):
         rising = false
         timer.start(5)
     else:

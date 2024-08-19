@@ -143,7 +143,7 @@ func process_card_effect(card_name: String) -> void:
             world.refill()
         "Extra extra":
             card_number += 1
-            
+
 func decrement_card_count(card):
     match int(card["rarity"]):
         3:

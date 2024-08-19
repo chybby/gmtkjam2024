@@ -1,8 +1,6 @@
 extends CharacterBody3D
 class_name Player
 
-signal died
-
 @export var look_sensitivity: float = 0.2
 @export var auto_bhop := true
 @export var jump_number := 0
@@ -27,6 +25,8 @@ const HEADBOB_FREQUENCY = 2.4
 @onready var head: Node3D = %Head
 @onready var hurtbox: Area3D = $Hurtbox
 @onready var buff_timer: Timer = %BuffTimer
+@onready var camera: Camera3D = %FPCamera
+@onready var world_model: Node3D = %WorldModel
 
 var headbob_time := 0.0
 var double_jump := 0
@@ -39,7 +39,7 @@ var wind_force := Vector3.ZERO
 var wind_str := 30.0
 var wind_air_str := 2.0
 
-var warning_directions : Array[Vector2] = []
+var warning_directions: Array[Vector2] = []
 
 var max_hp := 3
 var health := 3
@@ -48,7 +48,7 @@ func look_angle() -> float:
     return rotation.y
 
 func _ready() -> void:
-    for child in %WorldModel.find_children("*", "VisualInstance3d"):
+    for child in world_model.find_children("*", "VisualInstance3d"):
         child.set_layer_mask_value(1, false)
         child.set_layer_mask_value(10, true)
     hurtbox.area_entered.connect(_on_hurtbox_entered)
@@ -56,11 +56,14 @@ func _ready() -> void:
     buff_timer.timeout.connect(_on_buff_timeout)
 
 func _unhandled_input(event: InputEvent) -> void:
+    if GlobalState.intro_mode:
+        return
+
     if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
         if event is InputEventMouseMotion:
             rotate_y(-event.relative.x * look_sensitivity / 100)
-            %FPCamera.rotate_x(-event.relative.y * look_sensitivity / 100)
-            %FPCamera.rotation.x = clamp(%FPCamera.rotation.x, deg_to_rad(-90), deg_to_rad(90))
+            camera.rotate_x(-event.relative.y * look_sensitivity / 100)
+            camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 func get_move_speed() -> float:
         return sprint_speed if Input.is_action_pressed("sprint") else walk_speed
@@ -75,6 +78,9 @@ func _process(delta: float) -> void:
             warning_directions.append(direction_2d.rotated(rotation.y))
 
 func _physics_process(delta: float) -> void:
+    if GlobalState.intro_mode:
+        return
+
     var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
     wish_dir = self.global_transform.basis * Vector3(input_dir.x, 0.,input_dir.y)
 
@@ -128,7 +134,7 @@ func _handle_ground_physics(delta) -> void:
 
 func _headbob_effect(delta):
     headbob_time += delta * self.velocity.length()
-    %FPCamera.transform.origin = Vector3(
+    camera.transform.origin = Vector3(
         cos(headbob_time * HEADBOB_FREQUENCY * 0.5) * HEADBOB_MOVE_AMOUNT,
         sin(headbob_time * HEADBOB_FREQUENCY) * HEADBOB_MOVE_AMOUNT,
         0
@@ -136,12 +142,12 @@ func _headbob_effect(delta):
 
 func jump():
     self.velocity.y = jump_velocity
-    
+
 func change_health(change: int):
     health += change
     GameEvents.health_changed_triggered()
-    if(health <= 0):
-        died.emit()
+    if (health <= 0):
+        GameEvents.emit_game_over()
 
 func heal():
     if (health < max_hp):
@@ -165,7 +171,7 @@ func activate_jump_buff():
     buff_timer.start(20)
 
 func teleport():
-    self.position += Vector3(0,10,0)
+    self.position += Vector3(0, 10, 0)
     self.velocity = Vector3.ZERO
 
 func height() -> float:

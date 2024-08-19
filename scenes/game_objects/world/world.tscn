@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://nhikx0701dde"]
+[gd_scene load_steps=30 format=3 uid="uid://nhikx0701dde"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/world/world.gd" id="1_1gpr2"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="2_5e020"]
@@ -16,11 +16,14 @@
 [ext_resource type="PackedScene" uid="uid://c0o7br7yshcri" path="res://scenes/game_objects/biome/snow_patch.tscn" id="11_x7j10"]
 [ext_resource type="PackedScene" uid="uid://babff5b71d0ke" path="res://scenes/game_objects/biome/vines_patch.tscn" id="12_h4umr"]
 [ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="15_efs7d"]
+[ext_resource type="Shader" uid="uid://c3sf484df0la5" path="res://resources/gradient.tres" id="15_va47u"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7m41u"]
 particle_flag_rotate_y = true
+emission_shape_scale = Vector3(10, 1, 10)
 emission_shape = 1
 emission_sphere_radius = 10.0
+direction = Vector3(0, -1, 0)
 spread = 0.0
 initial_velocity_min = 1.0
 initial_velocity_max = 2.0
@@ -41,7 +44,25 @@ orientation = 2
 [sub_resource type="BoxShape3D" id="BoxShape3D_763f1"]
 size = Vector3(10, 1, 10)
 
+[sub_resource type="Gradient" id="Gradient_hea2k"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.5)
+colors = PackedColorArray(0.960784, 0.760784, 0.560784, 1, 0.976471, 0.682353, 0.145098, 1)
+metadata/_snap_enabled = true
+metadata/_snap_count = 2
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5x0c0"]
+gradient = SubResource("Gradient_hea2k")
+width = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hotii"]
+render_priority = 0
+shader = ExtResource("15_va47u")
+shader_parameter/scale = 1.0
+shader_parameter/Gradient = SubResource("GradientTexture1D_5x0c0")
+
 [sub_resource type="BoxMesh" id="BoxMesh_kedp3"]
+material = SubResource("ShaderMaterial_hotii")
 size = Vector3(10, 5, 10)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_yq2r8"]

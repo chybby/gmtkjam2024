@@ -7,10 +7,11 @@ extends Node3D
 @onready var cinematic_camera_pivot: Node3D = $CinematicCameraPivot
 @onready var cinematic_camera_3d: Camera3D = $CinematicCameraPivot/CinematicCamera3D
 
-@onready var hud: CanvasLayer = $HUD
+@onready var hud: CanvasLayer = %HUD
 @onready var health: HBoxContainer = %Health
 @onready var block_count_label: Label = %BlockCountLabel
 @onready var rerolls_label: Label = %RerollsLabel
+@onready var rerolls: HBoxContainer = %Rerolls
 @onready var height_label: Label = %HeightLabel
 @onready var timer_label: Label = %TimerLabel
 @onready var timer_container: HBoxContainer = %TimerContainer
@@ -21,6 +22,8 @@ extends Node3D
 @onready var game_over_menu: CanvasLayer = $GameOver
 
 @onready var chance: Chance = $Chance
+
+@onready var intro_camera_3d: Camera3D = %IntroCamera3D
 
 @export var cinematic_camera_rotate_speed := 1.0
 @export var cinematic_camera_climb_speed := 0.5
@@ -48,15 +51,20 @@ func _input(event: InputEvent) -> void:
 
 func _ready() -> void:
     Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-    player.died.connect(_on_player_died)
+    GameEvents.game_over.connect(_on_game_over)
     settings.closed.connect(_on_settings_closed)
     game_over_menu.try_again.connect(_on_try_again)
     GameEvents.card_selected.connect(_on_card_selected)
     GameEvents.chance_picked_up.connect(_on_chance_picked_up)
     GameEvents.hint.connect(_on_hint)
     GameEvents.health_changed.connect(_on_health_changed)
-    
+
     _on_health_changed()
+
+    if not GlobalState.intro_mode:
+        player.camera.current = true
+        hud.offset.x = 0
+        GameEvents.emit_game_started()
 
 func _physics_process(delta: float) -> void:
     if GlobalState.rotate_minimap:
@@ -67,15 +75,48 @@ func _physics_process(delta: float) -> void:
     top_down_camera_3d.position.z = player.position.z
 
 func _process(delta: float) -> void:
+    if GlobalState.intro_mode:
+        if world.blocks_placed == 5:
+            GlobalState.intro_mode = false
+
+            # Tween from the intro camera to the player camera.
+            var tween = get_tree().create_tween()
+            tween.set_ease(Tween.EASE_IN)
+            tween.set_trans(Tween.TRANS_QUAD)
+            tween.set_parallel(true)
+            tween.tween_property(intro_camera_3d, "fov", player.camera.fov, 5)
+            tween.tween_property(intro_camera_3d, "position", player.camera.global_position, 5)
+            await tween.finished
+            player.camera.current = true
+
+            world.blow_away_intro_blocks()
+
+            # Tween in the HUD.
+            hud.visible = true
+            var hud_tween = get_tree().create_tween()
+            hud_tween.set_ease(Tween.EASE_IN_OUT)
+            hud_tween.set_trans(Tween.TRANS_QUAD)
+            hud_tween.tween_property(hud, "offset:x", 0, 2)
+            await hud_tween.finished
+
+            GameEvents.emit_game_started()
+
     if game_over:
         cinematic_camera_pivot.rotate_y(cinematic_camera_rotate_speed * delta)
         if cinematic_camera_pivot.position.y < world.tower_height:
             cinematic_camera_pivot.position.y += cinematic_camera_climb_speed * delta
-    
+
     block_count_label.text = str(world.blocks_remaining)
+    if world.blocks_remaining == 0:
+        block_count_label.add_theme_color_override('font_color', Color('#e32059'))
+    else:
+        block_count_label.add_theme_color_override('font_color', Color.WHITE)
+
     rerolls_label.text = str(world.rerolls)
+    if world.rerolls > 0:
+        rerolls.visible = true
     height_label.text = str(round(player.height()))
-    
+
     update_lava_timer()
 
     for warning in warnings.get_children():
@@ -104,10 +145,12 @@ func open_settings() -> void:
     settings.visible = true
     pause()
 
-func _on_player_died() -> void:
+func _on_game_over() -> void:
     cinematic_camera_3d.current = true
     game_over = true
     hud.visible = false
+    if GlobalState.won:
+        game_over_menu.allow_chaos_mode()
     game_over_menu.visible = true
     Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
@@ -131,28 +174,28 @@ func _on_hint(text: String) -> void:
     hint.visible = true
     await get_tree().create_timer(5).timeout
     hint.visible = false
-    
+
 func update_lava_timer():
     var time_left = world.get_lava_time_left()
-    if(time_left == 0):
+    if (time_left == 0):
         timer_container.hide()
     else:
         timer_container.show()
-        var time_text = str(round(time_left * 100)/100)
+        var time_text = str(round(time_left * 100) / 100)
         timer_label.text = time_text
 
 func _on_health_changed() -> void:
     var max = player.max_hp
     var hp = player.health
-    
+
     for child in health.get_children():
         child.queue_free()
-    
+
     #add empty hearts
     for i in max(0, max - hp):
         var missing_hp = empty_heart_scene.instantiate()
         health.add_child(missing_hp)
-    
+
     #add hearts
     for i in max(0, hp):
         var hp_obj = full_heart_scene.instantiate()

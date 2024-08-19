@@ -1,12 +1,12 @@
-[gd_scene load_steps=27 format=3 uid="uid://crpao81m2vshv"]
+[gd_scene load_steps=25 format=3 uid="uid://ef5dqqevmxcn"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_jcq7f"]
 [ext_resource type="PackedScene" uid="uid://nhikx0701dde" path="res://scenes/game_objects/world/world.tscn" id="2_o8oy4"]
 [ext_resource type="PackedScene" uid="uid://4cebjv242d0u" path="res://scenes/main/warning.tscn" id="2_wqer3"]
-[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/Player.tscn" id="3_ed6k7"]
+[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/player.tscn" id="3_ed6k7"]
 [ext_resource type="PackedScene" uid="uid://wi5cc17m8s0j" path="res://scenes/game_objects/block/l_left_block.tscn" id="3_u58ai"]
 [ext_resource type="PackedScene" uid="uid://npxcnna5262h" path="res://scenes/game_objects/block/l_right_block.tscn" id="4_3n40q"]
-[ext_resource type="PackedScene" uid="uid://vufqwbsvwwww" path="res://scenes/game_objects/player/empty_heart.tscn" id="4_83hhk"]
+[ext_resource type="PackedScene" path="res://scenes/game_objects/player/empty_heart.tscn" id="4_83hhk"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="5_7ptyp"]
 [ext_resource type="PackedScene" uid="uid://d0mda831q1sey" path="res://scenes/game_objects/block/straight_block.tscn" id="6_wna1e"]
 [ext_resource type="PackedScene" uid="uid://dyu54f2o0xg6e" path="res://scenes/game_objects/block/t_block.tscn" id="7_s6hv1"]
@@ -14,14 +14,12 @@
 [ext_resource type="PackedScene" uid="uid://djath7mvf6hxj" path="res://scenes/game_objects/block/z_right_block.tscn" id="9_6vvaw"]
 [ext_resource type="PackedScene" uid="uid://5upb47fymeyc" path="res://scenes/ui/settings/settings.tscn" id="12_ekpm1"]
 [ext_resource type="StyleBox" uid="uid://di1woh733y1jh" path="res://resources/style_box_flat_right.tres" id="12_iopbs"]
-[ext_resource type="PackedScene" uid="uid://c0yu4gferpwge" path="res://scenes/game_objects/player/heart.tscn" id="13_ixdce"]
+[ext_resource type="PackedScene" path="res://scenes/game_objects/player/heart.tscn" id="13_ixdce"]
 [ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="14_2pwwh"]
 [ext_resource type="PackedScene" uid="uid://cjcftrrxio41j" path="res://scenes/ui/game_over/GameOver.tscn" id="14_40xvj"]
 [ext_resource type="Texture2D" uid="uid://bppycmv0hpaoi" path="res://assets/Blocks.png" id="14_h0ukb"]
 [ext_resource type="PackedScene" uid="uid://dw38iluhkalqt" path="res://scenes/ui/chance/chance.tscn" id="15_bl443"]
-[ext_resource type="PackedScene" uid="uid://c0o7br7yshcri" path="res://scenes/game_objects/biome/snow_patch.tscn" id="16_ov0tv"]
-[ext_resource type="PackedScene" uid="uid://babff5b71d0ke" path="res://scenes/game_objects/biome/vines_patch.tscn" id="17_o1nxn"]
-[ext_resource type="PackedScene" uid="uid://d1n1vct1l8nlp" path="res://scenes/pickups/pickup_chance.tscn" id="18_frf32"]
+[ext_resource type="Texture2D" uid="uid://bnky6pjyri50g" path="res://assets/Reroll.png" id="16_sjg4l"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ti5on"]
 sky_top_color = Color(0, 0.286457, 0.527344, 1)
@@ -66,17 +64,25 @@ block_scenes = Array[PackedScene]([ExtResource("3_u58ai"), ExtResource("4_3n40q"
 [node name="Player" parent="." instance=ExtResource("3_ed6k7")]
 unique_name_in_owner = true
 process_mode = 1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.15441, 0, 3.24197)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+visible = false
 platform_floor_layers = 4294967295
 platform_wall_layers = 0
 jump_velocity = 9.0
+
+[node name="IntroCamera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 400)
+current = true
+fov = 2.0
+size = 7.0
 
 [node name="CinematicCameraPivot" type="Node3D" parent="."]
 process_mode = 1
 
 [node name="CinematicCamera3D" type="Camera3D" parent="CinematicCameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.12921, 11.6669)
-size = 8.222
+size = 7.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.999999, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
@@ -93,6 +99,9 @@ directional_shadow_split_3 = 0.2
 environment = SubResource("Environment_6ylbt")
 
 [node name="HUD" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+offset = Vector2(600, 0)
+transform = Transform2D(1, 0, 0, 1, 600, 0)
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD"]
 anchors_preset = 15
@@ -199,11 +208,11 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HUD/MarginContainer/VBoxContainer"]
+[node name="BlockCount" type="HBoxContainer" parent="HUD/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="BlockCountLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="BlockCountLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer/BlockCount"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -211,7 +220,7 @@ theme_override_font_sizes/font_size = 80
 text = "10
 "
 
-[node name="TextureRect" type="TextureRect" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Icon" type="TextureRect" parent="HUD/MarginContainer/VBoxContainer/BlockCount"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -219,7 +228,13 @@ size_flags_vertical = 4
 texture = ExtResource("14_h0ukb")
 expand_mode = 2
 
-[node name="RerollsLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer"]
+[node name="Rerolls" type="HBoxContainer" parent="HUD/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="RerollsLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer/Rerolls"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
@@ -227,6 +242,14 @@ size_flags_vertical = 8
 theme_override_font_sizes/font_size = 80
 text = "10
 "
+
+[node name="Icon" type="TextureRect" parent="HUD/MarginContainer/VBoxContainer/Rerolls"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("16_sjg4l")
+expand_mode = 2
 
 [node name="HeightLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -258,12 +281,3 @@ visible = false
 
 [node name="Chance" parent="." instance=ExtResource("15_bl443")]
 visible = false
-
-[node name="snow_patch" parent="." instance=ExtResource("16_ov0tv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.520725, 3.80276, -4.16258)
-
-[node name="vines_patch" parent="." instance=ExtResource("17_o1nxn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.92185, 4, -4.26892)
-
-[node name="pickup_chance" parent="." instance=ExtResource("18_frf32")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.48175, 0, -3.6841)

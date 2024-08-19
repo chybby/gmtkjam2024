@@ -1,4 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://thqm0kkbuhhh"]
+[gd_scene load_steps=11 format=3 uid="uid://thqm0kkbuhhh"]
+
+[ext_resource type="Shader" uid="uid://c3sf484df0la5" path="res://resources/gradient.tres" id="1_k8s8r"]
+[ext_resource type="PackedScene" uid="uid://ca8dwtoh7eun2" path="res://scenes/game_objects/crown/crown.tscn" id="2_yiv4s"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tjfnw"]
 size = Vector3(30, 1, 10)
@@ -6,10 +9,35 @@ size = Vector3(30, 1, 10)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ftkto"]
 size = Vector3(10, 1, 10)
 
+[sub_resource type="Gradient" id="Gradient_maer5"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.5)
+colors = PackedColorArray(0.541176, 0.772549, 0.952941, 1, 0.121569, 0.756863, 0.964706, 1)
+metadata/_snap_enabled = true
+metadata/_snap_count = 2
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_x57oh"]
+gradient = SubResource("Gradient_maer5")
+width = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eqd14"]
+render_priority = 0
+shader = ExtResource("1_k8s8r")
+shader_parameter/scale = 1.0
+shader_parameter/Gradient = SubResource("GradientTexture1D_x57oh")
+
 [sub_resource type="BoxMesh" id="BoxMesh_h45eg"]
+material = SubResource("ShaderMaterial_eqd14")
 size = Vector3(30, 1, 10)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vl2fq"]
+render_priority = 0
+shader = ExtResource("1_k8s8r")
+shader_parameter/scale = 1.0
+shader_parameter/Gradient = SubResource("GradientTexture1D_x57oh")
+
 [sub_resource type="BoxMesh" id="BoxMesh_jl8j5"]
+material = SubResource("ShaderMaterial_vl2fq")
 size = Vector3(10, 1, 10)
 
 [node name="Heaven" type="StaticBody3D"]
@@ -53,3 +81,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 layers = 2
 cast_shadow = 0
 mesh = SubResource("BoxMesh_jl8j5")
+
+[node name="Crown" parent="." instance=ExtResource("2_yiv4s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -10)
