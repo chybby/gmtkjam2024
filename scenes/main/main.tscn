@@ -1,9 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://ef5dqqevmxcn"]
+[gd_scene load_steps=22 format=3 uid="uid://c7oj4o0jpu4bq"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_jcq7f"]
 [ext_resource type="PackedScene" uid="uid://nhikx0701dde" path="res://scenes/game_objects/world/world.tscn" id="2_o8oy4"]
 [ext_resource type="PackedScene" uid="uid://4cebjv242d0u" path="res://scenes/main/warning.tscn" id="2_wqer3"]
-[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/player.tscn" id="3_ed6k7"]
+[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/Player.tscn" id="3_ed6k7"]
 [ext_resource type="PackedScene" uid="uid://wi5cc17m8s0j" path="res://scenes/game_objects/block/l_left_block.tscn" id="3_u58ai"]
 [ext_resource type="PackedScene" uid="uid://npxcnna5262h" path="res://scenes/game_objects/block/l_right_block.tscn" id="4_3n40q"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="5_7ptyp"]
@@ -64,6 +64,7 @@ warning_scene = ExtResource("2_wqer3")
 unique_name_in_owner = true
 process_mode = 1
 block_scenes = Array[PackedScene]([ExtResource("3_u58ai"), ExtResource("4_3n40q"), ExtResource("5_7ptyp"), ExtResource("6_wna1e"), ExtResource("7_s6hv1"), ExtResource("8_g320s"), ExtResource("9_6vvaw")])
+vines_patch_scene = ExtResource("17_o1nxn")
 blocks_remaining = 5
 
 [node name="Player" parent="." instance=ExtResource("3_ed6k7")]

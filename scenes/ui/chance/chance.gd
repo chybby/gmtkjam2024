@@ -108,7 +108,7 @@ func _on_cancel_pressed() -> void:
     
 func process_card_effect(card_name: String) -> void:
      match card_name:
-        "More Blocks per Pickup":
+        "More Blocks per Pouch":
             world.added_block_amount += 1
         "Rerolls":
             world.rerolls += 3
@@ -136,6 +136,13 @@ func process_card_effect(card_name: String) -> void:
             world.reroll_chances()
         "To the skies!":
             player.teleport()
+        "Refill":
+            world.refill()
+        "Top up":
+            world.added_block_amount += 1
+            world.refill()
+        "Extra extra":
+            card_number += 1
         
 func decrement_card_count(card):
     match int(card["rarity"]):

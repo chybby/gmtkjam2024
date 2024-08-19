@@ -15,6 +15,9 @@ class_name World
 @onready var vines_timer: Timer = %VinesTimer
 @onready var wind_start_timer: Timer = %WindStartTimer
 @onready var wind_stop_timer: Timer = %WindStopTimer
+@onready var particle_holder: Node3D = $ParticleHolder
+@onready var falling_leaf_particles: GPUParticles3D = %FallingLeafParticles
+@onready var falling_snow_particles: GPUParticles3D = %FallingSnowParticles
 
 @onready var player: Player = %Player
 
@@ -137,10 +140,10 @@ func add_blocks() -> void:
 func spawn_pickup() -> void:
     last_spawned_pickup += pickup_frequency
     var pickup = block_pickup_scene.instantiate() as Pickup
-    add_child(pickup)
 
     pickup.position = get_valid_drop_position()
     pickup.tree_exiting.connect(_on_pickup_destroyed)
+    add_child.call_deferred(pickup)
 
 func spawn_chance() -> void:
     last_spawned_chance += chance_frequency
@@ -177,24 +180,32 @@ func _on_wind_stop_timeout() -> void:
 func more_chances() -> void:
     chance_frequency -= 1
 
+func refill() -> void:
+    blocks_remaining += added_block_amount
+
 func start_spawning_bombs() -> void:
     bomb_timer.start()
 
 func start_spawning_vines() -> void:
     spawning_vines = true
     vines_timer.start()
-
+    falling_leaf_particles.emitting = true
+    
+    
 func stop_spawning_vines() -> void:
     spawning_vines = false
     vines_timer.stop()
-
+    falling_leaf_particles.emitting = false
+    
 func start_spawning_snow() -> void:
     spawning_snow = true
     snow_timer.start()
+    falling_snow_particles.emitting = true
 
 func stop_spawning_snow() -> void:
     spawning_snow = false
     snow_timer.stop()
+    falling_snow_particles.emitting = false
 
 func start_spawning_wind() -> void:
     spawning_wind = true

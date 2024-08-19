@@ -14,7 +14,7 @@ signal died
 @export var ground_friction := 6.0
 
 @export var jump_velocity := 9.0
-@export var bounce_velocity := 40.0
+@export var bounce_velocity := 20.0
 @export var air_cap := 0.85
 @export var air_accel := 10.0
 @export var air_move_speed := 8.5
@@ -171,7 +171,8 @@ func _on_hurtbox_entered(area: Area3D) -> void:
             died.emit()
         else:
             health -= 1
-            knockback_player(Vector3(0, bounce_velocity, 0))
+            self.velocity.y = bounce_velocity * knockback_mult
+
     elif area.get_collision_layer_value(6):
         # Ice.
         print("slipping")

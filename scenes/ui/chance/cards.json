@@ -2,7 +2,7 @@
     "cards": [
         {
             "id": 1,
-            "name": "More Blocks per Pickup",
+            "name": "More Blocks per Pouch",
             "description": "Increases the number of blocks you get per pickup",
             "image": "res://cards/more_blocks_per_pickup.png",
             "rarity": 3,
@@ -110,6 +110,30 @@
             "description": "Rerolls your chances",
             "image": "res://cards/slow_down_block.png",
             "rarity": 2,
+            "limit" : 999
+        },
+        {
+            "id": 15,
+            "name": "Refill",
+            "description": "Refills your blocks",
+            "image": "res://cards/slow_down_block.png",
+            "rarity": 3,
+            "limit" : 999
+        },
+        {
+            "id": 15,
+            "name": "Top up",
+            "description": "More blocks per pouch. Refill imediately",
+            "image": "res://cards/slow_down_block.png",
+            "rarity": 2,
+            "limit" : 999
+        },
+        {
+            "id": 16,
+            "name": "Extra extra",
+            "description": "Adds an extra chance card to Chance!",
+            "image": "res://cards/slow_down_block.png",
+            "rarity": 1,
             "limit" : 999
         }
         
