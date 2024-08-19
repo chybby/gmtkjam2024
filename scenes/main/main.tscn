@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://crpao81m2vshv"]
+[gd_scene load_steps=27 format=3 uid="uid://crpao81m2vshv"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_jcq7f"]
 [ext_resource type="PackedScene" uid="uid://nhikx0701dde" path="res://scenes/game_objects/world/world.tscn" id="2_o8oy4"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://5upb47fymeyc" path="res://scenes/ui/settings/settings.tscn" id="12_ekpm1"]
 [ext_resource type="StyleBox" uid="uid://di1woh733y1jh" path="res://resources/style_box_flat_right.tres" id="12_iopbs"]
 [ext_resource type="PackedScene" uid="uid://c0yu4gferpwge" path="res://scenes/game_objects/player/heart.tscn" id="13_ixdce"]
+[ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="14_2pwwh"]
 [ext_resource type="PackedScene" uid="uid://cjcftrrxio41j" path="res://scenes/ui/game_over/GameOver.tscn" id="14_40xvj"]
 [ext_resource type="Texture2D" uid="uid://bppycmv0hpaoi" path="res://assets/Blocks.png" id="14_h0ukb"]
 [ext_resource type="PackedScene" uid="uid://dw38iluhkalqt" path="res://scenes/ui/chance/chance.tscn" id="15_bl443"]
@@ -59,8 +60,8 @@ empty_heart_scene = ExtResource("4_83hhk")
 [node name="World" parent="." instance=ExtResource("2_o8oy4")]
 unique_name_in_owner = true
 process_mode = 1
-block_scenes = Array[PackedScene]([ExtResource("3_u58ai"), ExtResource("4_3n40q"), ExtResource("5_7ptyp"), ExtResource("6_wna1e"), ExtResource("7_s6hv1"), ExtResource("8_g320s"), ExtResource("9_6vvaw")])
 blocks_remaining = 5
+block_scenes = Array[PackedScene]([ExtResource("3_u58ai"), ExtResource("4_3n40q"), ExtResource("5_7ptyp"), ExtResource("6_wna1e"), ExtResource("7_s6hv1"), ExtResource("8_g320s"), ExtResource("9_6vvaw")])
 
 [node name="Player" parent="." instance=ExtResource("3_ed6k7")]
 unique_name_in_owner = true
@@ -101,6 +102,25 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_right = 50
+
+[node name="TimerContainer" type="HBoxContainer" parent="HUD/MarginContainer"]
+unique_name_in_owner = true
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="TextureRect" type="TextureRect" parent="HUD/MarginContainer/TimerContainer"]
+layout_mode = 2
+texture = ExtResource("14_2pwwh")
+
+[node name="TimerLabel" type="Label" parent="HUD/MarginContainer/TimerContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 80
+text = "30.00"
 
 [node name="Hint" type="PanelContainer" parent="HUD/MarginContainer"]
 unique_name_in_owner = true

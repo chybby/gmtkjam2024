@@ -1,26 +1,34 @@
 extends Node3D
 class_name World
 
+#variables
+@export var blocks_remaining := -1
+@export var added_block_amount := 5
+
+#scenes
 @export var block_scenes: Array[PackedScene]
 @export var block_pickup_scene: PackedScene
 @export var chance_pickup_scene: PackedScene
 @export var snow_patch_scene: PackedScene
 @export var vines_patch_scene: PackedScene
 @export var bomb_scene: PackedScene
-@export var blocks_remaining := -1
-@export var added_block_amount := 5
 
+#timers
 @onready var bomb_timer: Timer = %BombTimer
 @onready var snow_timer: Timer = %SnowTimer
 @onready var vines_timer: Timer = %VinesTimer
 @onready var wind_start_timer: Timer = %WindStartTimer
 @onready var wind_stop_timer: Timer = %WindStopTimer
+
+#particles
 @onready var particle_holder: Node3D = $ParticleHolder
 @onready var falling_leaf_particles: GPUParticles3D = %FallingLeafParticles
 @onready var falling_snow_particles: GPUParticles3D = %FallingSnowParticles
 @onready var wind_particles: GPUParticles3D = %WindParticles
+@onready var space_particles: GPUParticles3D = %SpaceParticles
 
 @onready var player: Player = %Player
+@onready var lava: Lava = %Lava
 
 var current_block: Block = null
 var tower_height := 0.0
@@ -44,7 +52,6 @@ var rerolls := 5
 var block_raycasts := []
 
 var no_blocks_hint_shown := false
-
 
 func _ready() -> void:
     if (blocks_remaining > 0):
@@ -74,6 +81,8 @@ func _physics_process(delta: float) -> void:
 
     var cur_height = player.height()
     particle_holder.position.y = cur_height + 20
+    
+    apply_biome_effects()
 
     if cur_height >= VINE_BIOME_START and not spawning_vines:
         start_spawning_vines()
@@ -195,6 +204,9 @@ func _on_wind_stop_timeout() -> void:
 func more_chances() -> void:
     chance_frequency -= 1
 
+func get_lava_time_left() -> float:
+    return lava.time_left()
+
 func refill() -> void:
     blocks_remaining += added_block_amount
 
@@ -204,23 +216,18 @@ func start_spawning_bombs() -> void:
 func start_spawning_vines() -> void:
     spawning_vines = true
     vines_timer.start()
-    falling_leaf_particles.emitting = true
-
 
 func stop_spawning_vines() -> void:
     spawning_vines = false
     vines_timer.stop()
-    falling_leaf_particles.emitting = false
 
 func start_spawning_snow() -> void:
     spawning_snow = true
     snow_timer.start()
-    falling_snow_particles.emitting = true
 
 func stop_spawning_snow() -> void:
     spawning_snow = false
     snow_timer.stop()
-    falling_snow_particles.emitting = false
 
 func start_spawning_wind() -> void:
     spawning_wind = true
@@ -306,3 +313,16 @@ func apply_wind_particles():
     wind_particles.rotation_degrees.y = rot
     wind_particles.emitting = true
     
+func apply_biome_effects():
+    falling_leaf_particles.emitting = false
+    falling_snow_particles.emitting = false
+    space_particles.emitting = false
+    
+    var height = player.height()
+    if(height >= VINE_BIOME_START and height < SNOW_BIOME_START):
+        falling_leaf_particles.emitting = true
+    elif(height >= SNOW_BIOME_START and height < WIND_BIOME_START):
+        falling_snow_particles.emitting = true
+    elif(height >= SPACE_BIOME_START):
+        space_particles.emitting = true
+        

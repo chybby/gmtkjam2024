@@ -19,18 +19,14 @@
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7m41u"]
 particle_flag_rotate_y = true
-emission_shape_scale = Vector3(10, 1, 10)
-emission_shape = 6
-emission_ring_axis = Vector3(0, 0, 1)
-emission_ring_height = 1.0
-emission_ring_radius = 5.0
-emission_ring_inner_radius = 0.0
+emission_shape = 1
+emission_sphere_radius = 10.0
 spread = 0.0
-initial_velocity_min = 12.0
-initial_velocity_max = 16.0
-angular_velocity_min = -100.0
-angular_velocity_max = 100.0
-gravity = Vector3(0, -4, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+angular_velocity_min = -50.0
+angular_velocity_max = 50.0
+gravity = Vector3(0, 0, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3nsl2"]
 transparency = 1
@@ -39,7 +35,7 @@ albedo_texture = ExtResource("15_efs7d")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_vt4n4"]
 material = SubResource("StandardMaterial3D_3nsl2")
-size = Vector2(0.5, 0.5)
+size = Vector2(0.2, 0.2)
 orientation = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_763f1"]
@@ -100,6 +96,16 @@ visibility_aabb = AABB(-5, -10, -5, 20, 15, 10)
 process_material = SubResource("ParticleProcessMaterial_7m41u")
 draw_pass_1 = SubResource("PlaneMesh_vt4n4")
 
+[node name="SpaceParticles" type="GPUParticles3D" parent="ParticleHolder"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.16432, -15, 0)
+emitting = false
+amount = 20
+lifetime = 5.0
+visibility_aabb = AABB(-5, -5, -5, 20, 10, 10)
+process_material = SubResource("ParticleProcessMaterial_7m41u")
+draw_pass_1 = SubResource("PlaneMesh_vt4n4")
+
 [node name="Heaven" parent="." instance=ExtResource("11_s4k6m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50.5, 0)
 
@@ -114,9 +120,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 mesh = SubResource("BoxMesh_kedp3")
 
 [node name="Lava" parent="." instance=ExtResource("9_wbpsf")]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.75221, 0)
 speed = 0.05
-delay = 120.0
+discrete = true
 
 [node name="Wall" type="StaticBody3D" parent="."]
 collision_layer = 2

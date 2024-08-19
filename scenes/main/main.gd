@@ -1,6 +1,6 @@
 extends Node3D
 
-@onready var world: Node3D = %World
+@onready var world: World = %World
 @onready var player: Player = $Player
 
 @onready var top_down_camera_3d: Camera3D = %TopDownCamera3D
@@ -12,6 +12,8 @@ extends Node3D
 @onready var block_count_label: Label = %BlockCountLabel
 @onready var rerolls_label: Label = %RerollsLabel
 @onready var height_label: Label = %HeightLabel
+@onready var timer_label: Label = %TimerLabel
+@onready var timer_container: HBoxContainer = %TimerContainer
 
 @onready var warnings: Control = %Warnings
 
@@ -69,10 +71,12 @@ func _process(delta: float) -> void:
         cinematic_camera_pivot.rotate_y(cinematic_camera_rotate_speed * delta)
         if cinematic_camera_pivot.position.y < world.tower_height:
             cinematic_camera_pivot.position.y += cinematic_camera_climb_speed * delta
+    
     block_count_label.text = str(world.blocks_remaining)
-
     rerolls_label.text = str(world.rerolls)
     height_label.text = str(round(player.height()))
+    
+    update_lava_timer()
 
     for warning in warnings.get_children():
         warning.queue_free()
@@ -127,6 +131,15 @@ func _on_hint(text: String) -> void:
     hint.visible = true
     await get_tree().create_timer(5).timeout
     hint.visible = false
+    
+func update_lava_timer():
+    var time_left = world.get_lava_time_left()
+    if(time_left == 0):
+        timer_container.hide()
+    else:
+        timer_container.show()
+        var time_text = str(round(time_left * 100)/100)
+        timer_label.text = time_text
 
 func _on_health_changed() -> void:
     var max = player.max_hp
