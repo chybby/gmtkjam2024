@@ -1,15 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://c0o7br7yshcri"]
+[gd_scene load_steps=7 format=3 uid="uid://c0o7br7yshcri"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/biome/snow_patch.gd" id="1_nn0yn"]
+[ext_resource type="Texture2D" uid="uid://dt72eqhbyofeq" path="res://assets/Ice.png" id="2_od7ct"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jihi0"]
-size = Vector3(1, 0.36145, 1)
+size = Vector3(0.857178, 0.12503, 0.844238)
 
-[sub_resource type="BoxMesh" id="BoxMesh_scd8g"]
-size = Vector3(1, 0.1, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lkiw0"]
+transparency = 1
+cull_mode = 2
+albedo_color = Color(1, 1, 1, 0.627451)
+albedo_texture = ExtResource("2_od7ct")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1jk0m"]
-albedo_color = Color(0.568627, 1, 0.988235, 1)
+[sub_resource type="PlaneMesh" id="PlaneMesh_cd6wd"]
+material = SubResource("StandardMaterial3D_lkiw0")
+size = Vector2(1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_spb80"]
 size = Vector3(1, 0.102051, 1)
@@ -29,15 +34,14 @@ collision_mask = 0
 monitoring = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.180725, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.512329, 0.0625152, 0.506592)
 shape = SubResource("BoxShape3D_jihi0")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.05, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.01, 0.5)
 layers = 3
-mesh = SubResource("BoxMesh_scd8g")
+mesh = SubResource("PlaneMesh_cd6wd")
 skeleton = NodePath("")
-surface_material_override/0 = SubResource("StandardMaterial3D_1jk0m")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.0510254, 0.5)
