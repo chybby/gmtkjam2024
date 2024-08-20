@@ -30,6 +30,7 @@ class_name World
 @onready var player: Player = %Player
 @onready var lava: Lava = %Lava
 @onready var sky_material = get_viewport().get_world_3d().environment.sky.sky_material as ShaderMaterial
+@onready var environment := get_viewport().get_world_3d().environment
 @onready var heaven: StaticBody3D = %Heaven
 
 @onready var block_pickup_sound: AudioStreamPlayer = $BlockPickupSound
@@ -89,6 +90,7 @@ func _physics_process(delta: float) -> void:
     particle_holder.position.y = cur_height + 20
     var progress = clamp(cur_height/heaven.position.y, 0.0, 1.0)
     sky_material.set_shader_parameter("progress", progress)
+    environment.ambient_light_sky_contribution = 0.2 + (0.8 * progress / 0.4)
 
     apply_biome_effects()
 
