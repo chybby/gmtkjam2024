@@ -161,7 +161,7 @@ func _on_game_over() -> void:
     game_over = true
     hud.visible = false
     if GlobalState.won:
-        world.tower_height = max(world.tower_height, world.heaven_height) 
+        world.tower_height = max(world.tower_height, world.heaven_height)
         game_over_menu.allow_chaos_mode()
     game_over_menu.visible = true
     Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

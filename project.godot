@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="GMTK Jam 2024"
+config/name="Brick Up"
 config/tags=PackedStringArray("gmtkjam")
 run/main_scene="res://scenes/logo.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://nhikx0701dde"]
+[gd_scene load_steps=48 format=3 uid="uid://nhikx0701dde"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/world/world.gd" id="1_1gpr2"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="2_5e020"]
@@ -17,7 +17,6 @@
 [ext_resource type="PackedScene" uid="uid://babff5b71d0ke" path="res://scenes/game_objects/biome/vines_patch.tscn" id="12_h4umr"]
 [ext_resource type="Texture2D" uid="uid://dy72vr6g6771r" path="res://assets/maple_leaf.png" id="14_47h7u"]
 [ext_resource type="Texture2D" uid="uid://ck8n7qb3u8oa5" path="res://assets/snowflake.png" id="14_ivvwu"]
-[ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="15_efs7d"]
 [ext_resource type="Shader" uid="uid://c3sf484df0la5" path="res://resources/gradient.tres" id="15_va47u"]
 [ext_resource type="PackedScene" uid="uid://cnvqfowxv1p3v" path="res://blender/cloud.glb" id="18_44ihv"]
 [ext_resource type="AudioStream" uid="uid://82fif2tcoesx" path="res://assets/audio/block-pickup.mp3" id="19_daed2"]
@@ -84,6 +83,13 @@ material = SubResource("StandardMaterial3D_urwpd")
 size = Vector2(0.5, 0.5)
 orientation = 2
 
+[sub_resource type="Gradient" id="Gradient_wxasu"]
+offsets = PackedFloat32Array(0.283525, 1)
+colors = PackedColorArray(0.410156, 0.834106, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7kjon"]
+gradient = SubResource("Gradient_wxasu")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1qcdk"]
 particle_flag_rotate_y = true
 emission_shape_scale = Vector3(10, 10, 10)
@@ -92,17 +98,27 @@ emission_sphere_radius = 1.0
 spread = 0.0
 initial_velocity_min = 12.0
 initial_velocity_max = 16.0
-angular_velocity_min = -400.0
-angular_velocity_max = 400.0
-gravity = Vector3(0, -4, 0)
+angular_velocity_min = -180.0
+angular_velocity_max = 180.0
+gravity = Vector3(0, 0, 0)
+color_initial_ramp = SubResource("GradientTexture1D_7kjon")
+turbulence_noise_strength = 11.95
+turbulence_noise_scale = 7.292
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jetc5"]
-albedo_texture = ExtResource("15_efs7d")
+[sub_resource type="Curve" id="Curve_1s08o"]
+_data = [Vector2(0.183801, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_pdkca"]
-material = SubResource("StandardMaterial3D_jetc5")
-size = Vector2(0.5, 0.5)
-orientation = 2
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uphue"]
+shading_mode = 0
+vertex_color_use_as_albedo = true
+use_particle_trails = true
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_r332k"]
+material = SubResource("StandardMaterial3D_uphue")
+shape = 0
+size = 0.05
+curve = SubResource("Curve_1s08o")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ckvgu"]
 emission_shape = 1
@@ -146,9 +162,6 @@ shader_parameter/Gradient = SubResource("GradientTexture1D_5x0c0")
 [sub_resource type="BoxMesh" id="BoxMesh_kedp3"]
 material = SubResource("ShaderMaterial_hotii")
 size = Vector3(10, 5, 10)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nf620"]
-albedo_color = Color(0.734375, 0.30561, 0, 1)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_yq2r8"]
 plane = Plane(1, 0, 0, 0)
@@ -215,16 +228,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
 [node name="FallingLeafParticles" type="GPUParticles3D" parent="ParticleHolder"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+extra_cull_margin = 5000.0
 emitting = false
 amount = 100
 lifetime = 20.0
 visibility_aabb = AABB(-5, -10, -5, 10, 10, 10)
+transform_align = 2
 process_material = SubResource("ParticleProcessMaterial_7m41u")
 draw_pass_1 = SubResource("PlaneMesh_7uupv")
 
 [node name="FallingSnowParticles" type="GPUParticles3D" parent="ParticleHolder"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+extra_cull_margin = 5000.0
 emitting = false
 amount = 800
 lifetime = 60.0
@@ -234,17 +250,23 @@ draw_pass_1 = SubResource("PlaneMesh_vt4n4")
 
 [node name="WindParticles" type="GPUParticles3D" parent="ParticleHolder"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -15, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.6299, -15, 0)
+cast_shadow = 0
+extra_cull_margin = 10000.0
 emitting = false
 amount = 800
 lifetime = 5.0
 visibility_aabb = AABB(-5, -10, -5, 20, 15, 10)
+transform_align = 2
+trail_enabled = true
+trail_lifetime = 0.5
 process_material = SubResource("ParticleProcessMaterial_1qcdk")
-draw_pass_1 = SubResource("PlaneMesh_pdkca")
+draw_pass_1 = SubResource("RibbonTrailMesh_r332k")
 
 [node name="SpaceParticles" type="GPUParticles3D" parent="ParticleHolder"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.85391, -15, 0)
+emitting = false
 amount = 50
 lifetime = 20.0
 visibility_aabb = AABB(-5, -5, -5, 15, 10, 10)
@@ -270,9 +292,6 @@ mesh = SubResource("BoxMesh_kedp3")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.75221, 0)
 speed = 0.05
-
-[node name="MeshInstance3D" parent="Lava" index="0"]
-material_override = SubResource("StandardMaterial3D_nf620")
 
 [node name="Wall" type="StaticBody3D" parent="."]
 collision_layer = 2
@@ -375,7 +394,6 @@ autoplay = "rotate_clouds"
 [node name="BlockPickupSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("19_daed2")
 
-[editable path="Lava"]
 [editable path="Clouds/cloud"]
 [editable path="Clouds/cloud8"]
 [editable path="Clouds/cloud2"]
