@@ -25,7 +25,9 @@ const HEADBOB_FREQUENCY = 2.4
 
 @onready var head: Node3D = %Head
 @onready var hurtbox: Area3D = $Hurtbox
-@onready var buff_timer: Timer = %BuffTimer
+@onready var jump_buff_timer: Timer = %JumpBuffTimer
+@onready var grav_buff_timer: Timer = %GravBuffTimer
+
 @onready var camera: Camera3D = %FPCamera
 @onready var world_model: Node3D = %WorldModel
 @onready var jump_sound: AudioStreamPlayer3D = %JumpSound
@@ -61,7 +63,8 @@ func _ready() -> void:
         child.set_layer_mask_value(10, true)
     hurtbox.area_entered.connect(_on_hurtbox_entered)
     hurtbox.area_exited.connect(_on_hurtbox_exited)
-    buff_timer.timeout.connect(_on_buff_timeout)
+    jump_buff_timer.timeout.connect(_on_jump_buff_timer_ended)
+    grav_buff_timer.timeout.connect(_on_grav_buff_timer_ended)
 
 func _unhandled_input(event: InputEvent) -> void:
     if GlobalState.intro_mode:
@@ -184,10 +187,6 @@ func knockback_player(vector: Vector3):
 func apply_wind(vector: Vector3):
     wind_force = vector
 
-func activate_jump_buff():
-    jump_velocity += 4.5
-    buff_timer.start(20)
-
 func teleport():
     self.position += Vector3(0, 10, 0)
     self.velocity = Vector3.ZERO
@@ -221,10 +220,20 @@ func _on_hurtbox_exited(area: Area3D) -> void:
         walk_speed = 7.0
         sprint_speed = 8.5
 
-func _on_buff_timeout() -> void:
+func _on_jump_buff_timer_ended() -> void:
     jump_velocity -= 4.5
 
+func _on_grav_buff_timer_ended() -> void:
+    gravity_mult *= 2
 
+func slomo_buff():
+    gravity_mult *= 0.5
+    grav_buff_timer.start(30)
+    
+func activate_jump_buff():
+    jump_velocity += 4.5
+    jump_buff_timer.start(30)
+    
 func _on_squish_zone_body_entered(body: Node3D) -> void:
     if(body.get_collision_layer_value(1) and is_on_floor()):
         var block = body as Block
@@ -246,6 +255,9 @@ func get_open_spot() -> Vector3:
         if(is_spot_open(check_pos)):
             return check_pos
     return position + Vector3.UP * 5
+
+
+    
 
 func is_spot_open(pos: Vector3) -> bool:
     var space_state = get_world_3d().direct_space_state

@@ -152,6 +152,8 @@ func process_card_effect(card_name: String) -> void:
             card_number += 1
         "Again!?":
             world.repeat_block()
+        "Slo-mo":
+            player.slomo_buff()
 
 func decrement_card_count(card):
     match int(card["rarity"]):

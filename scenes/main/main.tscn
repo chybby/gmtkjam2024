@@ -104,7 +104,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
 visible = false
 platform_floor_layers = 4294967295
 platform_wall_layers = 0
-jump_number = 999
 jump_velocity = 9.0
 
 [node name="IntroCamera3D" type="Camera3D" parent="."]

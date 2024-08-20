@@ -9,7 +9,7 @@
         {
             "name": "Heal Up",
             "description": "Regain a heart",
-            "rarity": 2,
+            "rarity": 3,
             "limit" : 999
         },
         {
@@ -21,7 +21,7 @@
          {
             "name": "More Chances",
             "description": "Chances spawn more often",
-            "rarity": 2,
+            "rarity": 3,
             "limit" : 3
         },
         {
@@ -44,7 +44,7 @@
         },
          {
             "name": "Big Heart",
-            "description": "Adds an extra heart",
+            "description": "Permanently gain an extra heart",
             "rarity": 1,
             "limit" : 999
         },
@@ -107,6 +107,13 @@
             "description": "Next block repeats 5 times",
             "rarity": 2,
             "limit" : 999
+        },
+        {
+             "name": "Slo-mo",
+            "description": "Gain low gravity for a short period",
+            "rarity": 2,
+            "limit" : 999
         }
+        
     ]
 }
