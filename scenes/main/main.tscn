@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://ef5dqqevmxcn"]
+[gd_scene load_steps=28 format=3 uid="uid://ef5dqqevmxcn"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_jcq7f"]
 [ext_resource type="PackedScene" uid="uid://nhikx0701dde" path="res://scenes/game_objects/world/world.tscn" id="2_o8oy4"]
@@ -21,8 +21,9 @@
 [ext_resource type="Texture2D" uid="uid://bppycmv0hpaoi" path="res://assets/Blocks.png" id="14_h0ukb"]
 [ext_resource type="PackedScene" uid="uid://dw38iluhkalqt" path="res://scenes/ui/chance/chance.tscn" id="15_bl443"]
 [ext_resource type="Texture2D" uid="uid://bnky6pjyri50g" path="res://assets/Reroll.png" id="16_sjg4l"]
-[ext_resource type="AudioStream" uid="uid://dph3ex83oj73l" path="res://assets/audio/bg-music.mp3" id="22_m4f3r"]
-[ext_resource type="AudioStream" uid="uid://bu8xqet0nur8o" path="res://assets/audio/card-pickup.mp3" id="22_yug2k"]
+[ext_resource type="AudioStream" uid="uid://dph3ex83oj73l" path="res://assets/audio/bg-music.mp3" id="22_j28kt"]
+[ext_resource type="AudioStream" uid="uid://82fif2tcoesx" path="res://assets/audio/block-pickup.mp3" id="23_vq7dk"]
+[ext_resource type="AudioStream" uid="uid://dvuvdytggxe6e" path="res://assets/audio/block-land-thud.mp3" id="24_vioj8"]
 
 [sub_resource type="Sky" id="Sky_s2apd"]
 sky_material = ExtResource("14_0wvk0")
@@ -32,6 +33,7 @@ background_mode = 2
 sky = SubResource("Sky_s2apd")
 ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_sky_contribution = 0.2
+ambient_light_energy = 0.6
 tonemap_mode = 2
 tonemap_white = 0.75
 ssao_enabled = true
@@ -114,6 +116,7 @@ theme_override_constants/margin_right = 50
 
 [node name="TimerContainer" type="HBoxContainer" parent="HUD/MarginContainer"]
 unique_name_in_owner = true
+visible = false
 layout_direction = 2
 layout_mode = 2
 size_flags_horizontal = 4
@@ -282,12 +285,17 @@ visible = false
 [node name="Chance" parent="." instance=ExtResource("15_bl443")]
 visible = false
 
-[node name="BGMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("22_m4f3r")
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("22_j28kt")
 autoplay = true
+bus = &"Music"
 
 [node name="ChancePickupSound" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-process_mode = 3
-stream = ExtResource("22_yug2k")
-pitch_scale = 1.68
+stream = ExtResource("23_vq7dk")
+bus = &"SFX"
+
+[node name="BlockThumpSound" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("24_vioj8")
+bus = &"SFX"

@@ -34,50 +34,8 @@ wait_time = 5.0
 one_shot = true
 
 [node name="BubblingSound" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12, 0)
 stream = ExtResource("2_4juqa")
+attenuation_model = 2
 autoplay = true
-stream_paused = true
-
-[node name="BubblingSound2" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_4juqa")
-autoplay = true
-
-[node name="BubblingSound3" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_4juqa")
-autoplay = true
-
-[node name="BubblingSound4" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_4juqa")
-autoplay = true
-
-[node name="BubblingSound5" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_4juqa")
-autoplay = true
-
-[node name="BubblingSound6" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_4juqa")
-autoplay = true
-
-[node name="BubblingSound7" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_4juqa")
-autoplay = true
-
-[node name="BubblingSound8" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_4juqa")
-autoplay = true
-
-[node name="BubblingSound9" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_4juqa")
-autoplay = true
-
-[node name="BubblingSound10" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_4juqa")
-autoplay = true
-
-[node name="BubblingSound11" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_4juqa")
-autoplay = true
-
-[node name="BubblingSound12" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_4juqa")
-autoplay = true
+panning_strength = 0.0

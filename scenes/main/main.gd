@@ -36,6 +36,7 @@ extends Node3D
 @onready var hint_label: RichTextLabel = %HintLabel
 
 @onready var chance_pickup_sound: AudioStreamPlayer = %ChancePickupSound
+@onready var block_thump_sound: AudioStreamPlayer = %BlockThumpSound
 
 
 var game_over := false
@@ -93,6 +94,7 @@ func _process(delta: float) -> void:
         await tween.finished
         player.camera.current = true
 
+        block_thump_sound.play()
         world.blow_away_intro_blocks()
 
         # Tween in the HUD.
@@ -123,7 +125,7 @@ func _process(delta: float) -> void:
         rerolls.visible = true
     height_label.text = str(round(player.height()))
 
-    update_lava_timer()
+    # update_lava_timer()
 
     for warning in warnings.get_children():
         warning.queue_free()

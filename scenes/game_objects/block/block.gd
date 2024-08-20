@@ -3,7 +3,6 @@ class_name Block
 
 signal settled
 
-
 @export var horizontal_speed := 3.0
 @export var falling_speed := 1.0
 @export var use_physics := false
@@ -64,6 +63,8 @@ func _input(event: InputEvent) -> void:
 
 func _ready() -> void:
     block_settled_sound_player.stream = block_settled_sound_resource
+    block_settled_sound_player.bus = 'SFX'
+    block_settled_sound_player.attenuation_model = AudioStreamPlayer3D.ATTENUATION_DISABLED
     add_child(block_settled_sound_player)
     linear_velocity.y = -falling_speed
     if GlobalState.chaos_mode:
@@ -77,11 +78,11 @@ func _physics_process(delta: float) -> void:
             queue_free()
     else:
         if falling and linear_velocity.y > -falling_speed / 2:
+            block_settled_sound_player.play()
             falling = false
             input_vector = Vector2.ZERO
             freeze = true
             position = position.round()
-            block_settled_sound_player.play()
             settled.emit()
 
     if discrete_motion:
@@ -93,6 +94,9 @@ func _physics_process(delta: float) -> void:
         var material = minimap_model.mesh.surface_get_material(0) as StandardMaterial3D
 
         material.albedo_color.s = max(initial_s * 0.75 - (initial_s * 0.75 * 0.05 * (tower_height - world_height())), 0.2)
+
+    if not GlobalState.intro_mode and block_settled_sound_player.attenuation_model == AudioStreamPlayer3D.ATTENUATION_DISABLED:
+        block_settled_sound_player.attenuation_model = AudioStreamPlayer3D.ATTENUATION_INVERSE_DISTANCE
 
 func _on_tower_height_changed(height: float) -> void:
     tower_height = height
