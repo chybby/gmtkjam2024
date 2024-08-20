@@ -60,25 +60,21 @@ shape = SubResource("BoxShape3D_ftkto")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
-layers = 2
 cast_shadow = 0
 mesh = SubResource("BoxMesh_h45eg")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
-layers = 2
 cast_shadow = 0
 mesh = SubResource("BoxMesh_h45eg")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
-layers = 2
 cast_shadow = 0
 mesh = SubResource("BoxMesh_jl8j5")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
-layers = 2
 cast_shadow = 0
 mesh = SubResource("BoxMesh_jl8j5")
 

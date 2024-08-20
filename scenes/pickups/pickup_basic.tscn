@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://di6wgb06xfju0"]
+[gd_scene load_steps=5 format=3 uid="uid://dhmf1pkb1k2og"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/biome/snow_patch.gd" id="1_hx2v4"]
 

@@ -65,6 +65,7 @@ func _ready() -> void:
 
     if not GlobalState.intro_mode:
         player.camera.current = true
+        player.visible = true
         hud.offset.x = 0
         GameEvents.emit_game_started()
 
@@ -102,6 +103,7 @@ func _process(delta: float) -> void:
 
         GameEvents.emit_game_started()
         GlobalState.intro_mode = false
+        player.visible = true
 
     if game_over:
         cinematic_camera_pivot.rotate_y(cinematic_camera_rotate_speed * delta)

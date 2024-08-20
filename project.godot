@@ -131,6 +131,9 @@ reroll={
 
 [layer_names]
 
+3d_render/layer_1="world"
+3d_render/layer_2="minimap"
+3d_render/layer_3="Layer 3"
 2d_physics/layer_1="Terrain"
 3d_physics/layer_1="blocks"
 2d_physics/layer_2="Player"

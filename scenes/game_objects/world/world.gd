@@ -169,6 +169,7 @@ func _on_block_settled() -> void:
         spawn_chance()
 
     print('Tower height:', tower_height)
+    GameEvents.tower_height_changed.emit(tower_height)
     current_block.settled.disconnect(_on_block_settled)
     current_block = null
 

@@ -83,6 +83,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
 [node name="Model" parent="ModelPivot" instance=ExtResource("2_ydmhv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.466091, 0, 0.486958)
 
+[node name="Icosphere" parent="ModelPivot/Model" index="0"]
+layers = 3
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
 shape = SubResource("SphereShape3D_6moi2")
@@ -104,3 +107,5 @@ autoplay = "bounce_and_spin"
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="area_entered" from="PickupArea" to="." method="_on_pickup_area_area_entered"]
 [connection signal="body_entered" from="PickupArea" to="." method="_on_body_entered"]
+
+[editable path="ModelPivot/Model"]

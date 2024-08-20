@@ -28,6 +28,7 @@ unique_name_in_owner = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WorldModel"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+layers = 3
 mesh = SubResource("CapsuleMesh_66pfy")
 
 [node name="Head" type="Node3D" parent="."]
@@ -36,6 +37,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 
 [node name="FPCamera" type="Camera3D" parent="Head"]
 unique_name_in_owner = true
+cull_mask = 1
 current = true
 
 [node name="Hurtbox" type="Area3D" parent="."]

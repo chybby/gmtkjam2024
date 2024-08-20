@@ -5,5 +5,4 @@
 [node name="crown" instance=ExtResource("1_xl1ry")]
 
 [node name="Circle" parent="." index="0"]
-layers = 2
 cast_shadow = 0

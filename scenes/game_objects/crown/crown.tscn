@@ -151,7 +151,6 @@ libraries = {
 autoplay = "bounce_spin"
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-layers = 2
 amount = 100
 lifetime = 3.0
 transform_align = 1

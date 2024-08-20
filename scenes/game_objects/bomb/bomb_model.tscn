@@ -50,6 +50,7 @@ _data = {
 script = ExtResource("2_8f5o4")
 
 [node name="Cylinder" parent="." index="0"]
+layers = 3
 material_overlay = SubResource("StandardMaterial3D_gqg25")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]

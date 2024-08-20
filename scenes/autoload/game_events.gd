@@ -9,6 +9,7 @@ signal drop_lava
 signal freeze_lava
 signal hint(text: String)
 signal health_changed
+signal tower_height_changed(height: float)
 
 func emit_game_started() -> void:
     game_started.emit()
@@ -36,3 +37,6 @@ func show_hint(text: String) -> void:
 
 func health_changed_triggered() -> void:
     health_changed.emit()
+
+func emit_tower_height_changed(height: float) -> void:
+    tower_height_changed.emit(height)

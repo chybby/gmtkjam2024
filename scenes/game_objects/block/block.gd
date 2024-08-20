@@ -9,11 +9,16 @@ signal settled
 @export var discrete_motion := true
 
 @onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
+@onready var minimap_model: MeshInstance3D = %Cube2
+@onready var initial_s: float = minimap_model.mesh.surface_get_material(0).albedo_color.s
+
 @onready var player: Player = get_tree().get_first_node_in_group('Player')
 
 var input_vector := Vector2.ZERO
 var motion := Vector3.ZERO
 var falling := true
+
+var tower_height: float = 0
 
 func world_height() -> float:
     # TODO: fix
@@ -58,6 +63,8 @@ func _ready() -> void:
     if GlobalState.chaos_mode:
         use_physics = true
 
+    GameEvents.tower_height_changed.connect(_on_tower_height_changed)
+
 func _physics_process(delta: float) -> void:
     if use_physics:
         if position.y < -1.0:
@@ -75,6 +82,13 @@ func _physics_process(delta: float) -> void:
             position += motion
         motion = Vector3.ZERO
 
+    if not falling:
+        var material = minimap_model.mesh.surface_get_material(0) as StandardMaterial3D
+
+        material.albedo_color.s = max(initial_s * 0.75 - (initial_s * 0.75 * 0.05 * (tower_height - world_height())), 0.2)
+
+func _on_tower_height_changed(height: float) -> void:
+    tower_height = height
 
 func _on_body_entered(body: CollisionObject3D) -> void:
     if use_physics and body.get_collision_layer_value(1) and falling:
@@ -97,6 +111,6 @@ func blow_away() -> void:
 
     var direction = (global_position - player.global_position).normalized()
 
-    apply_impulse(direction * 1500)#Vector3(0, 1000, -1000))
+    apply_impulse(direction * 1500)
     await get_tree().create_timer(5).timeout
     queue_free()
