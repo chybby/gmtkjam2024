@@ -95,9 +95,6 @@ func _physics_process(delta: float) -> void:
 
     var cur_height = player.height()
     particle_holder.position.y = cur_height + 20
-    var progress = clamp(cur_height/heaven.position.y, 0.0, 1.0)
-    sky_material.set_shader_parameter("progress", progress)
-    environment.ambient_light_sky_contribution = 0.2 + (0.8 * progress / 0.4)
 
     apply_biome_effects()
 
@@ -242,6 +239,13 @@ func _on_wind_stop_timeout() -> void:
 
 func more_chances() -> void:
     chance_frequency -= 1
+    
+func update_progress(progress: float) -> void:
+    environment.ambient_light_sky_contribution = 0.2 + (0.8 * progress / 0.4)
+    sky_material.set_shader_parameter("progress", progress)
+    
+func get_progress() -> float:
+    return clamp(player.height()/heaven.position.y, 0.0, 1.0)
 
 func get_lava_time_left() -> float:
     return lava.time_left()

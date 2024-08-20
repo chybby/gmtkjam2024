@@ -40,6 +40,8 @@ extends Node3D
 @onready var block_thump_sound: AudioStreamPlayer = %BlockThumpSound
 
 
+
+
 var game_over := false
 var pause_counter := 0
 
@@ -112,8 +114,11 @@ func _process(delta: float) -> void:
 
     if game_over:
         cinematic_camera_pivot.rotate_y(cinematic_camera_rotate_speed * delta)
+        world.update_progress(clamp(cinematic_camera_pivot.position.y / world.heaven_height, 0.0, 1.0))
         if cinematic_camera_pivot.position.y < world.tower_height:
             cinematic_camera_pivot.position.y += cinematic_camera_climb_speed * delta
+    else:
+        world.update_progress(world.get_progress())
 
     block_count_label.text = str(world.blocks_remaining)
     if world.blocks_remaining == 0:

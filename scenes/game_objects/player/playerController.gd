@@ -155,7 +155,9 @@ func jump():
     self.velocity.y = jump_velocity
 
 func change_health(change: int):
+    if(health < 0): return
     health += change
+    lava_sizzle_sound.play()
     GameEvents.health_changed_triggered()
     if (health <= 0):
         GameEvents.emit_game_over()
@@ -191,7 +193,6 @@ func height() -> float:
 
 func _on_hurtbox_entered(area: Area3D) -> void:
     if area.get_collision_layer_value(4):
-        lava_sizzle_sound.play()
         change_health(-1)
         self.velocity.y = bounce_velocity * knockback_mult
     elif area.get_collision_layer_value(6):
