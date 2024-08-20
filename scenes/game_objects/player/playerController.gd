@@ -256,9 +256,6 @@ func get_open_spot() -> Vector3:
             return check_pos
     return position + Vector3.UP * 5
 
-
-
-
 func is_spot_open(pos: Vector3) -> bool:
     var space_state = get_world_3d().direct_space_state
     var query = PhysicsRayQueryParameters3D.new()
