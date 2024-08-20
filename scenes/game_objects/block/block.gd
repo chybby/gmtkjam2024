@@ -76,7 +76,7 @@ func _physics_process(delta: float) -> void:
         if position.y < -1.0:
             queue_free()
     else:
-        if falling and linear_velocity.y > -falling_speed / 2:
+        if falling and linear_velocity.y > -falling_speed / 4:
             falling = false
             input_vector = Vector2.ZERO
             freeze = true

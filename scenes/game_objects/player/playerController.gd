@@ -4,6 +4,7 @@ class_name Player
 @export var look_sensitivity: float = 0.2
 @export var auto_bhop := true
 @export var jump_number := 0
+@export var nudge_factor := 10
 
 @export var walk_speed := 7.0
 @export var sprint_speed := 8.5
@@ -216,3 +217,38 @@ func _on_hurtbox_exited(area: Area3D) -> void:
 
 func _on_buff_timeout() -> void:
     jump_velocity -= 4.5
+
+
+func _on_squish_zone_body_entered(body: Node3D) -> void:
+    if(body.get_collision_layer_value(1)):
+        var block = body as Block
+        
+        if block and block.falling:
+            var open_spot = get_open_spot()
+            print(open_spot)
+            position = open_spot
+            
+func get_open_spot() -> Vector3:
+    var directions = [
+        Vector3.LEFT,
+        Vector3.FORWARD,
+        Vector3.RIGHT,
+        Vector3.BACK
+    ]
+    
+    for dir in directions:
+        var check_pos = position + dir
+        if(is_spot_open(check_pos)):
+            return check_pos
+    return position + Vector3.UP * 5
+            
+func is_spot_open(pos: Vector3) -> bool:
+    var space_state = get_world_3d().direct_space_state
+    var query = PhysicsRayQueryParameters3D.new()
+    query.from = pos + Vector3(0, .5, 0)  # Start the ray above the ground
+    query.to = pos + Vector3(0, 1.8, 0)  # End the ray below the ground
+    query.collision_mask = 1  # Adjust this mask to the relevant collision layer
+
+    var result = space_state.intersect_ray(query)
+    print(result)
+    return result.size() <= 0

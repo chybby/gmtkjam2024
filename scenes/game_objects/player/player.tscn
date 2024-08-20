@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bmfdom0qtg0ys"]
+[gd_scene load_steps=14 format=3 uid="uid://bmfdom0qtg0ys"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/player/playerController.gd" id="1_rptl7"]
 [ext_resource type="AudioStream" uid="uid://cblx213tlvnnv" path="res://assets/audio/footstep1.mp3" id="2_u8dih"]
@@ -27,6 +27,9 @@ stream_0/stream = ExtResource("2_u8dih")
 stream_1/stream = ExtResource("3_utp4f")
 stream_2/stream = ExtResource("4_ujqmo")
 stream_3/stream = ExtResource("5_so75w")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vnoft"]
+size = Vector3(0.421124, 0.199684, 0.45604)
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 collision_layer = 4
@@ -58,7 +61,7 @@ current = true
 
 [node name="Hurtbox" type="Area3D" parent="."]
 collision_layer = 0
-collision_mask = 120
+collision_mask = 121
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
@@ -84,3 +87,12 @@ unique_name_in_owner = true
 stream = ExtResource("8_1qlxq")
 pitch_scale = 1.19
 max_polyphony = 5
+
+[node name="SquishZone" type="Area3D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SquishZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00557137, 1.85251, 0.00632393)
+shape = SubResource("BoxShape3D_vnoft")
+
+[connection signal="body_entered" from="SquishZone" to="." method="_on_squish_zone_body_entered"]

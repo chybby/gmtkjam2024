@@ -4,6 +4,11 @@ class_name World
 #variables
 @export var blocks_remaining := -1
 @export var added_block_amount := 5
+@export var heaven_height := 50
+@export var vine_start_ratio := .2
+@export var snow_start_ratio := .4
+@export var wind_start_ratio := .6
+@export var space_start_ratio := .8
 
 #scenes
 @export var block_scenes: Array[PackedScene]
@@ -58,6 +63,7 @@ var chance_frequency := 7
 var rerolls := 0
 var block_raycasts := []
 
+
 var no_blocks_hint_shown := false
 
 func _ready() -> void:
@@ -70,12 +76,13 @@ func _ready() -> void:
     wind_start_timer.timeout.connect(_on_wind_start_timeout)
     wind_stop_timer.timeout.connect(_on_wind_stop_timeout)
 
+    setup_biome_boundaries()
     setup_ray_array()
 
-const VINE_BIOME_START := 10.0
-const SNOW_BIOME_START := 20.0
-const WIND_BIOME_START := 30.0
-const SPACE_BIOME_START := 40.0
+var VINE_BIOME_START := 10.0
+var SNOW_BIOME_START := 20.0
+var WIND_BIOME_START := 30.0
+var SPACE_BIOME_START := 40.0
 
 var vines_hint_shown := false
 var snow_hint_shown := false
@@ -362,3 +369,10 @@ func apply_biome_effects():
 func blow_away_intro_blocks() -> void:
     for block in get_tree().get_nodes_in_group("blocks"):
         block.blow_away()
+
+func setup_biome_boundaries():
+    VINE_BIOME_START = heaven_height * vine_start_ratio
+    SNOW_BIOME_START = heaven_height * snow_start_ratio
+    WIND_BIOME_START = heaven_height * wind_start_ratio
+    SPACE_BIOME_START = heaven_height * space_start_ratio
+    heaven.position.y = heaven_height
