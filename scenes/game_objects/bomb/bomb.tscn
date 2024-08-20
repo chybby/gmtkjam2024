@@ -152,3 +152,4 @@ draw_pass_1 = SubResource("RibbonTrailMesh_2ko1v")
 [node name="ExplodeSound" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_dr1jh")
+volume_db = -5.333

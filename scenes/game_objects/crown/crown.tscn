@@ -1,7 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://ca8dwtoh7eun2"]
+[gd_scene load_steps=21 format=3 uid="uid://ca8dwtoh7eun2"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/crown/crown.gd" id="1_hl46c"]
 [ext_resource type="PackedScene" uid="uid://swuhnrf0k35" path="res://scenes/game_objects/crown/crown_model.tscn" id="2_mvksg"]
+[ext_resource type="AudioStream" uid="uid://82fif2tcoesx" path="res://assets/audio/block-pickup.mp3" id="3_aqd2e"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_usidk"]
 radius = 1.19163
@@ -156,3 +157,7 @@ lifetime = 3.0
 transform_align = 1
 process_material = SubResource("ParticleProcessMaterial_g535f")
 draw_pass_1 = SubResource("PlaneMesh_d0fg7")
+
+[node name="BlockPickupSound" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_aqd2e")

@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/player.tscn" id="3_ed6k7"]
 [ext_resource type="PackedScene" uid="uid://wi5cc17m8s0j" path="res://scenes/game_objects/block/l_left_block.tscn" id="3_u58ai"]
 [ext_resource type="PackedScene" uid="uid://npxcnna5262h" path="res://scenes/game_objects/block/l_right_block.tscn" id="4_3n40q"]
-[ext_resource type="PackedScene" uid="uid://vufqwbsvwwww" path="res://scenes/game_objects/player/empty_heart.tscn" id="4_83hhk"]
+[ext_resource type="PackedScene" path="res://scenes/game_objects/player/empty_heart.tscn" id="4_83hhk"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="5_7ptyp"]
 [ext_resource type="PackedScene" uid="uid://d0mda831q1sey" path="res://scenes/game_objects/block/straight_block.tscn" id="6_wna1e"]
 [ext_resource type="PackedScene" uid="uid://dyu54f2o0xg6e" path="res://scenes/game_objects/block/t_block.tscn" id="7_s6hv1"]
@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://djath7mvf6hxj" path="res://scenes/game_objects/block/z_right_block.tscn" id="9_6vvaw"]
 [ext_resource type="PackedScene" uid="uid://5upb47fymeyc" path="res://scenes/ui/settings/settings.tscn" id="12_ekpm1"]
 [ext_resource type="StyleBox" uid="uid://di1woh733y1jh" path="res://resources/style_box_flat_right.tres" id="12_iopbs"]
-[ext_resource type="PackedScene" uid="uid://c0yu4gferpwge" path="res://scenes/game_objects/player/heart.tscn" id="13_ixdce"]
+[ext_resource type="PackedScene" path="res://scenes/game_objects/player/heart.tscn" id="13_ixdce"]
 [ext_resource type="Material" uid="uid://clxb2pprd0dgn" path="res://resources/skybox/sky.material" id="14_0wvk0"]
 [ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="14_2pwwh"]
 [ext_resource type="PackedScene" uid="uid://cjcftrrxio41j" path="res://scenes/ui/game_over/GameOver.tscn" id="14_40xvj"]
@@ -25,12 +25,12 @@
 [ext_resource type="AudioStream" uid="uid://82fif2tcoesx" path="res://assets/audio/block-pickup.mp3" id="23_vq7dk"]
 [ext_resource type="AudioStream" uid="uid://dvuvdytggxe6e" path="res://assets/audio/block-land-thud.mp3" id="24_vioj8"]
 
-[sub_resource type="Sky" id="Sky_s2apd"]
+[sub_resource type="Sky" id="Sky_3dg4f"]
 sky_material = ExtResource("14_0wvk0")
 
 [sub_resource type="Environment" id="Environment_6ylbt"]
 background_mode = 2
-sky = SubResource("Sky_s2apd")
+sky = SubResource("Sky_3dg4f")
 ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_sky_contribution = 0.2
 ambient_light_energy = 0.6
@@ -146,13 +146,15 @@ transform = Transform2D(1, 0, 0, 1, 600, 0)
 unique_name_in_owner = true
 offset_left = -1200.0
 offset_top = 20.0
-offset_right = -834.0
-offset_bottom = 156.0
+offset_right = -1096.0
+offset_bottom = 84.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD/Hint"]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 40
@@ -162,14 +164,14 @@ theme_override_constants/margin_bottom = 20
 unique_name_in_owner = true
 clip_contents = false
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 theme_override_font_sizes/bold_italics_font_size = 30
 theme_override_font_sizes/italics_font_size = 30
 theme_override_font_sizes/mono_font_size = 30
 theme_override_font_sizes/normal_font_size = 30
 theme_override_font_sizes/bold_font_size = 30
 bbcode_enabled = true
-text = "Look out for ice.
-You doofus."
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
@@ -301,6 +303,7 @@ expand_mode = 2
 
 [node name="HeightLabel" type="Label" parent="HUD/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8

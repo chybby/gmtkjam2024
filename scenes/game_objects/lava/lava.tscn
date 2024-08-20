@@ -1,10 +1,31 @@
-[gd_scene load_steps=6 format=3 uid="uid://f5wu04sewl4s"]
+[gd_scene load_steps=10 format=3 uid="uid://f5wu04sewl4s"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/lava/lava.gd" id="1_taqgd"]
 [ext_resource type="AudioStream" uid="uid://b8s5ykoh1f74" path="res://assets/audio/lava-bubbling.mp3" id="2_4juqa"]
+[ext_resource type="Shader" uid="uid://ncrx04vb2xip" path="res://scenes/game_objects/lava/lava.tres" id="2_fqx85"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nf620"]
-albedo_color = Color(0.734375, 0.30561, 0, 1)
+[sub_resource type="Gradient" id="Gradient_rqe2l"]
+offsets = PackedFloat32Array(0, 0.285714, 0.395604, 0.769231, 0.802198, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.789063, 0.566561, 0.280487, 1, 0.796252, 0.512297, 0.228864, 1, 0.824669, 0.297814, 0.0248165, 1, 0.828125, 0.271729, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_v0wm8"]
+noise_type = 2
+frequency = 0.1
+fractal_octaves = 2
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_7rj0d"]
+width = 256
+height = 256
+depth = 32
+invert = true
+seamless = true
+color_ramp = SubResource("Gradient_rqe2l")
+noise = SubResource("FastNoiseLite_v0wm8")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gqn8r"]
+render_priority = 0
+shader = ExtResource("2_fqx85")
+shader_parameter/Noise3D = SubResource("NoiseTexture3D_7rj0d")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ih8l4"]
 size = Vector2(100000, 100000)
@@ -17,7 +38,8 @@ script = ExtResource("1_taqgd")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 layers = 3
-material_override = SubResource("StandardMaterial3D_nf620")
+material_override = SubResource("ShaderMaterial_gqn8r")
+instance_shader_parameters/ColorParameter = Color(0.827451, 0.270588, 0, 1)
 mesh = SubResource("PlaneMesh_ih8l4")
 
 [node name="Area3D" type="Area3D" parent="."]

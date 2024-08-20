@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bmfdom0qtg0ys"]
+[gd_scene load_steps=16 format=3 uid="uid://bmfdom0qtg0ys"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/player/playerController.gd" id="1_rptl7"]
 [ext_resource type="AudioStream" uid="uid://cblx213tlvnnv" path="res://assets/audio/footstep1.mp3" id="2_u8dih"]
@@ -13,7 +13,11 @@
 radius = 0.38
 height = 1.8
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wbuwm"]
+albedo_color = Color(0.94902, 0.168627, 0.513726, 1)
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_66pfy"]
+material = SubResource("StandardMaterial3D_wbuwm")
 height = 1.8
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_p66yh"]

@@ -82,7 +82,7 @@ func _physics_process(delta: float) -> void:
             falling = false
             input_vector = Vector2.ZERO
             freeze = true
-            position = position.round()
+            position = (position - Vector3(0, 0.2, 0)).round()
             settled.emit()
 
     if discrete_motion:

@@ -106,7 +106,6 @@ func _process(delta: float) -> void:
         hud_tween.set_ease(Tween.EASE_IN_OUT)
         hud_tween.set_trans(Tween.TRANS_QUAD)
         hud_tween.tween_property(hud, "offset:x", 0, 2)
-        await hud_tween.finished
 
         GameEvents.emit_game_started()
         GlobalState.intro_mode = false
@@ -185,6 +184,8 @@ func _on_chance_picked_up() -> void:
     chance.show_chance_cards()
 
 func _on_hint(text: String) -> void:
+    hint_label.text = ""
+    hint.size = Vector2.ZERO
     hint_label.text = text
     hint_animation_player.play("show_hint")
 
