@@ -7,7 +7,7 @@ on:
 
 env:
   GODOT_VERSION: 4.3
-  EXPORT_NAME: gmtk-jam-2024
+  EXPORT_NAME: brickup
   ITCHIO_USERNAME: chybby
   ITCHIO_GAME: gmtk-jam-2024
 
