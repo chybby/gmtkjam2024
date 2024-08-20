@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/game_objects/lava/lava.gd" id="1_taqgd"]
 [ext_resource type="AudioStream" uid="uid://b8s5ykoh1f74" path="res://assets/audio/lava-bubbling.mp3" id="2_4juqa"]
-[ext_resource type="Shader" uid="uid://ncrx04vb2xip" path="res://scenes/game_objects/lava/lava.tres" id="2_fqx85"]
+[ext_resource type="Shader" uid="uid://cxsrhsln3l1u7" path="res://scenes/game_objects/lava/lava.tres" id="2_fqx85"]
 
 [sub_resource type="Gradient" id="Gradient_rqe2l"]
 offsets = PackedFloat32Array(0, 0.285714, 0.395604, 0.769231, 0.802198, 1)

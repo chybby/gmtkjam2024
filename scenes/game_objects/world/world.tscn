@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://nhikx0701dde"]
+[gd_scene load_steps=47 format=3 uid="uid://nhikx0701dde"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/world/world.gd" id="1_1gpr2"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="2_5e020"]
@@ -15,7 +15,9 @@
 [ext_resource type="PackedScene" uid="uid://thqm0kkbuhhh" path="res://scenes/game_objects/heaven/heaven.tscn" id="11_s4k6m"]
 [ext_resource type="PackedScene" uid="uid://c0o7br7yshcri" path="res://scenes/game_objects/biome/snow_patch.tscn" id="11_x7j10"]
 [ext_resource type="PackedScene" uid="uid://babff5b71d0ke" path="res://scenes/game_objects/biome/vines_patch.tscn" id="12_h4umr"]
+[ext_resource type="Texture2D" uid="uid://dy72vr6g6771r" path="res://assets/maple_leaf.png" id="14_47h7u"]
 [ext_resource type="Texture2D" uid="uid://ck8n7qb3u8oa5" path="res://assets/snowflake.png" id="14_ivvwu"]
+[ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="15_efs7d"]
 [ext_resource type="Shader" uid="uid://c3sf484df0la5" path="res://resources/gradient.tres" id="15_va47u"]
 [ext_resource type="PackedScene" uid="uid://cnvqfowxv1p3v" path="res://blender/cloud.glb" id="18_44ihv"]
 [ext_resource type="AudioStream" uid="uid://82fif2tcoesx" path="res://assets/audio/block-pickup.mp3" id="19_daed2"]
@@ -35,17 +37,20 @@ initial_velocity_max = 16.0
 angular_velocity_min = -200.0
 angular_velocity_max = 200.0
 gravity = Vector3(0, 0, 0)
+scale_min = 0.5
 turbulence_enabled = true
 turbulence_noise_strength = 0.1
 turbulence_noise_scale = 2.81
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_urwpd"]
-transparency = 1
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ar4y"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
 cull_mode = 2
-albedo_texture = ExtResource("14_ivvwu")
+albedo_texture = ExtResource("14_47h7u")
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_vt4n4"]
-material = SubResource("StandardMaterial3D_urwpd")
+[sub_resource type="PlaneMesh" id="PlaneMesh_7uupv"]
+material = SubResource("StandardMaterial3D_8ar4y")
 size = Vector2(0.5, 0.5)
 orientation = 2
 
@@ -66,6 +71,19 @@ angular_velocity_max = 100.0
 gravity = Vector3(0, 0, 0)
 scale_min = 0.2
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_urwpd"]
+transparency = 1
+cull_mode = 2
+albedo_texture = ExtResource("14_ivvwu")
+emission_enabled = true
+emission = Color(0.76, 1, 0.972, 1)
+emission_energy_multiplier = 3.34
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vt4n4"]
+material = SubResource("StandardMaterial3D_urwpd")
+size = Vector2(0.5, 0.5)
+orientation = 2
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1qcdk"]
 particle_flag_rotate_y = true
 emission_shape_scale = Vector3(10, 10, 10)
@@ -77,6 +95,14 @@ initial_velocity_max = 16.0
 angular_velocity_min = -400.0
 angular_velocity_max = 400.0
 gravity = Vector3(0, -4, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jetc5"]
+albedo_texture = ExtResource("15_efs7d")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pdkca"]
+material = SubResource("StandardMaterial3D_jetc5")
+size = Vector2(0.5, 0.5)
+orientation = 2
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ckvgu"]
 emission_shape = 1
@@ -120,6 +146,9 @@ shader_parameter/Gradient = SubResource("GradientTexture1D_5x0c0")
 [sub_resource type="BoxMesh" id="BoxMesh_kedp3"]
 material = SubResource("ShaderMaterial_hotii")
 size = Vector3(10, 5, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nf620"]
+albedo_color = Color(0.734375, 0.30561, 0, 1)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_yq2r8"]
 plane = Plane(1, 0, 0, 0)
@@ -187,11 +216,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
 emitting = false
-amount = 121
+amount = 100
 lifetime = 20.0
 visibility_aabb = AABB(-5, -10, -5, 10, 10, 10)
 process_material = SubResource("ParticleProcessMaterial_7m41u")
-draw_pass_1 = SubResource("PlaneMesh_vt4n4")
+draw_pass_1 = SubResource("PlaneMesh_7uupv")
 
 [node name="FallingSnowParticles" type="GPUParticles3D" parent="ParticleHolder"]
 unique_name_in_owner = true
@@ -211,12 +240,11 @@ amount = 800
 lifetime = 5.0
 visibility_aabb = AABB(-5, -10, -5, 20, 15, 10)
 process_material = SubResource("ParticleProcessMaterial_1qcdk")
-draw_pass_1 = SubResource("PlaneMesh_vt4n4")
+draw_pass_1 = SubResource("PlaneMesh_pdkca")
 
 [node name="SpaceParticles" type="GPUParticles3D" parent="ParticleHolder"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.85391, -15, 0)
-emitting = false
 amount = 50
 lifetime = 20.0
 visibility_aabb = AABB(-5, -5, -5, 15, 10, 10)
@@ -242,6 +270,9 @@ mesh = SubResource("BoxMesh_kedp3")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.75221, 0)
 speed = 0.05
+
+[node name="MeshInstance3D" parent="Lava" index="0"]
+material_override = SubResource("StandardMaterial3D_nf620")
 
 [node name="Wall" type="StaticBody3D" parent="."]
 collision_layer = 2
