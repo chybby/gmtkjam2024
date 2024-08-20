@@ -29,6 +29,8 @@ class_name World
 
 @onready var player: Player = %Player
 @onready var lava: Lava = %Lava
+@onready var sky_material = get_viewport().get_world_3d().environment.sky.sky_material as ShaderMaterial
+@onready var heaven: StaticBody3D = %Heaven
 
 var blocks_placed := 0
 
@@ -83,6 +85,8 @@ func _physics_process(delta: float) -> void:
 
     var cur_height = player.height()
     particle_holder.position.y = cur_height + 20
+    var progress = clamp(cur_height/heaven.position.y, 0.0, 1.0)
+    sky_material.set_shader_parameter("progress", progress)
 
     apply_biome_effects()
 
@@ -270,7 +274,7 @@ func stop_low_grav() -> void:
 func reroll_chances() -> void:
     var chance = chance_pickup_scene.instantiate() as Node3D
     add_child(chance)
-    chance.position = %Player.position + Vector3(0, 2, 0)
+    chance.position = %Player.position + Vector3(0,1,0)
 
 func _on_pickup_destroyed() -> void:
     if (blocks_remaining == 0):

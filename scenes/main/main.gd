@@ -185,14 +185,14 @@ func update_lava_timer():
         timer_label.text = time_text
 
 func _on_health_changed() -> void:
-    var max = player.max_hp
+    var max_hp = player.max_hp
     var hp = player.health
 
     for child in health.get_children():
         child.queue_free()
 
     #add empty hearts
-    for i in max(0, max - hp):
+    for i in max(0, max_hp - hp):
         var missing_hp = empty_heart_scene.instantiate()
         health.add_child(missing_hp)
 

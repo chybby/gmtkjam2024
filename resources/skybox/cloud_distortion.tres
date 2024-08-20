@@ -1,0 +1,10 @@
+[gd_resource type="NoiseTexture2D" load_steps=2 format=3 uid="uid://1sgvik24uxk4"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_653mt"]
+noise_type = 0
+frequency = 0.0129
+fractal_octaves = 6
+fractal_lacunarity = 2.12
+
+[resource]
+noise = SubResource("FastNoiseLite_653mt")

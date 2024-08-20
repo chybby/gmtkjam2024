@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_jcq7f"]
 [ext_resource type="PackedScene" uid="uid://nhikx0701dde" path="res://scenes/game_objects/world/world.tscn" id="2_o8oy4"]
 [ext_resource type="PackedScene" uid="uid://4cebjv242d0u" path="res://scenes/main/warning.tscn" id="2_wqer3"]
-[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/player.tscn" id="3_ed6k7"]
+[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/Player.tscn" id="3_ed6k7"]
 [ext_resource type="PackedScene" uid="uid://wi5cc17m8s0j" path="res://scenes/game_objects/block/l_left_block.tscn" id="3_u58ai"]
 [ext_resource type="PackedScene" uid="uid://npxcnna5262h" path="res://scenes/game_objects/block/l_right_block.tscn" id="4_3n40q"]
-[ext_resource type="PackedScene" path="res://scenes/game_objects/player/empty_heart.tscn" id="4_83hhk"]
+[ext_resource type="PackedScene" uid="uid://vufqwbsvwwww" path="res://scenes/game_objects/player/empty_heart.tscn" id="4_83hhk"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="5_7ptyp"]
 [ext_resource type="PackedScene" uid="uid://d0mda831q1sey" path="res://scenes/game_objects/block/straight_block.tscn" id="6_wna1e"]
 [ext_resource type="PackedScene" uid="uid://dyu54f2o0xg6e" path="res://scenes/game_objects/block/t_block.tscn" id="7_s6hv1"]
@@ -14,23 +14,16 @@
 [ext_resource type="PackedScene" uid="uid://djath7mvf6hxj" path="res://scenes/game_objects/block/z_right_block.tscn" id="9_6vvaw"]
 [ext_resource type="PackedScene" uid="uid://5upb47fymeyc" path="res://scenes/ui/settings/settings.tscn" id="12_ekpm1"]
 [ext_resource type="StyleBox" uid="uid://di1woh733y1jh" path="res://resources/style_box_flat_right.tres" id="12_iopbs"]
-[ext_resource type="PackedScene" path="res://scenes/game_objects/player/heart.tscn" id="13_ixdce"]
+[ext_resource type="PackedScene" uid="uid://c0yu4gferpwge" path="res://scenes/game_objects/player/heart.tscn" id="13_ixdce"]
+[ext_resource type="Material" uid="uid://clxb2pprd0dgn" path="res://resources/skybox/sky.material" id="14_0wvk0"]
 [ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="14_2pwwh"]
 [ext_resource type="PackedScene" uid="uid://cjcftrrxio41j" path="res://scenes/ui/game_over/GameOver.tscn" id="14_40xvj"]
 [ext_resource type="Texture2D" uid="uid://bppycmv0hpaoi" path="res://assets/Blocks.png" id="14_h0ukb"]
 [ext_resource type="PackedScene" uid="uid://dw38iluhkalqt" path="res://scenes/ui/chance/chance.tscn" id="15_bl443"]
 [ext_resource type="Texture2D" uid="uid://bnky6pjyri50g" path="res://assets/Reroll.png" id="16_sjg4l"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ti5on"]
-sky_top_color = Color(0, 0.286457, 0.527344, 1)
-sky_horizon_color = Color(0.420119, 0.671255, 0.777344, 1)
-sky_curve = 0.349066
-sun_angle_max = 15.0
-sun_curve = 2.35375
-energy_multiplier = 3.0
-
 [sub_resource type="Sky" id="Sky_s2apd"]
-sky_material = SubResource("ProceduralSkyMaterial_ti5on")
+sky_material = ExtResource("14_0wvk0")
 
 [sub_resource type="Environment" id="Environment_6ylbt"]
 background_mode = 2
@@ -85,7 +78,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.12921, 11.6669)
 size = 7.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.999999, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
 light_color = Color(1, 0.922586, 0.58476, 1)
 light_energy = 0.8
 light_bake_mode = 1
