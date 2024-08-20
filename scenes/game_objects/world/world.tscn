@@ -186,55 +186,6 @@ mesh = SubResource("BoxMesh_kedp3")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.75221, 0)
 speed = 0.05
-discrete = true
-
-[node name="BubblingSound" parent="Lava" index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.99933, 0, 8.13714)
-max_distance = 10.0
-
-[node name="BubblingSound2" parent="Lava" index="4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.32755)
-max_distance = 10.0
-
-[node name="BubblingSound3" parent="Lava" index="5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.01181, 0, 9.07936)
-max_distance = 10.0
-
-[node name="BubblingSound4" parent="Lava" index="6"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.29727, 0, 4.93917)
-max_distance = 10.0
-
-[node name="BubblingSound5" parent="Lava" index="7"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2415, 0, 0)
-max_distance = 10.0
-
-[node name="BubblingSound6" parent="Lava" index="8"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2415, 0, -4.64863)
-max_distance = 10.0
-
-[node name="BubblingSound7" parent="Lava" index="9"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.86654, 0, -9.29727)
-max_distance = 10.0
-
-[node name="BubblingSound8" parent="Lava" index="10"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9.95098)
-max_distance = 10.0
-
-[node name="BubblingSound9" parent="Lava" index="11"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.72127, 0, -10.0236)
-max_distance = 10.0
-
-[node name="BubblingSound10" parent="Lava" index="12"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
-max_distance = 10.0
-
-[node name="BubblingSound11" parent="Lava" index="13"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -5)
-max_distance = 10.0
-
-[node name="BubblingSound12" parent="Lava" index="14"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 5)
-max_distance = 10.0
 
 [node name="Wall" type="StaticBody3D" parent="."]
 collision_layer = 2
