@@ -1,7 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://bd1abuvhhwj0"]
+[gd_scene load_steps=23 format=3 uid="uid://bd1abuvhhwj0"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/bomb/bomb.gd" id="1_14nxo"]
 [ext_resource type="PackedScene" uid="uid://vf5lcaxibcvs" path="res://scenes/game_objects/bomb/bomb_model.tscn" id="2_kvxe6"]
+[ext_resource type="AudioStream" uid="uid://dr0afxbawb5x8" path="res://assets/audio/bomb-exploding.mp3" id="3_dr1jh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8k0vw"]
 size = Vector3(0.6, 0.6, 0.6)
@@ -132,12 +133,14 @@ draw_pass_1 = SubResource("SphereMesh_87rov")
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 5.0
+one_shot = true
 
 [node name="Centre" type="Node3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.3, 0.5)
 
 [node name="FuseParticles" type="GPUParticles3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(0.903664, 0.428241, 0, -0.428241, 0.903664, 0, 0, 0, 1, 0.710566, 0.784391, 0.394801)
 amount = 20
 lifetime = 0.25
@@ -145,3 +148,7 @@ transform_align = 1
 trail_enabled = true
 process_material = SubResource("ParticleProcessMaterial_f4dwl")
 draw_pass_1 = SubResource("RibbonTrailMesh_2ko1v")
+
+[node name="ExplodeSound" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_dr1jh")

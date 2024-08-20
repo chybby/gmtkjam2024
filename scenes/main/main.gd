@@ -35,6 +35,8 @@ extends Node3D
 @onready var hint: PanelContainer = %Hint
 @onready var hint_label: RichTextLabel = %HintLabel
 
+@onready var chance_pickup_sound: AudioStreamPlayer = %ChancePickupSound
+
 
 var game_over := false
 var pause_counter := 0
@@ -170,6 +172,7 @@ func _on_card_selected() -> void:
     unpause()
 
 func _on_chance_picked_up() -> void:
+    chance_pickup_sound.play()
     pause()
     chance.show_chance_cards()
 

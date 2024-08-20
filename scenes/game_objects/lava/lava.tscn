@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://f5wu04sewl4s"]
+[gd_scene load_steps=6 format=3 uid="uid://f5wu04sewl4s"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/lava/lava.gd" id="1_taqgd"]
+[ext_resource type="AudioStream" uid="uid://b8s5ykoh1f74" path="res://assets/audio/lava-bubbling.mp3" id="2_4juqa"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nf620"]
 albedo_color = Color(0.734375, 0.30561, 0, 1)
@@ -31,3 +32,52 @@ shape = SubResource("BoxShape3D_rirfl")
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="BubblingSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_4juqa")
+autoplay = true
+stream_paused = true
+
+[node name="BubblingSound2" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_4juqa")
+autoplay = true
+
+[node name="BubblingSound3" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_4juqa")
+autoplay = true
+
+[node name="BubblingSound4" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_4juqa")
+autoplay = true
+
+[node name="BubblingSound5" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_4juqa")
+autoplay = true
+
+[node name="BubblingSound6" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_4juqa")
+autoplay = true
+
+[node name="BubblingSound7" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_4juqa")
+autoplay = true
+
+[node name="BubblingSound8" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_4juqa")
+autoplay = true
+
+[node name="BubblingSound9" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_4juqa")
+autoplay = true
+
+[node name="BubblingSound10" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_4juqa")
+autoplay = true
+
+[node name="BubblingSound11" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_4juqa")
+autoplay = true
+
+[node name="BubblingSound12" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_4juqa")
+autoplay = true

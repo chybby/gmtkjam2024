@@ -32,6 +32,8 @@ class_name World
 @onready var sky_material = get_viewport().get_world_3d().environment.sky.sky_material as ShaderMaterial
 @onready var heaven: StaticBody3D = %Heaven
 
+@onready var block_pickup_sound: AudioStreamPlayer = $BlockPickupSound
+
 var blocks_placed := 0
 
 var current_block: Block = null
@@ -174,6 +176,7 @@ func _on_block_settled() -> void:
     current_block = null
 
 func add_blocks() -> void:
+    block_pickup_sound.play()
     if (limited_blocks):
         blocks_remaining += added_block_amount
 

@@ -1,6 +1,8 @@
 extends RigidBody3D
 class_name Pickup
 
+@onready var pickup_sound: AudioStreamPlayer = $PickupSound
+
 func _physics_process(delta: float) -> void:
     if not freeze and linear_velocity.is_zero_approx():
         freeze = true

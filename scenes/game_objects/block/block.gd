@@ -3,6 +3,7 @@ class_name Block
 
 signal settled
 
+
 @export var horizontal_speed := 3.0
 @export var falling_speed := 1.0
 @export var use_physics := false
@@ -13,6 +14,9 @@ signal settled
 @onready var initial_s: float = minimap_model.mesh.surface_get_material(0).albedo_color.s
 
 @onready var player: Player = get_tree().get_first_node_in_group('Player')
+
+@onready var block_settled_sound_player: AudioStreamPlayer3D = AudioStreamPlayer3D.new()
+@onready var block_settled_sound_resource: AudioStream = preload("res://resources/block_settled_sound.tres")
 
 var input_vector := Vector2.ZERO
 var motion := Vector3.ZERO
@@ -59,6 +63,8 @@ func _input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
+    block_settled_sound_player.stream = block_settled_sound_resource
+    add_child(block_settled_sound_player)
     linear_velocity.y = -falling_speed
     if GlobalState.chaos_mode:
         use_physics = true
@@ -75,6 +81,7 @@ func _physics_process(delta: float) -> void:
             input_vector = Vector2.ZERO
             freeze = true
             position = position.round()
+            block_settled_sound_player.play()
             settled.emit()
 
     if discrete_motion:
@@ -99,6 +106,7 @@ func _on_body_entered(body: CollisionObject3D) -> void:
         physics_material_override.friction = 1
         lock_rotation = false
         set_collision_mask_value(2, false)
+        block_settled_sound_player.play()
         settled.emit()
 
 func blow_away() -> void:

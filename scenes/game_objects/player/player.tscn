@@ -1,6 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://bmfdom0qtg0ys"]
+[gd_scene load_steps=13 format=3 uid="uid://bmfdom0qtg0ys"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/player/playerController.gd" id="1_rptl7"]
+[ext_resource type="AudioStream" uid="uid://cblx213tlvnnv" path="res://assets/audio/footstep1.mp3" id="2_u8dih"]
+[ext_resource type="AudioStream" uid="uid://taa6flxonvtk" path="res://assets/audio/footstep2.mp3" id="3_utp4f"]
+[ext_resource type="AudioStream" uid="uid://bkgir00qdvcrb" path="res://assets/audio/footstep3.mp3" id="4_ujqmo"]
+[ext_resource type="AudioStream" uid="uid://km5u4804xojg" path="res://assets/audio/footstep4.mp3" id="5_so75w"]
+[ext_resource type="AudioStream" uid="uid://dk8seah7an3pa" path="res://assets/audio/jump.mp3" id="6_hbxp3"]
+[ext_resource type="AudioStream" uid="uid://b2yw7b3t5qvp7" path="res://assets/audio/jump-land.mp3" id="7_jxms1"]
+[ext_resource type="AudioStream" uid="uid://dt4oaydnqxwp2" path="res://assets/audio/lava-sizzling.mp3" id="8_1qlxq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7t204"]
 radius = 0.38
@@ -11,6 +18,15 @@ height = 1.8
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_p66yh"]
 size = Vector3(1, 1.8, 1)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8nvjt"]
+random_pitch = 1.1
+random_volume_offset_db = 0.4
+streams_count = 4
+stream_0/stream = ExtResource("2_u8dih")
+stream_1/stream = ExtResource("3_utp4f")
+stream_2/stream = ExtResource("4_ujqmo")
+stream_3/stream = ExtResource("5_so75w")
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 collision_layer = 4
@@ -50,3 +66,21 @@ shape = SubResource("BoxShape3D_p66yh")
 
 [node name="BuffTimer" type="Timer" parent="."]
 unique_name_in_owner = true
+
+[node name="FootstepSound" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_8nvjt")
+
+[node name="JumpSound" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("6_hbxp3")
+
+[node name="LandSound" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_jxms1")
+
+[node name="LavaSizzleSound" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("8_1qlxq")
+pitch_scale = 1.19
+max_polyphony = 5

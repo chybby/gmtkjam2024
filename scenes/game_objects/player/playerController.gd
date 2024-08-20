@@ -27,6 +27,9 @@ const HEADBOB_FREQUENCY = 2.4
 @onready var buff_timer: Timer = %BuffTimer
 @onready var camera: Camera3D = %FPCamera
 @onready var world_model: Node3D = %WorldModel
+@onready var jump_sound: AudioStreamPlayer3D = %JumpSound
+@onready var land_sound: AudioStreamPlayer3D = %LandSound
+@onready var lava_sizzle_sound: AudioStreamPlayer3D = %LavaSizzleSound
 
 var headbob_time := 0.0
 var double_jump := 0
@@ -43,6 +46,8 @@ var warning_directions: Array[Vector2] = []
 
 var max_hp := 3
 var health := 3
+
+var prev_in_air := false
 
 func look_angle() -> float:
     return rotation.y
@@ -85,6 +90,9 @@ func _physics_process(delta: float) -> void:
     wish_dir = self.global_transform.basis * Vector3(input_dir.x, 0.,input_dir.y)
 
     if is_on_floor():
+        if prev_in_air:
+            land_sound.play()
+            prev_in_air = false
         if jump_number > 0:
             double_jump = jump_number
         if Input.is_action_just_pressed("jump") or (auto_bhop and Input.is_action_pressed("jump")):
@@ -141,6 +149,8 @@ func _headbob_effect(delta):
     )
 
 func jump():
+    prev_in_air = true
+    jump_sound.play()
     self.velocity.y = jump_velocity
 
 func change_health(change: int):
@@ -180,6 +190,7 @@ func height() -> float:
 
 func _on_hurtbox_entered(area: Area3D) -> void:
     if area.get_collision_layer_value(4):
+        lava_sizzle_sound.play()
         change_health(-1)
         self.velocity.y = bounce_velocity * knockback_mult
     elif area.get_collision_layer_value(6):

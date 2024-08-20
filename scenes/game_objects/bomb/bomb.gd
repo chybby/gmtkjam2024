@@ -3,10 +3,12 @@ extends RigidBody3D
 @export var explosion_push_strength := 30.0
 
 @onready var explosion_particles: GPUParticles3D = %ExplosionParticles
+@onready var fuse_particles: GPUParticles3D = %FuseParticles
 @onready var timer: Timer = %Timer
 @onready var explosion_area: Area3D = $ExplosionArea
 @onready var model: Node3D = %Model
 @onready var centre: Node3D = %Centre
+@onready var explode_sound: AudioStreamPlayer3D = %ExplodeSound
 
 func _ready() -> void:
     body_entered.connect(_on_body_entered)
@@ -23,7 +25,9 @@ func _physics_process(delta: float) -> void:
         position = position.round()
 
 func _on_timer_timeout() -> void:
+    explode_sound.play()
     explosion_particles.emitting = true
+    fuse_particles.emitting = false
     model.visible = false
     var caught_in_explosion := explosion_area.get_overlapping_bodies()
     if caught_in_explosion.size() != 0:
@@ -41,4 +45,6 @@ func _on_timer_timeout() -> void:
             strength = explosion_push_strength * (gradient * distance + y_intercept)
         player.knockback_player(direction * strength)
     await explosion_particles.finished
+    await explode_sound.finished
+
     queue_free()
