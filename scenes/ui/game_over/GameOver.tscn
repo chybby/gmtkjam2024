@@ -5,6 +5,49 @@
 [node name="GameOver" type="CanvasLayer"]
 script = ExtResource("1_swpr0")
 
+[node name="ScoreContainer" type="VBoxContainer" parent="."]
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -448.0
+offset_top = 123.0
+offset_bottom = -392.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="TimeTakenLabel" type="Label" parent="ScoreContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Time taken: 999:999.99"
+
+[node name="TowerHeightLabel" type="Label" parent="ScoreContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Tower height: 9999"
+
+[node name="PlayerHeightLabel" type="Label" parent="ScoreContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Player height: 9999"
+
+[node name="JumpLabel" type="Label" parent="ScoreContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Jumps made: 9999"
+
+[node name="BlocksPlacedLabel" type="Label" parent="ScoreContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Blocks placed: 9999"
+
+[node name="ChancesTakenLabel" type="Label" parent="ScoreContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Chances taken: 9999"
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0

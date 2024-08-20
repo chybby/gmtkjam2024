@@ -35,6 +35,7 @@ extends Node3D
 @onready var hint: PanelContainer = %Hint
 @onready var hint_label: RichTextLabel = %HintLabel
 @onready var hint_animation_player: AnimationPlayer = %HintAnimationPlayer
+@onready var game_over_ui: CanvasLayer = %GameOver
 
 @onready var chance_pickup_sound: AudioStreamPlayer = %ChancePickupSound
 @onready var block_thump_sound: AudioStreamPlayer = %BlockThumpSound
@@ -107,6 +108,7 @@ func _process(delta: float) -> void:
 
         GameEvents.emit_game_started()
         GlobalState.intro_mode = false
+        world.tower_height = 0
         player.visible = true
 
     if game_over:
@@ -163,11 +165,19 @@ func _on_game_over() -> void:
     if GlobalState.won:
         world.tower_height = max(world.tower_height, world.heaven_height)
         game_over_menu.allow_chaos_mode()
+    send_stats_to_game_over()
     game_over_menu.visible = true
+    
     Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _on_settings_closed() -> void:
     close_settings()
+    
+func send_stats_to_game_over():
+    game_over_ui.give_tower_height_reached(world.tower_height)
+    game_over_ui.give_player_height_reached(player.max_height)
+    game_over_ui.give_player_jumps(player.jump_stat)
+    game_over_ui.give_blocks_placed(world.blocks_placed)
 
 func _on_try_again(chaos_mode: bool) -> void:
     GlobalState.chaos_mode = chaos_mode

@@ -49,6 +49,8 @@ var max_hp := 3
 var health := 3
 
 var prev_in_air := false
+var max_height := 0.0
+var jump_stat = 0
 
 func look_angle() -> float:
     return rotation.y
@@ -89,6 +91,7 @@ func _physics_process(delta: float) -> void:
 
     var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
     wish_dir = self.global_transform.basis * Vector3(input_dir.x, 0.,input_dir.y)
+    max_height = max(max_height, position.y)
 
     if is_on_floor():
         if prev_in_air:
@@ -153,11 +156,13 @@ func jump():
     prev_in_air = true
     jump_sound.play()
     self.velocity.y = jump_velocity
+    jump_stat += 1
 
 func change_health(change: int):
     if(health < 0): return
     health += change
-    lava_sizzle_sound.play()
+    if(change < 0):
+        lava_sizzle_sound.play()
     GameEvents.health_changed_triggered()
     if (health <= 0):
         GameEvents.emit_game_over()
@@ -226,7 +231,6 @@ func _on_squish_zone_body_entered(body: Node3D) -> void:
 
         if block and block.falling:
             var open_spot = get_open_spot()
-            print(open_spot)
             position = open_spot
 
 func get_open_spot() -> Vector3:
@@ -251,5 +255,4 @@ func is_spot_open(pos: Vector3) -> bool:
     query.collision_mask = 1  # Adjust this mask to the relevant collision layer
 
     var result = space_state.intersect_ray(query)
-    print(result)
     return result.size() <= 0

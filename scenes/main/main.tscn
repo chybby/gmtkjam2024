@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/player.tscn" id="3_ed6k7"]
 [ext_resource type="PackedScene" uid="uid://wi5cc17m8s0j" path="res://scenes/game_objects/block/l_left_block.tscn" id="3_u58ai"]
 [ext_resource type="PackedScene" uid="uid://npxcnna5262h" path="res://scenes/game_objects/block/l_right_block.tscn" id="4_3n40q"]
-[ext_resource type="PackedScene" path="res://scenes/game_objects/player/empty_heart.tscn" id="4_83hhk"]
+[ext_resource type="PackedScene" uid="uid://vufqwbsvwwww" path="res://scenes/game_objects/player/empty_heart.tscn" id="4_83hhk"]
 [ext_resource type="PackedScene" uid="uid://bgpfi56qnhwke" path="res://scenes/game_objects/block/square_block.tscn" id="5_7ptyp"]
 [ext_resource type="PackedScene" uid="uid://d0mda831q1sey" path="res://scenes/game_objects/block/straight_block.tscn" id="6_wna1e"]
 [ext_resource type="PackedScene" uid="uid://dyu54f2o0xg6e" path="res://scenes/game_objects/block/t_block.tscn" id="7_s6hv1"]
@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://djath7mvf6hxj" path="res://scenes/game_objects/block/z_right_block.tscn" id="9_6vvaw"]
 [ext_resource type="PackedScene" uid="uid://5upb47fymeyc" path="res://scenes/ui/settings/settings.tscn" id="12_ekpm1"]
 [ext_resource type="StyleBox" uid="uid://di1woh733y1jh" path="res://resources/style_box_flat_right.tres" id="12_iopbs"]
-[ext_resource type="PackedScene" path="res://scenes/game_objects/player/heart.tscn" id="13_ixdce"]
+[ext_resource type="PackedScene" uid="uid://c0yu4gferpwge" path="res://scenes/game_objects/player/heart.tscn" id="13_ixdce"]
 [ext_resource type="Material" uid="uid://clxb2pprd0dgn" path="res://resources/skybox/sky.material" id="14_0wvk0"]
 [ext_resource type="Texture2D" uid="uid://bgjejrq2i1iwr" path="res://assets/icon.svg" id="14_2pwwh"]
 [ext_resource type="PackedScene" uid="uid://cjcftrrxio41j" path="res://scenes/ui/game_over/GameOver.tscn" id="14_40xvj"]
@@ -328,6 +328,7 @@ process_mode = 3
 visible = false
 
 [node name="GameOver" parent="." instance=ExtResource("14_40xvj")]
+unique_name_in_owner = true
 visible = false
 
 [node name="Chance" parent="." instance=ExtResource("15_bl443")]

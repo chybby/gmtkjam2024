@@ -58,7 +58,7 @@ var last_spawned_pickup := 0.5
 var pickup_frequency := 5
 
 var last_spawned_chance := 0.0
-var chance_frequency := 7
+var chance_frequency := 5
 
 var rerolls := 0
 var block_raycasts := []

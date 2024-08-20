@@ -6,6 +6,7 @@ class_name Chance
 @onready var card_container: HBoxContainer = %CardContainer
 @onready var world: World = %World
 @onready var player: Player = %Player
+@onready var game_over: CanvasLayer = %GameOver
 
 var rarity_weights = {
         3: 0.55, # Common
@@ -19,8 +20,11 @@ var common_cards = []
 var rare_cards = []
 var legendary_cards = []
 
+var chances_taken := 0
+
 func _ready():
     load_card_data("res://scenes/ui/chance/cards.json")
+    GameEvents.game_over.connect(_on_game_over)
 
 func show_chance_cards():
     clear_container()
@@ -41,6 +45,7 @@ func show_chance_cards():
 
         card_container.add_child(card_instance)
 
+    chances_taken += 1
     show()
 
 func get_random_card(rarity: int):
@@ -174,3 +179,6 @@ func decrement_card_count(card):
             else:
                 legendary_cards[index] = card
                 print(legendary_cards[index])
+    
+func _on_game_over():
+    game_over.give_chances_taken(chances_taken)
