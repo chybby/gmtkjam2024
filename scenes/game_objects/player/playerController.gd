@@ -229,11 +229,11 @@ func _on_grav_buff_timer_ended() -> void:
 func slomo_buff():
     gravity_mult *= 0.5
     grav_buff_timer.start(30)
-    
+
 func activate_jump_buff():
     jump_velocity += 4.5
     jump_buff_timer.start(30)
-    
+
 func _on_squish_zone_body_entered(body: Node3D) -> void:
     if(body.get_collision_layer_value(1) and is_on_floor()):
         var block = body as Block
@@ -257,7 +257,7 @@ func get_open_spot() -> Vector3:
     return position + Vector3.UP * 5
 
 
-    
+
 
 func is_spot_open(pos: Vector3) -> bool:
     var space_state = get_world_3d().direct_space_state
