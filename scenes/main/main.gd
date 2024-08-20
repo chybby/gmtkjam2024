@@ -49,6 +49,8 @@ func _input(event: InputEvent) -> void:
         else:
             open_settings()
 
+var playing_intro_transition := false
+
 func _ready() -> void:
     Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
     GameEvents.game_over.connect(_on_game_over)
@@ -75,31 +77,31 @@ func _physics_process(delta: float) -> void:
     top_down_camera_3d.position.z = player.position.z
 
 func _process(delta: float) -> void:
-    if GlobalState.intro_mode:
-        if world.blocks_placed == 5:
-            GlobalState.intro_mode = false
+    if GlobalState.intro_mode and not playing_intro_transition and world.blocks_placed == 5:
+        playing_intro_transition = true
 
-            # Tween from the intro camera to the player camera.
-            var tween = get_tree().create_tween()
-            tween.set_ease(Tween.EASE_IN)
-            tween.set_trans(Tween.TRANS_QUAD)
-            tween.set_parallel(true)
-            tween.tween_property(intro_camera_3d, "fov", player.camera.fov, 5)
-            tween.tween_property(intro_camera_3d, "position", player.camera.global_position, 5)
-            await tween.finished
-            player.camera.current = true
+        # Tween from the intro camera to the player camera.
+        var tween = get_tree().create_tween()
+        tween.set_ease(Tween.EASE_IN)
+        tween.set_trans(Tween.TRANS_QUAD)
+        tween.set_parallel(true)
+        tween.tween_property(intro_camera_3d, "fov", player.camera.fov, 5)
+        tween.tween_property(intro_camera_3d, "position", player.camera.global_position, 5)
+        await tween.finished
+        player.camera.current = true
 
-            world.blow_away_intro_blocks()
+        world.blow_away_intro_blocks()
 
-            # Tween in the HUD.
-            hud.visible = true
-            var hud_tween = get_tree().create_tween()
-            hud_tween.set_ease(Tween.EASE_IN_OUT)
-            hud_tween.set_trans(Tween.TRANS_QUAD)
-            hud_tween.tween_property(hud, "offset:x", 0, 2)
-            await hud_tween.finished
+        # Tween in the HUD.
+        hud.visible = true
+        var hud_tween = get_tree().create_tween()
+        hud_tween.set_ease(Tween.EASE_IN_OUT)
+        hud_tween.set_trans(Tween.TRANS_QUAD)
+        hud_tween.tween_property(hud, "offset:x", 0, 2)
+        await hud_tween.finished
 
-            GameEvents.emit_game_started()
+        GameEvents.emit_game_started()
+        GlobalState.intro_mode = false
 
     if game_over:
         cinematic_camera_pivot.rotate_y(cinematic_camera_rotate_speed * delta)
