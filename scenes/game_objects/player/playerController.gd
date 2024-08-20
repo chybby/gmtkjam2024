@@ -222,12 +222,12 @@ func _on_buff_timeout() -> void:
 func _on_squish_zone_body_entered(body: Node3D) -> void:
     if(body.get_collision_layer_value(1) and is_on_floor()):
         var block = body as Block
-        
+
         if block and block.falling:
             var open_spot = get_open_spot()
             print(open_spot)
             position = open_spot
-            
+
 func get_open_spot() -> Vector3:
     var directions = [
         Vector3.LEFT,
@@ -235,13 +235,13 @@ func get_open_spot() -> Vector3:
         Vector3.RIGHT,
         Vector3.BACK
     ]
-    
+
     for dir in directions:
         var check_pos = position + dir
         if(is_spot_open(check_pos)):
             return check_pos
     return position + Vector3.UP * 5
-            
+
 func is_spot_open(pos: Vector3) -> bool:
     var space_state = get_world_3d().direct_space_state
     var query = PhysicsRayQueryParameters3D.new()
