@@ -34,6 +34,7 @@ extends Node3D
 
 @onready var hint: PanelContainer = %Hint
 @onready var hint_label: RichTextLabel = %HintLabel
+@onready var hint_animation_player: AnimationPlayer = %HintAnimationPlayer
 
 @onready var chance_pickup_sound: AudioStreamPlayer = %ChancePickupSound
 @onready var block_thump_sound: AudioStreamPlayer = %BlockThumpSound
@@ -180,9 +181,7 @@ func _on_chance_picked_up() -> void:
 
 func _on_hint(text: String) -> void:
     hint_label.text = text
-    hint.visible = true
-    await get_tree().create_timer(5).timeout
-    hint.visible = false
+    hint_animation_player.play("show_hint")
 
 func update_lava_timer():
     var time_left = world.get_lava_time_left()

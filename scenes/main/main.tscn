@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://ef5dqqevmxcn"]
+[gd_scene load_steps=31 format=3 uid="uid://ef5dqqevmxcn"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_jcq7f"]
 [ext_resource type="PackedScene" uid="uid://nhikx0701dde" path="res://scenes/game_objects/world/world.tscn" id="2_o8oy4"]
@@ -39,6 +39,43 @@ tonemap_white = 0.75
 ssao_enabled = true
 ssao_radius = 0.53
 glow_enabled = true
+
+[sub_resource type="Animation" id="Animation_2lddh"]
+resource_name = "show_hint"
+length = 8.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 7.5, 8),
+"transitions": PackedFloat32Array(0.5, 2, 0.5, 1),
+"update": 0,
+"values": [Vector2(-1200, 20), Vector2(50, 20), Vector2(50, 20), Vector2(-1200, 20)]
+}
+
+[sub_resource type="Animation" id="Animation_5ssek"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-1200, 20)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cnvme"]
+_data = {
+"RESET": SubResource("Animation_5ssek"),
+"show_hint": SubResource("Animation_2lddh")
+}
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jthj7"]
 skew = Vector2(-0.1, 0)
@@ -105,6 +142,44 @@ unique_name_in_owner = true
 offset = Vector2(600, 0)
 transform = Transform2D(1, 0, 0, 1, 600, 0)
 
+[node name="Hint" type="PanelContainer" parent="HUD"]
+unique_name_in_owner = true
+offset_left = -1200.0
+offset_top = 20.0
+offset_right = -834.0
+offset_bottom = 156.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/Hint"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 20
+
+[node name="HintLabel" type="RichTextLabel" parent="HUD/Hint/MarginContainer"]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+theme_override_font_sizes/bold_italics_font_size = 30
+theme_override_font_sizes/italics_font_size = 30
+theme_override_font_sizes/mono_font_size = 30
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
+bbcode_enabled = true
+text = "Look out for ice.
+You doofus."
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="HintAnimationPlayer" type="AnimationPlayer" parent="HUD/Hint"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_cnvme")
+}
+
 [node name="MarginContainer" type="MarginContainer" parent="HUD"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -133,36 +208,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 80
 text = "30.00"
-
-[node name="Hint" type="PanelContainer" parent="HUD/MarginContainer"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="HUD/MarginContainer/Hint"]
-layout_mode = 2
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 20
-
-[node name="HintLabel" type="RichTextLabel" parent="HUD/MarginContainer/Hint/MarginContainer"]
-unique_name_in_owner = true
-clip_contents = false
-layout_mode = 2
-theme_override_font_sizes/bold_italics_font_size = 30
-theme_override_font_sizes/italics_font_size = 30
-theme_override_font_sizes/mono_font_size = 30
-theme_override_font_sizes/normal_font_size = 30
-theme_override_font_sizes/bold_font_size = 30
-bbcode_enabled = true
-text = "Look out for ice.
-You doofus."
-fit_content = true
-scroll_active = false
-autowrap_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/MarginContainer"]
 layout_mode = 2
