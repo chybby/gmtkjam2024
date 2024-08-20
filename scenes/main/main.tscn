@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_jcq7f"]
 [ext_resource type="PackedScene" uid="uid://nhikx0701dde" path="res://scenes/game_objects/world/world.tscn" id="2_o8oy4"]
 [ext_resource type="PackedScene" uid="uid://4cebjv242d0u" path="res://scenes/main/warning.tscn" id="2_wqer3"]
-[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/Player.tscn" id="3_ed6k7"]
+[ext_resource type="PackedScene" uid="uid://bmfdom0qtg0ys" path="res://scenes/game_objects/player/player.tscn" id="3_ed6k7"]
 [ext_resource type="PackedScene" uid="uid://wi5cc17m8s0j" path="res://scenes/game_objects/block/l_left_block.tscn" id="3_u58ai"]
 [ext_resource type="PackedScene" uid="uid://npxcnna5262h" path="res://scenes/game_objects/block/l_right_block.tscn" id="4_3n40q"]
 [ext_resource type="PackedScene" uid="uid://vufqwbsvwwww" path="res://scenes/game_objects/player/empty_heart.tscn" id="4_83hhk"]
@@ -24,6 +24,7 @@
 [ext_resource type="AudioStream" uid="uid://dph3ex83oj73l" path="res://assets/audio/bg-music.mp3" id="22_j28kt"]
 [ext_resource type="AudioStream" uid="uid://82fif2tcoesx" path="res://assets/audio/block-pickup.mp3" id="23_vq7dk"]
 [ext_resource type="AudioStream" uid="uid://dvuvdytggxe6e" path="res://assets/audio/block-land-thud.mp3" id="24_vioj8"]
+
 
 [sub_resource type="Sky" id="Sky_s2apd"]
 sky_material = ExtResource("14_0wvk0")

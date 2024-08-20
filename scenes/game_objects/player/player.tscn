@@ -1,5 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bmfdom0qtg0ys"]
-[gd_scene load_steps=14 format=3 uid="uid://bmfdom0qtg0ys"]
+[gd_scene load_steps=15 format=3 uid="uid://bmfdom0qtg0ys"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/player/playerController.gd" id="1_rptl7"]
 [ext_resource type="AudioStream" uid="uid://cblx213tlvnnv" path="res://assets/audio/footstep1.mp3" id="2_u8dih"]
@@ -29,13 +28,13 @@ stream_1/stream = ExtResource("3_utp4f")
 stream_2/stream = ExtResource("4_ujqmo")
 stream_3/stream = ExtResource("5_so75w")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_vnoft"]
-size = Vector3(0.421124, 0.199684, 0.45604)
-
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_3f3t3"]
 random_pitch = 1.2
 streams_count = 1
 stream_0/stream = ExtResource("6_hbxp3")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vnoft"]
+size = Vector3(0.421124, 0.199684, 0.45604)
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 collision_layer = 4

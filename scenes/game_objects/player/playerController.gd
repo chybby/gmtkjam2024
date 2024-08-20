@@ -220,7 +220,7 @@ func _on_buff_timeout() -> void:
 
 
 func _on_squish_zone_body_entered(body: Node3D) -> void:
-    if(body.get_collision_layer_value(1)):
+    if(body.get_collision_layer_value(1) and is_on_floor()):
         var block = body as Block
         
         if block and block.falling:
@@ -246,7 +246,7 @@ func is_spot_open(pos: Vector3) -> bool:
     var space_state = get_world_3d().direct_space_state
     var query = PhysicsRayQueryParameters3D.new()
     query.from = pos + Vector3(0, .5, 0)  # Start the ray above the ground
-    query.to = pos + Vector3(0, 1.8, 0)  # End the ray below the ground
+    query.to = pos + Vector3(0, 2.2, 0)  # End the ray below the ground
     query.collision_mask = 1  # Adjust this mask to the relevant collision layer
 
     var result = space_state.intersect_ray(query)
