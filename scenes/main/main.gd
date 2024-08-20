@@ -167,12 +167,12 @@ func _on_game_over() -> void:
         game_over_menu.allow_chaos_mode()
     send_stats_to_game_over()
     game_over_menu.visible = true
-    
+
     Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _on_settings_closed() -> void:
     close_settings()
-    
+
 func send_stats_to_game_over():
     game_over_ui.give_tower_height_reached(world.tower_height)
     game_over_ui.give_player_height_reached(player.max_height)

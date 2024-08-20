@@ -179,6 +179,6 @@ func decrement_card_count(card):
             else:
                 legendary_cards[index] = card
                 print(legendary_cards[index])
-    
+
 func _on_game_over():
     game_over.give_chances_taken(chances_taken)

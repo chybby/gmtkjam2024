@@ -61,3 +61,4 @@ stream = ExtResource("2_4juqa")
 attenuation_model = 2
 autoplay = true
 panning_strength = 0.0
+bus = &"SFX"

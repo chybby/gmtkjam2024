@@ -15,6 +15,8 @@ func _ready() -> void:
     sensitivity_slider.value = GlobalState.mouse_sensitivity
     close_button.pressed.connect(_on_close_button_pressed)
     rotate_minimap_check_box.toggled.connect(_on_rotate_minimap_check_box_toggled)
+    music_volume_slider.value = GlobalState.music_volume
+    sfx_volume_slider.value = GlobalState.sfx_volume
     AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(music_volume_slider.value))
     AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear_to_db(sfx_volume_slider.value))
 
@@ -28,7 +30,9 @@ func _on_rotate_minimap_check_box_toggled(toggled_on: bool) -> void:
     GlobalState.rotate_minimap = toggled_on
 
 func _on_music_volume_slider_value_changed(value: float) -> void:
+    GlobalState.music_volume = value
     AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(value))
 
 func _on_sfx_volume_slider_value_changed(value: float) -> void:
+    GlobalState.sfx_volume = value
     AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear_to_db(value))
