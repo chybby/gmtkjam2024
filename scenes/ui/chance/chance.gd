@@ -110,32 +110,34 @@ func process_card_effect(card_name: String) -> void:
      match card_name:
         "More Blocks per Pouch":
             world.added_block_amount += 1
-        "Rerolls":
-            world.rerolls += 3
-        "Bump Lava Down":
-            GameEvents.lava_drop_triggered()
         "Heal Up":
             player.heal()
         "Double Jump!":
             player.jump_number += 1
-        "Max Health":
+        "More Chances":
+             world.more_chances()
+        "Rerolls":
+            world.rerolls += 3
+        "Bump Lava Down":
+            GameEvents.lava_drop_triggered()
+        "To the skies!":
+            player.teleport()
+        "Big Heart":
             player.increase_max_hp()
         "Freeze lava":
             GameEvents.freeze_lava_triggered()
-        "More Chances":
-             world.more_chances()
         "Lucky!":
             rarity_weights[3] -= .1
             rarity_weights[2] += .05
             rarity_weights[1] += .05
         "Bombs away!":
             world.start_spawning_bombs()
+        "We always bounce back":
+            player.increase_knockback()
         "Jump start":
             player.activate_jump_buff()
         "Try Again":
             world.reroll_chances()
-        "To the skies!":
-            player.teleport()
         "Refill":
             world.refill()
         "Top up":
@@ -143,6 +145,8 @@ func process_card_effect(card_name: String) -> void:
             world.refill()
         "Extra extra":
             card_number += 1
+        "Again!?":
+            world.repeat_block()
 
 func decrement_card_count(card):
     match int(card["rarity"]):

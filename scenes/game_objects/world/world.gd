@@ -89,6 +89,9 @@ var snow_hint_shown := false
 var wind_hint_shown := false
 var space_hint_shown := false
 
+var repeat := 0
+var block_to_repeat
+
 func _physics_process(delta: float) -> void:
     if current_block == null and blocks_remaining > 0:
         spawn_block()
@@ -141,7 +144,17 @@ func _reroll_block() -> void:
         current_block = null
 
 func spawn_block() -> void:
-    current_block = block_scenes.pick_random().instantiate() as Block
+    var block_to_spawn
+    if(repeat > 0):
+        if(block_to_repeat == null):
+            block_to_repeat = block_scenes.pick_random()
+        block_to_spawn = block_to_repeat
+        repeat -= 1
+        if(repeat <= 0):
+            block_to_repeat = null
+    else:
+        block_to_spawn = block_scenes.pick_random()
+    current_block = block_to_spawn.instantiate() as Block
     add_child(current_block)
     if blocks_placed < 5:
         current_block.position.y = 10.0
@@ -292,6 +305,9 @@ func reroll_chances() -> void:
     var chance = chance_pickup_scene.instantiate() as Node3D
     add_child(chance)
     chance.position = %Player.position + Vector3(0,1,0)
+
+func repeat_block() -> void:
+    repeat = 4
 
 func _on_pickup_destroyed() -> void:
     if (blocks_remaining == 0):
