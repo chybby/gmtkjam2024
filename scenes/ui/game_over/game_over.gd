@@ -50,18 +50,18 @@ func _on_chaos_mode_button_pressed() -> void:
 func _on_game_started() -> void:
     game_over = false
     start_time = Time.get_ticks_usec()
-    
+
 func _on_game_over() -> void:
     game_over = true
     elapsed_time = Time.get_ticks_usec() - start_time
     time_string = "Time taken: " + format_time(elapsed_time)
-    
+
 func give_tower_height_reached(tower_h: int):
     tower_height = tower_h
-    
+
 func give_player_height_reached(player_h: float):
     player_height = player_h
-    
+
 func give_player_jumps(jump_c: int):
     player_jumps = jump_c
 

@@ -393,6 +393,7 @@ autoplay = "rotate_clouds"
 
 [node name="BlockPickupSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("19_daed2")
+bus = &"SFX"
 
 [editable path="Clouds/cloud"]
 [editable path="Clouds/cloud8"]

@@ -161,3 +161,4 @@ draw_pass_1 = SubResource("PlaneMesh_d0fg7")
 [node name="BlockPickupSound" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_aqd2e")
+bus = &"SFX"
